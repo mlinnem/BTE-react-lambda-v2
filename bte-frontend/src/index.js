@@ -4,6 +4,7 @@ import './index.css';
 //import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route, Link, Prompt, Switch, Redirect } from "react-router-dom";
+import posed from 'react-pose';
 
 const axios = require('axios');
 const ReactRedux = require('react-redux');
@@ -387,11 +388,14 @@ const store = Redux.createStore(rootReducer, Redux.applyMiddleware(createThunkMi
 
 //--Components--
 
-// const Box = PoseGroup.div({
-//   hidden: { x: -1000 },
-//   incoming: { x: 0 },
-//   outgoing: {x: -1000}
-// });
+const Box = posed.div({
+  hiddenleft: { x: '-85vw' , transition: {x : {ease: 'easeOut', duration: 600}}},
+  incomingleft: { x: '5vw' , transition: {x : {ease: 'easeOut', duration: 600}}},
+  outgoingleft: {y: '120vh', transition: {y : {ease: 'easeOut', duration: 380}}},
+  hiddenright: { x: '150vw', transition: {x : {ease: 'easeOut', duration: 600}}},
+  incomingright: { x: '60vw', transition: {x : {ease: 'easeOut', duration: 600}}},
+  outgoingright: {x: '60vw', y:'120vh',  transition: {y : {ease: 'easeOut', duration: 380}}}
+});
 
 class App extends React.Component {
 render() {
@@ -503,8 +507,8 @@ render () {
   console.log(this.props.ballot.QueueState);
   return (
   <div>
-    <AnimalContender id={this.props.ballot.Animal1ID} animationState={this.props.ballot.QueueState + " left"} side={SIDE.LEFT}/>
-    <AnimalContender id={this.props.ballot.Animal2ID} animationState={this.props.ballot.QueueState + " right"} side={SIDE.RIGHT}/>
+    <AnimalContender id={this.props.ballot.Animal1ID} animationState={this.props.ballot.QueueState + "left"} side={SIDE.LEFT}/>
+    <AnimalContender id={this.props.ballot.Animal2ID} animationState={this.props.ballot.QueueState + "right"} side={SIDE.RIGHT}/>
   </div>
   );
 }
@@ -525,7 +529,7 @@ const animalContender_mapDispatchToProps = (dispatch, ownProps) => {
   };
 class AnimalContender_View extends React.Component {
 render () {
-  return <div className={this.props.animationState + " animal box"} pose={this.props.animationState} onClick={this.props.onBallotClick}>{this.props.animal.Name}</div>
+  return <Box className={this.props.animationState + " animal box"} pose={this.props.animationState} onClick={this.props.onBallotClick}>{this.props.animal.Name}</Box >
 }
 }
 const AnimalContender = ReactRedux.connect(

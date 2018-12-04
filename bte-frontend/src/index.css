@@ -2,6 +2,10 @@
   width: 36vw;
   height: 36vw;
   background-color: #FFF1DB;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hidden {
@@ -23,6 +27,8 @@
 .ballotViewer {
   display: grid;
 }
+
+
 
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
