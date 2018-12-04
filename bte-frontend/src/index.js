@@ -389,12 +389,12 @@ const store = Redux.createStore(rootReducer, Redux.applyMiddleware(createThunkMi
 //--Components--
 
 const Box = posed.div({
-  hiddenleft: { x: '-85vw' , transition: {x : {ease: 'easeOut', duration: 600}}},
-  incomingleft: { x: '5vw' , transition: {x : {ease: 'easeOut', duration: 600}}},
-  outgoingleft: {y: '120vh', transition: {y : {ease: 'easeOut', duration: 380}}},
-  hiddenright: { x: '150vw', transition: {x : {ease: 'easeOut', duration: 600}}},
-  incomingright: { x: '60vw', transition: {x : {ease: 'easeOut', duration: 600}}},
-  outgoingright: {x: '60vw', y:'120vh',  transition: {y : {ease: 'easeOut', duration: 380}}}
+  hiddenleft: { x: '-85vw' , transition: {x : {ease: 'easeOut', duration: 1350}}},
+  incomingleft: { x: '5vw' , transition: {x : {ease: 'easeOut', duration: 1350}}},
+  outgoingleft: {y: '105vh', transition: {y : {ease: 'easeOut', duration: 250}}},
+  hiddenright: { x: '150vw', transition: {x : {ease: 'easeOut', duration: 1350}}},
+  incomingright: { x: '60vw', transition: {x : {ease: 'easeOut', duration: 1350}}},
+  outgoingright: {x: '60vw', y:'105vh',  transition: {y : {ease: 'easeOut', duration: 250}}}
 });
 
 class App extends React.Component {
