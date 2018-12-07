@@ -1,3 +1,10 @@
+Aspect ratio that we switch to vertical: 64 / 100 or LESS.
+
+Block out after 178 / 100 or MORE, or 30 / 100 or LESS
+
+All are relative to total viewport.
+=====
+
 Verify that submittedBallots are really being recorded.
 
 Need to work on createBallots, specifically writing the new ballots back to the session, and also striking them from the session in the 'submitBallots' function.

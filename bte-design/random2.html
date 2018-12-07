@@ -1,0 +1,105 @@
+<html>
+<head>
+<style>
+
+
+.vert_container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.top {
+  flex-basis: 64px;
+  background-color: red;
+  order: 1;
+  flex-grow: 0px;
+}
+
+.bottom {
+  flex-basis: 100px;
+  flex-grow: 0;
+  background-color: orange;
+  order: 3;
+}
+
+.container {
+  order: 2;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+}
+
+  .card {
+    background: gold;
+    width: 100%;
+    height: 0;
+    padding-top: 50%;
+    padding-bottom: 50%;
+  }
+
+  .animal {
+    background-color: pink;
+    flex-grow: 5;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .vs {
+    order: 2;
+    background-color: blue;
+    flex-grow: 1;
+  }
+
+
+.one {
+  order: 1;
+}
+
+.two {
+  order: 3;
+}
+
+@media (min-aspect-ratio: 7/5) {
+
+  .container {
+    justify-content: space-around;
+  }
+  .card {
+    background: gold;
+    width: 70vh;
+    height: 70vh;
+    padding: 0;
+  }
+
+  .animal {
+    flex-grow: 0;
+    color: brown;
+  }
+
+  .vs {
+    flex-grow: 0;
+  }
+}
+
+
+
+</style>
+</head>
+<body>
+  <div class="vert_container">
+  <div class="top"></div>
+  <div class="container">
+    <div class="animal one">
+      <div class="card"></div>
+    </div>
+    <div class="vs">vs.</div>
+    <div class="animal two">
+      <div class="card"></div>
+    </div>
+  </div>
+  <div class="bottom"></div>
+</div>
+</body>
+</html>
