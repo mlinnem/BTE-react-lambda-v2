@@ -30,12 +30,30 @@
   flex-direction: row;
 }
 
+.card_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
   .card {
     background: gold;
-    width: 100%;
-    height: 0;
-    padding-top: 50%;
-    padding-bottom: 50%;
+    width: 43vw;
+    height: 43vw;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .photo {
+    flex-grow: 4;
+    order: 1;
+    height: 80%;
+  }
+
+  .caption {
+    flex-grow: 1;
+    order: 2;
+    height: 20%;
   }
 
   .animal {
@@ -84,9 +102,40 @@
   }
 }
 
-@media (min-aspect-ratio: 5/14), (max-aspect-ratio: 13/14) {
-.top {
-  background-color: green;
+
+@media (min-aspect-ratio: 5/14) and (max-aspect-ratio: 12/14) {
+
+  .container {
+    justify-content: space-around;
+    flex-direction: column;
+  }
+
+.animal {
+  justify-content: center;
+  flex-direction: column;
+}
+
+.card_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: grey;
+}
+.card {
+  background: gold;
+  width: 37vh;
+  height: 37vh;
+  padding: 0;
+  order: 1;
+}
+
+.animal {
+  flex-grow: 1;
+  color: brown;
+}
+
+.vs {
+  flex-grow: 0;
 }
 }
 
@@ -217,11 +266,15 @@ input, select {
   <div class="top"></div>
   <div class="container">
     <div class="animal one">
-      <div class="card"></div>
+      <span class="card_wrapper">
+      <div class="card"><img class="photo" src="rhino.png"></img><div class="caption">Rhinoceros</div></div>
+    </span>
     </div>
     <div class="vs">vs.</div>
     <div class="animal two">
-      <div class="card"></div>
+      <span class="card_wrapper">
+      <div class="card"><img class="photo" src="lynx.png"></img><div class="caption">Lynx</div></div>
+    </span>
     </div>
   </div>
   <div class="bottom"></div>

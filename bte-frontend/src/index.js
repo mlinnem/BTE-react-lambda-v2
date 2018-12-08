@@ -405,7 +405,7 @@ render() {
 
 class Header extends React.Component {
 render () {
-  return <div>Both Are Totally Enraged</div>;
+  return <div className="header"><span className="header-text">Both Are Totally Enraged</span></div>;
 }
 }
 
@@ -416,6 +416,8 @@ render () {
   <div>
     <SubHeader></SubHeader>
       <BallotViewer></BallotViewer>
+      <img src="/Burst.png" className="burst"></img>
+      <div className="ballotBox"></div>
   </div>
   </Router>
   );
@@ -529,7 +531,7 @@ const animalContender_mapDispatchToProps = (dispatch, ownProps) => {
   };
 class AnimalContender_View extends React.Component {
 render () {
-  return <Box className={this.props.animationState + " animal box"} pose={this.props.animationState} onClick={this.props.onBallotClick}>{this.props.animal.Name}</Box >
+  return <Box className={this.props.animationState + " animal box"} pose={this.props.animationState} onClick={this.props.onBallotClick}><span className="animalName">{this.props.animal.Name}</span></Box >
 }
 }
 const AnimalContender = ReactRedux.connect(
