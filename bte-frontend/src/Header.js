@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-const ReactRedux = require('react-redux');
 
 class Header extends React.Component {
 render () {

@@ -1,11 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-//import App from './App';
-import * as serviceWorker from './serviceWorker';
-import { BrowserRouter as Router, Route, Link, Prompt, Switch, Redirect } from "react-router-dom";
 
-const ReactRedux = require('react-redux');
+import './index.css';
+
 const Redux = require('redux');
 
 const axios = require('axios');
@@ -63,8 +58,6 @@ return (dispatch, getState) => {
   dispatch(attemptBallotSubmission());
   //TODO: Needs tons more validation server side.
   var state = getState();
-  var winnerID = null;
-  var loserID = null;
   var currentBallotID = state.ballots.ballotIDQueue[0];
   var authKey = state.authkey.key; //TODO: Need some logic if there is no key. Shouldn't happen but could maybe.
   dispatch(advanceBallotAndFetchMoreIfNeeded());
@@ -252,7 +245,7 @@ switch (action.type) {
     newState.outgoingBallotID = newOutgoingID;
     console.log("state at bottom is:");
     console.log(newState);
-    console.log(newState == state);
+    console.log(newState === state);
     return newState;
   case 'REQUEST_MORE_BALLOTS':
     return Object.assign({}, state, {
@@ -351,12 +344,12 @@ function rankAnimals(animalsMap) {
     animal.ID = animalKey;
     animals.push(animal);
   }
-  var result = animals.sort(function (a, b) {
+  animals.sort(function (a, b) {
     var ratio_animal_a = (a.Wins + 1) / (a.Losses + 1);
     var ratio_animal_b = (b.Wins + 1) / (b.Losses + 1);
-    if (ratio_animal_a == ratio_animal_b) {
+    if (ratio_animal_a === ratio_animal_b) {
       var alphabeticalOrder = [a.Name, b.Name].sort();
-      if (alphabeticalOrder[0] == a.Name) {
+      if (alphabeticalOrder[0] === a.Name) {
         return -1;
       } else {
         return 1;
@@ -377,7 +370,7 @@ function rankAnimals(animalsMap) {
 
 const shouldFetchLatestAnimals = (state) => {
 //TODO: Add refresh based on time
-  if (Object.keys(state.animals.animalStore).length == 0) {
+  if (Object.keys(state.animals.animalStore).length === 0) {
     return true;
   } else {
     return false;
@@ -388,22 +381,10 @@ const shouldFetchMoreBallots= (state) => {
       console.log("? FETCH MORE BALLOTS?");
       console.log("WE HAVE " + state.ballots.ballotIDQueue.length);
       console.log(state.ballots.isFetching);
-      return (state.ballots.ballotIDQueue.length <= 5 && state.ballots.isFetching == false)
+      return (state.ballots.ballotIDQueue.length <= 5 && state.ballots.isFetching === false)
     } else {
       return true;
     }
-}
-function getCurrentBallotAnimal(firstOrSecond) {
-var state = store.getState();
-var ballotExists = checkNested(state, "ballots", "ballotStore");
-var animalsExists = checkNested(state, "animals", "animalStore");
-if (! ballotExists || !animalsExists) {
-  return null;
-}
-var currentBallot = state.ballots.ballotIDQueue[0];
-var animalID = currentBallot[firstOrSecond - 1];
-var animal = state.animals.animalStore[animalID];
-return animal;
 }
 
 //--Root Reducer--

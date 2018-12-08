@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import posed from 'react-pose';
 import {submitBallotAndAdvance} from "./actionsAndReducers"
 const ReactRedux = require('react-redux');

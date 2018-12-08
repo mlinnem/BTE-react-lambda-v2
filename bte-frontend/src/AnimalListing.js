@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 const ReactRedux = require('react-redux');
 
 const animalListing_mapStateToProps = (state, ownProps) => { return {

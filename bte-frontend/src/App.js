@@ -1,5 +1,10 @@
-import React, { Component } from 'react';
+
+
+import React from 'react';
 import './index.css';
+
+import Header from './Header';
+import Contents from "./Contents";
 
 
 class App extends React.Component {
