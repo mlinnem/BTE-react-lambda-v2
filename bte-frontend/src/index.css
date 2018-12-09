@@ -1,3 +1,9 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 .animal {
   width: 36vh;
   height: 36vh;
@@ -11,14 +17,21 @@
   top: 21vh;
 }
 
+.ballotBox {
+  flex-basis: 100px;
+  flex-grow: 0;
+  order: 3;
+}
+
 .header {
-  height: 10vh;
+  height: 64px;
   display: flex;
   align-items: center;
   text-shadow: 0px .5vw #000000;
   letter-spacing: 1px;
   background-color: #DA3232;
-
+  order: 1;
+  flex-grow: 0;
 }
 
 .ballotBox {
@@ -27,12 +40,17 @@
   width: 100vw;
   background-color: #FDDCB0;
   position:absolute;
+  flex-grow: 0;
+  order: 3;
 }
 
 .ballotViewer {
   height:  63vh;
-  top: 0;
-  position: absolute;
+  flex-grow: 1;
+  order: 2;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
 }
 
 .burst {
@@ -68,10 +86,6 @@ body {
   background: #FFE4B8 !important ;
 }
 
-.outgoing {
-  color: green;
-}
-
 .vs {
   transform: translate(48vw, 16vw)
 }
@@ -79,6 +93,139 @@ body {
 .ballotViewer {
   display: grid;
 }
+
+
+/* From design */
+
+
+
+  .card {
+    background: gold;
+    width: 43vw;
+    height: 43vw;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .photo {
+    flex-grow: 4;
+    order: 1;
+    height: 80%;
+  }
+
+  .caption {
+    flex-grow: 1;
+    order: 2;
+    height: 20%;
+  }
+
+  .animal {
+    background-color: pink;
+    flex-grow: 5;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .vs {
+    order: 2;
+    background-color: blue;
+    flex-grow: 1;
+  }
+
+
+.one {
+  order: 1;
+}
+
+.two {
+  order: 3;
+}
+
+@media (max-aspect-ratio: 5/14) {
+  .container {
+    justify-content: space-around;
+    flex-direction: column;
+  }
+
+  .card {
+    background: gold;
+    width: 100vw;
+    height: 100vw;
+    padding: 0;
+  }
+
+  .animal {
+    flex-grow: 0;
+    color: brown;
+  }
+
+  .vs {
+    flex-grow: 0;
+  }
+}
+
+
+@media (min-aspect-ratio: 5/14) and (max-aspect-ratio: 12/14) {
+
+  .container {
+    justify-content: space-around;
+    flex-direction: column;
+  }
+
+.animal {
+  justify-content: center;
+  flex-direction: column;
+}
+
+.cardWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: grey;
+}
+.card {
+  background: gold;
+  width: 37vh;
+  height: 37vh;
+  padding: 0;
+  order: 1;
+}
+
+.animal {
+  flex-grow: 1;
+  color: brown;
+}
+
+.vs {
+  flex-grow: 0;
+}
+}
+
+@media (min-aspect-ratio: 7/5) {
+
+  .container {
+    justify-content: space-around;
+  }
+
+  .card {
+    background: gold;
+    width: 70vh;
+    height: 70vh;
+    padding: 0;
+  }
+
+  .animal {
+    flex-grow: 0;
+    color: brown;
+  }
+
+  .vs {
+    flex-grow: 0;
+  }
+}
+
+/* Clear */
 
 
 

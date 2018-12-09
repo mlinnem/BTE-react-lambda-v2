@@ -7,7 +7,7 @@ render () {
   <div>
       <BallotViewer></BallotViewer>
       <img src="/Burst.png" className="burst"></img>
-      <div className="ballotBox"></div>
+      
   </div>
   );
 }
