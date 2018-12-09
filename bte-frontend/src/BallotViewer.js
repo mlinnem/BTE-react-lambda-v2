@@ -3,7 +3,6 @@ import Ballot from "./Ballot";
 const ReactRedux = require('react-redux');
 
 const ballotViewer_mapStateToProps = (state) => { return {
-fake : console.log("ballotViewer_mapStateToProps running"),
   ballotStore: state.ballots.ballotStore,
 }};
 class BallotViewer_View extends React.Component {

@@ -17,7 +17,7 @@ const animalContender_mapDispatchToProps = (dispatch, ownProps) => {
 
 class AnimalContender_View extends React.Component {
 render () {
-  return <span className="cardWrapper"><Box className={this.props.animationState + " animal box"} pose={this.props.animationState} onClick={this.props.onBallotClick}><span className="animalName">{this.props.animal.Name}</span></Box ></span>
+  return <span className={"outerCardWrapper " + this.props.side}><span className="cardWrapper"><Box className={this.props.animationState + " animal box"} pose={this.props.animationState} onClick={this.props.onBallotClick}><span className="animalName">{this.props.animal.Name}</span></Box ></span></span>
   }
 }
 const AnimalContender = ReactRedux.connect(
@@ -29,10 +29,10 @@ animalContender_mapDispatchToProps
 const Box = posed.div({
   hiddenleft: { x: '-85vw' , transition: {x : {ease: 'easeOut', duration: 1350}}},
   incomingleft: { x: '5vw' , transition: {x : {ease: 'easeOut', duration: 1350}}},
-  outgoingleft: {y: '105vh', transition: {y : {ease: 'easeOut', duration: 250}}},
+  outgoingleft: {y: '150vh', transition: {y : {ease: 'easeOut', duration: 250}}},
   hiddenright: { x: '150vw', transition: {x : {ease: 'easeOut', duration: 1350}}},
   incomingright: { x: '60vw', transition: {x : {ease: 'easeOut', duration: 1350}}},
-  outgoingright: {x: '60vw', y:'105vh',  transition: {y : {ease: 'easeOut', duration: 250}}}
+  outgoingright: {x: '60vw', y:'150vh',  transition: {y : {ease: 'easeOut', duration: 250}}}
 });
 
 export default AnimalContender;

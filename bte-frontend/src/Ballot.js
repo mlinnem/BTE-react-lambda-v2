@@ -4,7 +4,6 @@ import AnimalContender from "./AnimalContender"
 const ReactRedux = require('react-redux');
 
 const ballot_mapStateToProps= (state, ownProps) => { return {
-fake: console.log("ballot_mapStateToProps"),
 ballot: state.ballots.ballotStore[ownProps.id],
 }};
 class Ballot_View extends React.Component {
@@ -17,9 +16,9 @@ render () {
   }
   console.log(this.props.ballot.QueueState);
   return (
-  <div className="ballot">
-    <AnimalContender id={this.props.ballot.Animal1ID} animationState={this.props.ballot.QueueState + "left"} side={SIDE.LEFT}/>
-    <AnimalContender id={this.props.ballot.Animal2ID} animationState={this.props.ballot.QueueState + "right"} side={SIDE.RIGHT}/>
+  <div className={"ballot " + this.props.ballot.QueueState + "ballot"}>
+    <AnimalContender id={this.props.ballot.Animal1ID} animationState={this.props.ballot.QueueState + "left " + this.props.ballot.QueueState} side={SIDE.LEFT}/>
+    <AnimalContender id={this.props.ballot.Animal2ID} animationState={this.props.ballot.QueueState + "right " + this.props.ballot.QueueState} side={SIDE.RIGHT}/>
   </div>
   );
 }
