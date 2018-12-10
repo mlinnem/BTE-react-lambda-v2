@@ -1,6 +1,4 @@
 .app {
-  display: flex;
-  flex-direction: column;
   height: 100vh;
 }
 
@@ -16,13 +14,11 @@
 }
 
 .ballotBox {
-  flex-basis: 200px;
-  flex-grow: 0;
-  order: 3;
+  height: 200px;
   background-color: #FDDCB0;
-  z-index: 2;
-  flex-shrink: 0;
+  z-index: 5;
 }
+
 
 .header {
   height: 64px;
@@ -31,15 +27,17 @@
   text-shadow: 0px .5vw #000000;
   letter-spacing: 1px;
   background-color: #DA3232;
-  order: 1;
-  flex-grow: 0;
   z-index: 3;
-  flex-shrink: 0;
 }
 
 .ballot {
   height: 100%;
   width: 100%;
+}
+
+.contents {
+  width: 100%;
+  height: calc(100% - 200px);
 }
 
 .ballotViewer {
@@ -108,12 +106,17 @@ justify-content: space-around; */
   font-family: 'Alfa Slab One', cursive;
 }
 
-.animalName {
-  font-family: 'Cabin';
-  font-size: 4vw;
+.animalNameBox {
   order: 2;
   flex-grow: 1;
   height: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.animalName {
+  font-family: 'Cabin';
+  font-size: 3vw;
 }
 
 .hidden {
@@ -138,13 +141,28 @@ justify-content: space-around; */
   z-index: -1;
 }
 
+.rankingsPanel {
+  width: 100vw;
+}
+
+
+.ballotBox.up {
+  top: calc(100vh - 200px - 64px); /* remove space for footer and header, magic number */
+  position: absolute;
+  z-index: 5;
+  height:100vh;
+}
+
+
+.rankingsPanel.up {
+
+}
+
 body {
   background: #FFE4B8 !important;
 }
 
-.vs {
-  transform: translate(48vw, 16vw)
-}
+
 
 /* From design */
 
@@ -214,7 +232,6 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  color: grey;
 }
 
 

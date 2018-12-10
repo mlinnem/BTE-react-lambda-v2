@@ -1,6 +1,5 @@
 import React from 'react';
 import AnimalContender from "./AnimalContender"
-import posed from 'react-pose';
 const ReactRedux = require('react-redux');
 
 const ballot_mapStateToProps= (state, ownProps) => { return {
@@ -18,7 +17,7 @@ render () {
   }
   console.log(this.props.ballot.QueueState);
   return (
-  <div className={"ballot fred " + this.props.ballot.QueueState + "ballot"} pose={this.props.ballot.QueueState}>
+  <div className={"ballot " + this.props.ballot.QueueState + "ballot"} pose={this.props.ballot.QueueState}>
     <AnimalContender id={this.props.ballot.Animal1ID} animationState={this.props.ballot.QueueState + "left"} side={SIDE.LEFT}/>
     <AnimalContender id={this.props.ballot.Animal2ID} animationState={this.props.ballot.QueueState + "right"} side={SIDE.RIGHT}/>
   </div>

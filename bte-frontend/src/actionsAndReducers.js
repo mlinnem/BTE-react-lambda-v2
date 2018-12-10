@@ -49,6 +49,12 @@ animals: animals
 export const failReceiveLatestAnimals = () => ({
 type: "FAIL_RECEIVE_LATEST_ANIMALS",
 })
+export const showRankings = () => ({
+  type: "SHOW_RANKINGS",
+})
+export const hideRankings = () => ({
+  type: "HIDE_RANKINGS",
+})
 
 //--Action creators (do real work)--
 
@@ -323,6 +329,34 @@ switch (action.type) {
 }
 }
 
+
+
+export function ui (state = {
+focusArea : FOCUSAREA.BALLOTVIEWER,
+}, action) {
+switch (action.type) {
+  case 'SHOW_RANKINGS':
+  console.log("SHOW RANKINGS");
+    return Object.assign({}, state, {
+      focusArea: FOCUSAREA.BALLOTVIEWER
+  });
+  case 'HIDE_RANKINGS':
+    return Object.assign({}, state, {
+      focusArea: FOCUSAREA.RANKINGS
+    });
+    //TODO: Fail state
+  default:
+    return state;
+}
+}
+
+const FOCUSAREA = {
+  BALLOTVIEWER: "ballots",
+  RANKINGS: "rankings"
+};
+
+
+
 //--Utility-functions--
 
 function checkNested(obj /*, level1, level2, ... levelN*/) {
@@ -392,7 +426,8 @@ const shouldFetchMoreBallots= (state) => {
 const rootReducer = Redux.combineReducers({
 "animals": animals,
 "ballots": ballots,
-"authkey": authkey
+"authkey": authkey,
+"ui": ui
 })
 //--Store--
 
