@@ -12,6 +12,7 @@
   font-size: 28pt;
   font-family: Sans-Serif;
   position: relative;
+  flex-direction: column;
 }
 
 .ballotBox {
@@ -104,6 +105,9 @@ justify-content: space-around; */
 .animalName {
   font-family: 'Cabin';
   font-size: 4vw;
+  order: 2;
+  flex-grow: 1;
+  height: 20%;
 }
 
 .hidden {
@@ -115,6 +119,12 @@ justify-content: space-around; */
 
 .incoming {
   color: blue;
+}
+
+.photo {
+  flex-grow: 4;
+  order: 1;
+  height: 80%;
 }
 
 .outgoing {

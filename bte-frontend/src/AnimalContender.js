@@ -17,7 +17,16 @@ const animalContender_mapDispatchToProps = (dispatch, ownProps) => {
 
 class AnimalContender_View extends React.Component {
 render () {
-  return <span className={"outerCardWrapper " + this.props.side}><span className={"cardWrapper " + this.props.side}><Box className={this.props.animationState + " animal box"} pose={this.props.animationState} onClick={this.props.onBallotClick}><span className="animalName">{this.props.animal.Name}</span></Box ></span></span>
+  return (
+<span className={"outerCardWrapper " + this.props.side}>
+  <span className={"cardWrapper " + this.props.side}>
+    <Box className={this.props.animationState + " animal box"} pose={this.props.animationState} onClick={this.props.onBallotClick}>
+    <img className="photo" src="./rhino.png"/>
+    <span className="animalName">{this.props.animal.Name}</span>
+    </Box >
+  </span>
+</span>
+)
   }
 }
 const AnimalContender = ReactRedux.connect(
