@@ -6,19 +6,19 @@ import posed from 'react-pose';
 const ReactRedux = require('react-redux');
 
 const AnimatedContents = posed.div({
-  ballots : {x: 0},
-  rankings: {x: '-500px'}
+  show_ballots : {y: '0px'},
+  show_rankings: {y: '-100vh' , transition: {y : {ease: 'anticipate', duration: 550}}},
 });
 
 const contents_mapStateToProps = (state, ownProps) => {return {
-  fake: "contents mapStateToProps",
+
   focusArea : state.ui.focusArea
 }};
 
 class Contents_View extends React.Component {
   render() {
     return (
-    <AnimatedContents className="contents animatedcontents" pose={this.props.focusArea}>
+    <AnimatedContents className={"contents animatedcontents " + this.props.focusArea }>
     <BallotViewer/>
     <BallotBox/>
     </AnimatedContents>

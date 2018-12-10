@@ -336,13 +336,14 @@ focusArea : FOCUSAREA.BALLOTVIEWER,
 }, action) {
 switch (action.type) {
   case 'SHOW_RANKINGS':
+  console.log(state.focusArea);
   console.log("SHOW RANKINGS");
     return Object.assign({}, state, {
-      focusArea: FOCUSAREA.BALLOTVIEWER
+      focusArea: FOCUSAREA.RANKINGS
   });
   case 'HIDE_RANKINGS':
     return Object.assign({}, state, {
-      focusArea: FOCUSAREA.RANKINGS
+      focusArea: FOCUSAREA.BALLOTVIEWER
     });
     //TODO: Fail state
   default:
@@ -351,8 +352,8 @@ switch (action.type) {
 }
 
 const FOCUSAREA = {
-  BALLOTVIEWER: "ballots",
-  RANKINGS: "rankings"
+  BALLOTVIEWER: "show_ballots",
+  RANKINGS: "show_rankings"
 };
 
 

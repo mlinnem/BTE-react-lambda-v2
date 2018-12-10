@@ -17,6 +17,7 @@
   height: 200px;
   background-color: #FDDCB0;
   z-index: 5;
+
 }
 
 
@@ -27,7 +28,7 @@
   text-shadow: 0px .5vw #000000;
   letter-spacing: 1px;
   background-color: #DA3232;
-  z-index: 3;
+  z-index: 9000;
 }
 
 .ballot {
@@ -38,6 +39,7 @@
 .contents {
   width: 100%;
   height: calc(100% - 200px);
+  position: relative;
 }
 
 .ballotViewer {
@@ -126,9 +128,6 @@ justify-content: space-around; */
   display: none;
 }
 
-.incoming {
-  color: blue;
-}
 
 .photo {
   flex-grow: 4;
@@ -153,9 +152,34 @@ justify-content: space-around; */
   height:100vh;
 }
 
+@keyframes showRankings {
+  from {top: 0px;}
+  to {top: -500px;}
+}
+
+@keyframes showBallots {
+  from {top: -500px;}
+  to {top: 0px;}
+}
+
+.show_rankings {
+  animation-name: showRankings;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+}
+
+.show_ballots {
+  animation-name: showBallots;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+}
+
+/* The element to apply the animation to */
+
 
 .rankingsPanel.up {
-
+  height: 100vh;
+  background-color: green;
 }
 
 body {

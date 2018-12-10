@@ -15,17 +15,18 @@ const animalContender_mapDispatchToProps = (dispatch, ownProps) => {
     }
   };
 
+
 class AnimalContender_View extends React.Component {
 render () {
   return (
 <span className={"outerCardWrapper " + this.props.side}>
   <span className={"cardWrapper " + this.props.side}>
-    <Box className={this.props.animationState + " animal box"} pose={this.props.animationState} onClick={this.props.onBallotClick}>
+    <AnimatedAnimalContender className={this.props.animationState + " animal box"} pose={this.props.animationState} onClick={this.props.onBallotClick}>
     <img className="photo" src="./rhino.png"/>
-    <div className ="animalNameBox">
-    <span className="animalName">{this.props.animal.Name}</span>
-    </div>
-    </Box>
+      <div className ="animalNameBox">
+        <span className="animalName">{this.props.animal.Name}</span>
+      </div>
+    </AnimatedAnimalContender>
   </span>
 </span>
 )
@@ -37,7 +38,7 @@ animalContender_mapDispatchToProps
 )(AnimalContender_View);
 
 
-const Box = posed.div({
+const AnimatedAnimalContender = posed.div({
   hiddenleft: { x: '-100vw' , transition: {x : {ease: 'easeOut', duration: 550}}},
   outgoingleft: {y: '100vh', transition: {y : {ease: 'easeOut', duration: 550}}},
   outgoingright: {x: '0vw', y:'100vh',  transition: {y : {ease: 'easeOut', duration: 550}}},
