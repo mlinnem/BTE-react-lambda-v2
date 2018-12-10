@@ -23,7 +23,7 @@ render () {
     <Box className={this.props.animationState + " animal box"} pose={this.props.animationState} onClick={this.props.onBallotClick}>
     <img className="photo" src="./rhino.png"/>
     <span className="animalName">{this.props.animal.Name}</span>
-    </Box >
+    </Box>
   </span>
 </span>
 )
@@ -36,12 +36,13 @@ animalContender_mapDispatchToProps
 
 
 const Box = posed.div({
-  hiddenleft: { x: '-100vw' , transition: {x : {ease: 'easeOut', duration: 1350}}},
-  incomingleft: { x: '0vw' , transition: {x : {ease: 'easeOut', duration: 1350}}},
+  hiddenleft: { x: '-100vw' , transition: {x : {ease: 'easeOut', duration: 0}}},
   outgoingleft: {y: '100vh', transition: {y : {ease: 'easeOut', duration: 550}}},
-  hiddenright: { x: '100vw', transition: {x : {ease: 'easeOut', duration: 1350}}},
+   outgoingright: {x: '0vw', y:'100vh',  transition: {y : {ease: 'easeOut', duration: 550}}},
+  incomingleft: { x: '0vw' , transition: {x : {ease: 'easeOut', duration: 1350}}},
+  hiddenright: { x: '100vw', transition: {x : {ease: 'easeOut', duration: 0}}},
   incomingright: { x: '0vw', transition: {x : {ease: 'easeOut', duration: 1350}}},
-  outgoingright: {x: '0vw', y:'100vh',  transition: {y : {ease: 'easeOut', duration: 550}}}
+
 });
 
 export default AnimalContender;
