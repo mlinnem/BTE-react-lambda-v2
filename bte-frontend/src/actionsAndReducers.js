@@ -332,7 +332,7 @@ switch (action.type) {
 
 
 export function ui (state = {
-focusArea : FOCUSAREA.BALLOTVIEWER,
+focusArea : FOCUSAREA.INITIAL,
 }, action) {
 switch (action.type) {
   case 'SHOW_RANKINGS':
@@ -352,6 +352,7 @@ switch (action.type) {
 }
 
 const FOCUSAREA = {
+  INITIAL : "show_initial",
   BALLOTVIEWER: "show_ballots",
   RANKINGS: "show_rankings"
 };

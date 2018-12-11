@@ -10,14 +10,14 @@ rankOrder: state.animals.rankOrder,
 }};
 const rankingsPanel_mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onViewRankingsClick: () => {
-        dispatch(ar.showRankings());
+    onReturnToVotingClick: () => {
+        dispatch(ar.hideRankings());
       }
     }
   };
 class RankingsPanel_View extends React.Component {
 render() {
-    return <div className={"rankingsPanel"}><button onClick={this.props.onViewRankingsClick}>View Rankings</button></div>;
+    return <div className={"rankingsPanel"}><button onClick={this.props.onReturnToVotingClick}>Return To Voting</button></div>;
   }
 }
 
