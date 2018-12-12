@@ -78,4 +78,3 @@ function rankAnimals(animalsMap) {
     });
     return animals;
 }
-  

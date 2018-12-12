@@ -3,6 +3,8 @@ Aspect ratio that we switch to vertical: 64 / 100 or LESS.
 Block out after 178 / 100 or MORE, or 30 / 100 or LESS
 
 All are relative to total viewport.
+
+Make AWS roles more restrictive
 =====
 
 Verify that submittedBallots are really being recorded.

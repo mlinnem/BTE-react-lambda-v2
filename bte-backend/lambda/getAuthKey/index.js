@@ -14,6 +14,8 @@ var ddb = new AWS.DynamoDB({apiVersion: '2018-10-01'});
 
 exports.handler = (event, context, callback) => {
 
+    var ipAddress = event['requestContext']['identity']['sourceIp'];
+
     //create unique AuthKey
 
     const id = crypto.randomBytes(24).toString('base64');
@@ -22,7 +24,7 @@ exports.handler = (event, context, callback) => {
     //write unique AuthKey to database
 
     //TODO: Check whether it's okay that we move on and return.
-    writeNewAuthKey(id).then(function(response) {
+    writeNewAuthKey(id, ipAddress).then(function(response) {
         console.log("Success");
         console.log(response);
     }, function(err) {
@@ -43,7 +45,7 @@ exports.handler = (event, context, callback) => {
     callback(null, response);
 };
 
-function writeNewAuthKey(id){
+function writeNewAuthKey(id, ipAddress){
  var put_params2 =
  { "Item": {
   "SessionID": {
@@ -53,8 +55,11 @@ function writeNewAuthKey(id){
       "S" : "session"
   },
   "CreatedAt" : {
-      "N" : JSON.stringify(new Date().getTime())
+      "N" : JSON.stringify(Math.round((new Date()).getTime() / 1000))
   },
+  "IPAddress" : {
+      "S" : JSON.stringify(ipAddress)
+  }
  },
  "TableName" : "PendingBallots"
 };

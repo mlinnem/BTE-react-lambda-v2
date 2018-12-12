@@ -1,6 +1,6 @@
 
 const SHADOW_BANNED = "SHADOW_BANNED";
-const SHADOWBAN_SUBMISSION_THRESHOLD = 800
+const SHADOWBAN_SUBMISSION_THRESHOLD = 900
 const ACCEPTABLE_ABANDON_RATE = .8;
 const ACCEPTABLE_CONTRARIAN_RATE = .8;
 const WATCH_LISTED = "WATCH_LISTED";
@@ -37,7 +37,7 @@ apiVersion: '2018-10-01'
 //TODO: Make sure bogus ballots aren't triggering this process.
 exports.handler = async (event) => {
     // TODO implement
-    console.log("IM RUNNING YAY!");
+    console.log("MAIN")
     console.log("event:");
     console.log(event);
     var sns = event.Records[0].Sns;
@@ -47,7 +47,6 @@ exports.handler = async (event) => {
     console.log("message:");
     console.log(message);
 
-    var sessionID = message.SessionID;
     var ipAddress = message.IPAddress;
     var winnerID = message.WinnerID;
     var loserID = message.LoserID;
@@ -64,19 +63,50 @@ exports.handler = async (event) => {
 
 async function updateIPData(ipAddress, winnerID, loserID) {
 
-    var ipData = backend_getIPData(ipAddress);
+    var ipData = await backend_getIPData(ipAddress);
+    console.log("ip Data:");
+    console.log(ipData);
+
+    if (ipData.ParanoiaLevel == SHADOW_BANNED) {
+        console.log("Don't spend any more compute power on this shadowbanned scum! Exiting");
+        return;
+    }
 
     //If not on watch list
-    if (ipData.status != SHADOW_BANNED && ipData.status != WATCH_LISTED) {
+    if (ipData.ParanoiaLevel != SHADOW_BANNED && ipData.ParanoiaLevel != WATCH_LISTED) {
         //Just implement submissionCount
         console.log("NOTHING SPECIAL. INCREMENTING SUBMISSION COUNT");
         await backend_updateForNormalIP(ipAddress);
+        if (shouldAddToWatchList(ipData)) {
+            console.log("Should add to watch list!");
+            await backend_addToWatchList(ipAddress);
+        } else {
+            console.log("Should not add to watch list.");
+
+        }
+        return null;
     }
 
+    if (ipData.ParanoiaLevel == WATCH_LISTED) {
+        await backend_updateForWatchlistedIP(ipAddress);
+
+        var reason = getShadowbanReasonOrNull(ipData);
+        if (reason != null) {
+            if (ipData.Submissions > SHADOWBAN_SUBMISSION_THRESHOLD) {
+                 console.log("Face my shadowban fool!");
+                 await backend_addToShadowbanList(ipAddress, reason);
+            } else {
+                console.log("You would be banned, but overall submissions isn't high enough yet. Just you wait!");
+            }
+        } else {
+            console.log("No cause to shadowban. Stay above the law citizen.");
+        }
+    }
     //If already on watch list
         //Plan to increment submissionCount contrarian or non-contrarian count, and non-abandoned ballot count.
 
     //Increment what needs incrementing, and get new results.
+
     //If not on watch list
         //If meet criteria for watch list
             //Add to watch list.
@@ -99,6 +129,7 @@ function backend_getIPData(ipAddress) {
  .then((ipData) => {
    console.log("GOT IP Data");
    console.log(ipData);
+   return ipData.Item;
  });
 }
 
@@ -123,6 +154,127 @@ function backend_updateForNormalIP(ipAddress) {
       console.log("Error on update!");
       console.log(error);
   });
+}
+
+function backend_updateForWatchlistedIP(ipAddress) {
+    var updateParams = {
+    "TableName": "IPData",
+    "Key": {
+      "IPAddress": ipAddress
+    },
+    "UpdateExpression": 'ADD Submissions :s_inc, NonAbandonedBallotCount :s_inc',
+    "ExpressionAttributeValues": {
+      ":s_inc": 1,
+    },
+  };
+
+  return io.update(updateParams).promise()
+  .then((result) => {
+      console.log("result of update:");
+      console.log(result);
+  })
+  .catch((error) => {
+      console.log("Error on update!");
+      console.log(error);
+  });
+}
+
+function backend_addToWatchList(ipAddress, reason) {
+    var updateParams = {
+    "TableName": "IPData",
+    "Key": {
+      "IPAddress": ipAddress
+    },
+    "UpdateExpression": 'SET ParanoiaLevel = :watchlisted, Reason = :reason',
+    "ExpressionAttributeValues": {
+      ":watchlisted": WATCH_LISTED,
+      ":reason" : reason
+    },
+  };
+
+    console.log("update params:");
+    console.log(updateParams);
+  return io.update(updateParams).promise()
+  .then((result) => {
+      console.log("result of update:");
+      console.log(result);
+  })
+  .catch((error) => {
+      console.log("Error on update!");
+      console.log(error);
+  });
+}
+
+function backend_addToShadowbanList(ipAddress) {
+    var updateParams = {
+    "TableName": "IPData",
+    "Key": {
+      "IPAddress": ipAddress
+    },
+    "UpdateExpression": 'set ParanoiaLevel = :shadowbanned',
+    "ExpressionAttributeValues": {
+      ":shadowbanned": SHADOW_BANNED,
+    },
+  };
+
+  return io.update(updateParams).promise()
+  .then((result) => {
+      console.log("result of update:");
+      console.log(result);
+  })
+  .catch((error) => {
+      console.log("Error on update!");
+      console.log(error);
+  });
+}
+
+const WATCHLIST_THRESHOLD = 450;
+
+function shouldAddToWatchList(ipData) {
+    if (ipData.ParanoiaLevel == SHADOW_BANNED && ipData.ParanoiaLevel == WATCH_LISTED) {
+        return false;
+    } else {
+        var shouldAddToWatchList = ipData.Submissions > WATCHLIST_THRESHOLD;
+        return shouldAddToWatchList;
+    }
+}
+
+function getShadowbanReasonOrNull(ipData) {
+  var ballotAbandoner = shouldBanForBallotAbandoning(ipData);
+  if (ballotAbandoner) {
+      return BALLOT_ABANDONER;
+  } else {
+      return null;
+  }
+}
+
+function shouldBanForBallotAbandoning(ipData) {
+    var abandonedBallotCount = ipData.AbandonedBallotCount;
+    var nonAbandonedBallotCount = ipData.NonAbandonedBallotCount;
+
+    console.log("[abandonedBallots]:");
+    console.log(abandonedBallotCount);
+    console.log("[nonAbandonedBallots]:");
+    console.log(nonAbandonedBallotCount);
+    if (!(abandonedBallotCount && nonAbandonedBallotCount)) {
+        console.log("No abandonedBallots, or no nonAbandonedBallots.");
+        return false;
+    }
+
+    var totalBallotsTracked = abandonedBallotCount + nonAbandonedBallotCount;
+    var abandonRate = abandonedBallotCount / totalBallotsTracked;
+
+    if (abandonRate > ACCEPTABLE_ABANDON_RATE) {
+        console.log("Too many abandoned ballots. BAN!");
+        console.log("abandon rate:");
+        console.log(abandonRate);
+        return true;
+    } else {
+        console.log("Abandonment Rate not high enough. Good for now.");
+        console.log("abandon rate:");
+        console.log(abandonRate);
+        return false;
+    }
 }
 
 

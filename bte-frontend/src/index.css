@@ -1,23 +1,26 @@
+/* top-level */
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
 .app {
   height: 100vh;
 }
 
-.animal {
-  background-color: #FFF1DB;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28pt;
-  font-family: Sans-Serif;
-  flex-direction: column;
-}
-
-.ballotBox {
-  height: 100vh;
-  background-color: #FDDCB0;
+.contents {
+  width: 100%;
+  height: calc(100% - 200px); /*this makes the visible part of the ballotBox 200px */
   position: relative;
 }
 
+body {
+  background: #FFE4B8 !important;
+}
+
+/* header */
 
 .header {
   position: relative;
@@ -30,16 +33,15 @@
   background-color: #DA3232;
 }
 
-.ballot {
-  height: 100%;
-  width: 100%;
+
+.header-text {
+  color: #FFD083;
+  font-size: 6vw;
+  margin-left: 5vw;
+  font-family: 'Alfa Slab One', cursive;
 }
 
-.contents {
-  width: 100%;
-  height: calc(100% - 200px); /*this makes the visible part of the ballotBox 200px */
-  position: relative;
-}
+/* ballotViewer */
 
 .ballotViewer {
   height: 90%;
@@ -56,15 +58,13 @@
   background-color: #FFE4B8;
 }
 
-.resultsPanel {
-  height:200px;
-}
-
 .ballot.incomingballot {
   display: flex;
 }
 
 .ballot {
+  height: 100%;
+  width: 100%;
   background-image: url("./Burst_Transparent.png");
   background-repeat: no-repeat;
    background-attachment: fixed;
@@ -90,22 +90,20 @@
   order: 2;
 }
 
-/* display: flex;
-flex-grow: 1;
-flex-direction: row;
-justify-content: space-around; */
+.animal {
+  background-color: #FFF1DB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28pt;
+  font-family: Sans-Serif;
+  flex-direction: column;
+}
+
 .hiddenballot {
   display: none;
 }
 
-
-
-.header-text {
-  color: #FFD083;
-  font-size: 6vw;
-  margin-left: 5vw;
-  font-family: 'Alfa Slab One', cursive;
-}
 
 .animalNameBox {
   order: 2;
@@ -139,83 +137,6 @@ justify-content: space-around; */
 }
 
 
-@keyframes showRankings {
-  from {top: 0px;}
-  to {top: calc(-100vh + 148px);}
-}
-
-@keyframes showBallots {
-  from {top: calc(-100vh + 148px);}
-  to {top: 0px;}
-}
-
-.show_rankings {
-  animation-name: showRankings;
-  animation-duration: .55s;
-  animation-fill-mode: forwards;
-}
-
-.show_ballots {
-  animation-name: showBallots;
-  animation-duration: .55s;
-  animation-fill-mode: forwards;
-}
-
-body {
-  background: #FFE4B8 !important;
-}
-
-
-
-/* From design */
-
-#root {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.card {
-  background: gold;
-  width: 43vw;
-  height: 43vw;
-  display: flex;
-  flex-direction: column;
-}
-
-.photo {
-  flex-grow: 4;
-  order: 1;
-  height: 80%;
-}
-
-.caption {
-  flex-grow: 1;
-  order: 2;
-  height: 20%;
-}
-
-.animal_x {
-  flex-grow: 5;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.vs {
-  order: 2;
-  background-color: blue;
-  flex-grow: 1;
-}
-
-.one {
-  order: 1;
-}
-
-.two {
-  order: 3;
-}
-
 .outerCardWrapper {
   flex-grow: 5;
   display: flex;
@@ -238,6 +159,50 @@ body {
 }
 
 
+/* ballotBox */
+
+
+.ballotBox {
+  height: 100vh;
+  background-color: #FDDCB0;
+  position: relative;
+}
+
+.resultsPanel {
+  height:200px;
+}
+
+
+@keyframes showRankings {
+  from {top: 0px;}
+  to {top: calc(-100vh + 148px);}
+}
+
+@keyframes showBallots {
+  from {top: calc(-100vh + 148px);}
+  to {top: 0px;}
+}
+
+.show_rankings {
+  animation-name: showRankings;
+  animation-duration: .55s;
+  animation-fill-mode: forwards;
+}
+
+.show_ballots {
+  animation-name: showBallots;
+  animation-duration: .55s;
+  animation-fill-mode: forwards;
+}
+
+
+
+
+
+/* From design */
+
+
+
 @media (max-aspect-ratio: 5/14) {
 
   .ballot {
@@ -258,6 +223,8 @@ body {
     justify-content: center;
   }
 }
+
+/* aspect-ratio-specific */
 
 @media (min-aspect-ratio: 5/14) and (max-aspect-ratio: 12/14) {
   .ballot {
@@ -338,6 +305,7 @@ body {
 }
 
 /* Clear */
+
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 abbr, address, cite, code,
@@ -419,7 +387,6 @@ table {
   border-spacing: 0;
 }
 
-/* change border colour to suit your needs */
 hr {
   display: block;
   height: 1px;

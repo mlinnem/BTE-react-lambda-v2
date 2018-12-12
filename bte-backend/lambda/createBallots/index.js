@@ -9,38 +9,39 @@ var io = new AWS.DynamoDB.DocumentClient({apiVersion: '2018-10-01'});
 
 exports.handler = (event) => {
     var authKey = event["queryStringParameters"]['authkey'];
+    var ipAddress = event['requestContext']['identity']['sourceIp'];
 
     console.log("authKey");
     console.log(authKey);
-    return createBallots(authKey);
+    return createBallots(authKey, ipAddress);
 }
 
 //--Main--
 
-function createBallots(authKey) {
-    return confirmAuthKeyIsReal(authKey)
+function createBallots(authKey, ipAddress) {
+    return confirmAuthKeyIsReal(authKey, ipAddress)
     .then(getAnimalsAndPendingBallots)
     .then(generateNewBallotsAndWriteToPendingBallots)
     .then(returnBallots)
     .catch(logError);
 };
 
-async function confirmAuthKeyIsReal(authKey) {
+async function confirmAuthKeyIsReal(authKey, ipAddress) {
     var result = await backend_getAuthKey(authKey); //TODO: This could be more efficiently combined with the general read operation. If 0 pendingBallots are returned it's fishy.
     console.log("result of getAuthKey:");
     console.log(result);
     if (result.Items.length == 1) {
-        return authKey;
+        return [authKey, ipAddress];
     } else {
         throw "Auth key is a sham! Abort!"; //TODO: This is a signal that tomfoolery is occurring, or code is wrong.
     }
 
 }
 
-function getAnimalsAndPendingBallots(authKey) {
-    return Promise.all([getAnimals(), getPendingBallots(authKey)])
+function getAnimalsAndPendingBallots(authKey_and_ipAddress) {
+    return Promise.all([getAnimals(), getPendingBallots(authKey_and_ipAddress[0])])
     .then((result) => {
-         var authKey_and_animals_and_pendingBallots = [authKey, result[0], result[1]]
+        var authKey_and_animals_and_pendingBallots = [authKey_and_ipAddress[0], result[0], result[1], authKey_and_ipAddress[1]];
         return authKey_and_animals_and_pendingBallots;
     });
 }
@@ -54,20 +55,21 @@ function getPendingBallots(authKey) {
     });
 }
 
-async function generateNewBallotsAndWriteToPendingBallots(authKey_and_animals_and_pendingBallots) {
+async function generateNewBallotsAndWriteToPendingBallots(authKey_and_animals_and_pendingBallots_and_ipAddress) {
       console.log("generateNewBallotsAndWriteToPendingBallots");
-      console.log(authKey_and_animals_and_pendingBallots);
+      console.log(authKey_and_animals_and_pendingBallots_and_ipAddress);
 
-      var authKey = authKey_and_animals_and_pendingBallots[0];
-      var animals = authKey_and_animals_and_pendingBallots[1];
-      var pendingBallots = authKey_and_animals_and_pendingBallots[2];
+      var authKey = authKey_and_animals_and_pendingBallots_and_ipAddress[0];
+      var animals = authKey_and_animals_and_pendingBallots_and_ipAddress[1];
+      var pendingBallots = authKey_and_animals_and_pendingBallots_and_ipAddress[2];
+      var ipAddress = authKey_and_animals_and_pendingBallots_and_ipAddress[3];
 
       var animalCount = getAnimalCount(animals);
 
       var newBallotsNeeded = calculateBallotsToProvide(pendingBallots);
 
       var newBallots = generateNewBallots(newBallotsNeeded, animalCount);
-      await writeNewBallotsToPendingBallots(authKey, newBallots)
+      await writeNewBallotsToPendingBallots(authKey, newBallots, ipAddress)
       .catch(logError);
 
       return newBallots;
@@ -91,8 +93,8 @@ function returnBallots(ballots) {
 //--Backend functions--
 
 
-function batchWritePendingBallots(authKey, pendingBallots) {
-  console.log("BATCH WIRITNG PENDING BALLOTS");
+function batchWritePendingBallots(authKey, pendingBallots, ipAddress) {
+  console.log("BATCH WRITNG PENDING BALLOTS");
   var putRequests = [];
   for (var pendingBallot of pendingBallots) {
     var putRequest = {
@@ -102,7 +104,8 @@ function batchWritePendingBallots(authKey, pendingBallots) {
           PendingBallotID: pendingBallot.ID,
           Animal1ID: pendingBallot.Animal1ID,
           Animal2ID: pendingBallot.Animal2ID,
-          CreatedAt: new Date().getTime()
+          CreatedAt: getCurrentTime_InEpochSecondsFormat(),
+          IPAddress: ipAddress
         }
       }
     };
@@ -218,10 +221,10 @@ function backend_getAuthKey(authKey) {
 
 //--Utility functions--
 
-function writeNewBallotsToPendingBallots(authKey, newBallots) {
+function writeNewBallotsToPendingBallots(authKey, newBallots, ipAddress) {
   //TODO: This can maybe occur asynchronously with respect to just returning the ballots to the user.
   //BUT they have to be written before the user tries to submit the ballot, otherwise backend will think it's bogus.
-     return batchWritePendingBallots(authKey, newBallots);
+     return batchWritePendingBallots(authKey, newBallots, ipAddress);
 }
 
 function generateNewBallots(newBallotsNeeded, animalCount) {
@@ -285,4 +288,8 @@ function printOutput(object) {
     console.log("print Output: " + typeof object);
     console.log(object);
     return object;
+}
+
+function getCurrentTime_InEpochSecondsFormat() {
+    return Math.floor((new Date().getTime() / 1000));
 }
