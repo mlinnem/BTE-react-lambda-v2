@@ -168,18 +168,23 @@ body {
   position: relative;
 }
 
+.rankingsPanel {
+    background-color: orange;
+}
+
 .resultsPanel {
+  background-color: tan;
   height:200px;
 }
 
 
 @keyframes showRankings {
   from {top: 0px;}
-  to {top: calc(-100vh + 148px);}
+  to {top: calc(-100vh);}
 }
 
 @keyframes showBallots {
-  from {top: calc(-100vh + 148px);}
+  from {top: calc(-100vh);}
   to {top: 0px;}
 }
 
