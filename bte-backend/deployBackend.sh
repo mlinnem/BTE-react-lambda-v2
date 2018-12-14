@@ -1,9 +1,11 @@
 cd lambda
-./buildLambda.sh createBallots
-./buildLambda.sh getAnimals
-./buildLambda.sh getAuthKey
-./buildLambda.sh processBallots
-./buildLambda.sh submitBallot
-./buildLambda.sh updateIPData
+
+../buildLambda.sh createBallots
+../buildLambda.sh getAnimals
+../buildLambda.sh getAuthKey
+../buildLambda.sh processBallots
+../buildLambda.sh submitBallot
+../buildLambda.sh updateIPData
+../buildLambda.sh cleanUpStaleSessions
 cd ..
-s3/buildS3.sh
+./buildS3.sh
