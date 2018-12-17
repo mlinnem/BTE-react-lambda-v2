@@ -177,7 +177,7 @@ body {
 /* ballotBox */
 
 .animalListing img {
-  height: 10vh;
+  height: 75px;
 }
 
 .ballotBox {
@@ -186,7 +186,13 @@ body {
   position: relative;
 }
 
-.rankingsPanel {
+
+.animalListing {
+  height: 100px;
+}
+
+.animalListing:nth-child(odd) {
+  background-color: #FACDA5
 }
 
 .resultsPanel {

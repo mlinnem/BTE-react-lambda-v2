@@ -24,7 +24,15 @@ render() {
       var animalListing = <AnimalListing id={this.props.rankOrder[i]} rank={i + 1}/>
       animalListings.push(animalListing);
     }
-    return <div className={"rankingsPanel"}><button onClick={this.props.onReturnToVotingClick}>Return To Voting</button>{animalListings}</div>;
+    return (
+    <div className={"rankingsPanel"}>
+      <div className="rankingsHeader">
+        <span className="rankingsHeaderTitle">Rankings</span>
+        <button onClick={this.props.onReturnToVotingClick}>Return To Voting</button>
+      </div>
+      {animalListings}
+    </div>
+  )
   }
 }
 
