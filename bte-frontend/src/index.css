@@ -176,6 +176,9 @@ body {
 
 /* ballotBox */
 
+.animalListing img {
+  height: 10vh;
+}
 
 .ballotBox {
   height: 100vh;
@@ -184,11 +187,9 @@ body {
 }
 
 .rankingsPanel {
-    background-color: orange;
 }
 
 .resultsPanel {
-  background-color: tan;
   height:200px;
 }
 
@@ -215,13 +216,7 @@ body {
   animation-fill-mode: forwards;
 }
 
-
-
-
-
-/* From design */
-
-
+/* aspect-ratio-specific */
 
 @media (max-aspect-ratio: 5/14) {
 
@@ -243,8 +238,6 @@ body {
     justify-content: center;
   }
 }
-
-/* aspect-ratio-specific */
 
 @media (min-aspect-ratio: 5/14) and (max-aspect-ratio: 12/14) {
   .ballot {
