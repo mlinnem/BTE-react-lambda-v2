@@ -1,5 +1,6 @@
 import React from 'react';
 import Ballot from "./Ballot";
+import LoadingIndicator from "./LoadingIndicator"
 const ReactRedux = require('react-redux');
 
 const ballotViewer_mapStateToProps = (state) => { return {
@@ -12,7 +13,7 @@ render() {
   console.log(this.props.ballotStore);
   if (Object.keys(this.props.ballotStore).length === 0) {
     console.log("...ballots still loading...");
-    return <div className="ballotViewer">Loading...</div>
+    return <div className="ballotViewer"><LoadingIndicator/></div>
   } else {
     console.log("Why do I think there's ballots here?");
     var ballots = Object.keys(this.props.ballotStore).map((ballotID) => {
