@@ -9,7 +9,7 @@ const animalListing_mapStateToProps = (state, ownProps) => { return {
 class AnimalListing_View extends React.Component {
 render () {
   return <div className="animalListing">
-  <img src={"https://n6d28h0794.execute-api.us-east-1.amazonaws.com/Production/photos?animalName=" + encodeURIComponent(this.props.animal.Name) + "&size=max"}>
+  <img src={"https://n6d28h0794.execute-api.us-east-1.amazonaws.com/Production/photos?animalName=" + encodeURIComponent(this.props.animal.Name) + "&size=Width_300"}>
   </img>
   {this.props.rank} - {this.props.animal.Name}
   </div>;

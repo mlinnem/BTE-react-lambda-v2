@@ -22,7 +22,7 @@ render () {
 <span className={"outerCardWrapper " + this.props.side}>
   <span className={"cardWrapper " + this.props.side}>
     <AnimatedAnimalContender className={this.props.animationState + " animal box"} pose={this.props.animationState} onClick={this.props.onBallotClick}>
-    <img className="photo" src={"https://n6d28h0794.execute-api.us-east-1.amazonaws.com/Production/photos?animalName=" + encodeURIComponent(this.props.animal.Name) + "&size=max"}/>
+    <img className="photo" src={"https://n6d28h0794.execute-api.us-east-1.amazonaws.com/Production/photos?animalName=" + encodeURIComponent(this.props.animal.Name) + "&size=Width_1200"}/>
       <div className ="animalNameBox">
         <span className="animalName">{this.props.animal.Name}</span>
       </div>

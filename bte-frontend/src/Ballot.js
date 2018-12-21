@@ -20,6 +20,7 @@ render () {
   <div className={"ballot " + this.props.ballot.QueueState + "ballot"}>
     <AnimalContender id={this.props.ballot.Animal1ID} animationState={this.props.ballot.QueueState + "left"} side={SIDE.LEFT}/>
     <AnimalContender id={this.props.ballot.Animal2ID} animationState={this.props.ballot.QueueState + "right"} side={SIDE.RIGHT}/>
+    <div className="ballotBackground"></div>
   </div>
   );
 }
