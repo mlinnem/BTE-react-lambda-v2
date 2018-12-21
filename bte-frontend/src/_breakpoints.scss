@@ -1,0 +1,93 @@
+$breakpoint-vertical-width-constrained-below: 5/14;
+
+$breakpoint-vertical-height-constrained-below: 12/14;
+$breakpoint-horizontal-width-constrained-below: 7/5;
+$breakpoint-horizontal-height-constrained-above: 7/5; /* #F7BF95in design */
+
+/* aspect-ratio-specific */
+
+@media (max-aspect-ratio: 5/14) {
+
+  .ballot {
+    justify-content: space-between;
+    flex-direction: column;
+  }
+
+  .card {
+    width: 90vw;
+    height: 90vw;
+  }
+
+  .innerCardJustifier.LEFT {
+    justify-content: center;
+  }
+
+  .innerCardJustifier.RIGHT {
+    justify-content: center;
+  }
+}
+
+@media (min-aspect-ratio: 5/14) and (max-aspect-ratio: 12/14) {
+  .ballot {
+    justify-content: space-between;
+    flex-direction: column;
+  }
+
+  .card {
+    justify-content: center;
+    flex-direction: column;
+    width: 30vh;
+    height: 30vh;
+  }
+
+  .innerCardJustifier {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .vs {
+    flex-grow: 0;
+  }
+}
+
+@media (min-aspect-ratio: 12/14) and (max-aspect-ratio: 7/5) {
+  .ballot.incomingballot {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .innerCardJustifier.LEFT {
+    justify-content: flex-start;
+  }
+
+  .innerCardJustifier.RIGHT {
+    justify-content: flex-end;
+  }
+
+  .card {
+    width: 35vw;
+    height: 35vw;
+  }
+}
+
+
+
+
+@media (min-aspect-ratio: 7/5) {
+
+  .card {
+    width: 55vh;
+    height: 55vh;
+  }
+
+  .innerCardJustifier.LEFT {
+    justify-content: flex-start;
+  }
+
+  .innerCardJustifier.RIGHT {
+    justify-content: flex-end;
+  }
+
+}
