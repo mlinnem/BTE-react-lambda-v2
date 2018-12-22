@@ -21,12 +21,12 @@ render () {
   return (
 <span className={"outerCardWrapper " + this.props.side}>
   <span className={"cardWrapper " + this.props.side}>
-    <AnimatedAnimalContender className={this.props.animationState + " animal box"} pose={this.props.animationState} onClick={this.props.onBallotClick}>
+    <div className={this.props.animationState + " animal"} pose={this.props.animationState} onClick={this.props.onBallotClick}>
     <img className="photo" src={"https://n6d28h0794.execute-api.us-east-1.amazonaws.com/Production/photos?animalName=" + encodeURIComponent(this.props.animal.Name) + "&size=Width_1200"}/>
       <div className ="animalNameBox">
         <span className="animalName">{this.props.animal.Name}</span>
       </div>
-    </AnimatedAnimalContender>
+    </div>
   </span>
 </span>
 )
@@ -38,14 +38,14 @@ animalContender_mapDispatchToProps
 )(AnimalContender_View);
 
 
-const AnimatedAnimalContender = posed.div({
-  hiddenleft: { x: '-100vw' , transition: {x : {ease: 'easeOut', duration: 550}}},
-  outgoingleft: {y: '100vh', transition: {y : {ease: 'easeOut', duration: 550}}},
-  outgoingright: {x: '0vw', y:'100vh',  transition: {y : {ease: 'easeOut', duration: 550}}},
-  incomingleft: { x: '0vw' , transition: {x : {ease: 'easeOut', duration: 1350}}},
-  hiddenright: { x: '100vw', transition: {x : {ease: 'easeOut', duration: 550}}},
-  incomingright: { x: '0vw', transition: {x : {ease: 'easeOut', duration: 1350}}},
-
-});
+// const AnimatedAnimalContender = posed.div({
+//   hiddenleft: { x: '-100vw' , transition: {x : {ease: 'easeOut', duration: 550}}},
+//   outgoingleft: {y: '100vh', transition: {y : {ease: 'easeOut', duration: 550}}},
+//   outgoingright: {x: '0vw', y:'100vh',  transition: {y : {ease: 'easeOut', duration: 550}}},
+//   incomingleft: { x: '0vw' , transition: {x : {ease: 'easeOut', duration: 1350}}},
+//   hiddenright: { x: '100vw', transition: {x : {ease: 'easeOut', duration: 550}}},
+//   incomingright: { x: '0vw', transition: {x : {ease: 'easeOut', duration: 1350}}},
+//
+// });
 
 export default AnimalContender;
