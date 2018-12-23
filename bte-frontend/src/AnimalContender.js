@@ -37,15 +37,4 @@ animalContender_mapStateToProps,
 animalContender_mapDispatchToProps
 )(AnimalContender_View);
 
-
-// const AnimatedAnimalContender = posed.div({
-//   hiddenleft: { x: '-100vw' , transition: {x : {ease: 'easeOut', duration: 550}}},
-//   outgoingleft: {y: '100vh', transition: {y : {ease: 'easeOut', duration: 550}}},
-//   outgoingright: {x: '0vw', y:'100vh',  transition: {y : {ease: 'easeOut', duration: 550}}},
-//   incomingleft: { x: '0vw' , transition: {x : {ease: 'easeOut', duration: 1350}}},
-//   hiddenright: { x: '100vw', transition: {x : {ease: 'easeOut', duration: 550}}},
-//   incomingright: { x: '0vw', transition: {x : {ease: 'easeOut', duration: 1350}}},
-//
-// });
-
 export default AnimalContender;
