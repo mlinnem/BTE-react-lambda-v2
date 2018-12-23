@@ -14,6 +14,8 @@
   width: 100%;
   height: calc(100% - 200px); /*this makes the visible part of the ballotBox 200px */
   position: relative;
+  top: 0px;
+  left: 0px;
 }
 
 body {
@@ -24,6 +26,8 @@ body {
 
 .header {
   position: relative;
+  top: 0px;
+  left: 0px;
   z-index:5000;
   height: 64px;
   display: flex;
@@ -68,9 +72,10 @@ body {
   padding-bottom: 5%;
   flex-grow: 1;
   order: 2;
-  display: flex;
+  display: grid; /* Makes it so we can put all ballots in the same position (same grid row and column) */
+  /* display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: center; */
   background-color: #FFE4B8;
 }
 
@@ -84,10 +89,9 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  position: absolute;
   z-index: 1;
-  top: 0px;
-  left: 0px;
+  grid-column: 1; /*all ballots appear in same column and row */
+  grid-row: 1;
 }
 
 .ballotBackground {
@@ -100,10 +104,11 @@ body {
   background-repeat: no-repeat;
   z-index: -1;
   background-image: url("./Burst_Transparent.png");
+  top: 0px;
+  left: 0px;
 }
 
 .ballot.outgoingballot {
-  width: 100%;
   animation-name: moveDown;
   animation-duration: .55s;
   animation-fill-mode: forwards;
@@ -183,7 +188,7 @@ body {
 }
 
 .outgoing {
-  color: magenta;
+
 }
 
 
@@ -219,6 +224,8 @@ body {
   height: 100vh;
   background-color: #FDDCB0;
   position: relative;
+  top: 0px;
+  left: 0px;
 }
 
 
