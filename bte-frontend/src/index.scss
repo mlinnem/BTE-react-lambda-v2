@@ -1,6 +1,7 @@
 /* top-level */
 @import "_breakpoints.scss";
 @import "_colors.scss";
+
 $ballot-box-height: 200px;
 
 #root {
@@ -15,7 +16,7 @@ $ballot-box-height: 200px;
 
 .contents {
   width: 100%;
-  height: calc(100% - $ballo-box-height);/*leave a remainder that will be revealed from top of ballot box */
+  height: calc(100% - $ballot-box-height);/*leave a remainder that will be revealed from top of ballot box */
   position: relative;
   top: 0;
   left: 0;
