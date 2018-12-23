@@ -1,5 +1,5 @@
 
-import './index.css';
+import './index.scss';
 
 const Redux = require('redux');
 

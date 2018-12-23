@@ -1,6 +1,6 @@
 
 import React from 'react';
-import './index.css';
+import './index.scss';
 import * as ar from "./actionsAndReducers";
 import AnimalListing from "./AnimalListing"
 const ReactRedux = require('react-redux');

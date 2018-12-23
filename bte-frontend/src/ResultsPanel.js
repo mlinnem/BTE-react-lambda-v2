@@ -1,5 +1,5 @@
 import React from 'react';
-import './index.css';
+import './index.scss';
 import * as ar from "./actionsAndReducers";
 const ReactRedux = require('react-redux');
 

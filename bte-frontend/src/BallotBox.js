@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import './index.css';
+import './index.scss';
 import RankingsPanel from "./RankingsPanel";
 import ResultsPanel from "./ResultsPanel"
 const ReactRedux = require('react-redux');
