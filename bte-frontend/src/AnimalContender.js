@@ -22,9 +22,14 @@ render () {
 <span className={"outerCardWrapper " + this.props.side}>
   <span className={"cardWrapper " + this.props.side}>
     <div className={this.props.animationState + " animal"} pose={this.props.animationState} onClick={this.props.onBallotClick}>
-    <img className="photo" src={"https://n6d28h0794.execute-api.us-east-1.amazonaws.com/Production/photos?animalName=" + encodeURIComponent(this.props.animal.Name) + "&size=Width_1200"}/>
-      <div className ="animalNameBox">
-        <span className="animalName">{this.props.animal.Name}</span>
+      <div className="cardAndHover">
+      <div className="theCard">
+        <img className="photo" src={"https://n6d28h0794.execute-api.us-east-1.amazonaws.com/Production/photos?animalName=" + encodeURIComponent(this.props.animal.Name) + "&size=Width_1200"}/>
+        <div className ="animalNameBox">
+          <span className="animalName">{this.props.animal.Name}</span>
+        </div>
+      </div>
+      <div className="cardHover"/>
       </div>
     </div>
   </span>
@@ -36,5 +41,8 @@ const AnimalContender = ReactRedux.connect(
 animalContender_mapStateToProps,
 animalContender_mapDispatchToProps
 )(AnimalContender_View);
+
+
+
 
 export default AnimalContender;
