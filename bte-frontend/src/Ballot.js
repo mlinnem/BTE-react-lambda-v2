@@ -9,13 +9,10 @@ ballot: state.ballots.ballotStore[ownProps.id],
 
 class Ballot_View extends React.Component {
 render () {
-  console.log("re-rendering ballot");
 
   if (this.props.ballot == null) {
-    console.log("WEIRD NULL BALLOT");
     return null;
   }
-  console.log(this.props.ballot.QueueState);
 
   var leftVotedFor = "";
   var rightVotedFor = "";
@@ -24,7 +21,7 @@ render () {
   } else if (this.props.ballot.WinnerSide === "RIGHT") {
     rightVotedFor = true;
   }
-  
+
   return (
   <div className={"ballot " + this.props.ballot.QueueState + "ballot"}>
     <AnimalContender id={this.props.ballot.Animal1ID} animationState={this.props.ballot.QueueState + "left"} side={SIDE.LEFT} votedFor={leftVotedFor}/>

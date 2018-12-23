@@ -8,14 +8,11 @@ const ReactRedux = require('react-redux');
 
 const ballotBox_mapStateToProps = (state) => { return {
   ballotStore: state.ballots.ballotStore,
-  foo: console.log("state of state.ui.ballotBoxShouldBeJumping: " + state.ui.ballotBoxShouldBeJumping),
   shouldBeJumping: state.ui.ballotBoxShouldBeJumping,
 }};
 
 class BallotBox_View extends React.Component {
   render() {
-    console.log("Should I be jumping?");
-    console.log(this.props.shouldBeJumping);
     var jump = "";
     if (this.props.shouldBeJumping) {
       jump = "jump";

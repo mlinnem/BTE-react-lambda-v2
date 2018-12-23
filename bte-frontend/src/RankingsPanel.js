@@ -21,7 +21,7 @@ class RankingsPanel_View extends React.Component {
 render() {
     var animalListings = [];
     for (var i = 0; i < this.props.rankOrder.length; i++) {
-      var animalListing = <AnimalListing id={this.props.rankOrder[i]} rank={i + 1}/>
+      var animalListing = <AnimalListing key={i} id={this.props.rankOrder[i]} rank={i + 1}/>
       animalListings.push(animalListing);
     }
     return (

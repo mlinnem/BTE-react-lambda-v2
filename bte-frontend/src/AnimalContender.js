@@ -1,5 +1,4 @@
 import React from 'react';
-import posed from 'react-pose';
 import {submitBallotAndAdvance} from "./actionsAndReducers"
 const ReactRedux = require('react-redux');
 
@@ -26,10 +25,10 @@ render () {
   return (
 <span className={"outerCardWrapper " + this.props.side}>
   <span className={"cardWrapper " + this.props.side}>
-    <div className={this.props.animationState + " animal"} pose={this.props.animationState} onClick={this.props.onBallotClick}>
+    <div className={this.props.animationState + " animal"} onClick={this.props.onBallotClick}>
       <div className="cardAndHover">
       <div className="theCard">
-        <img className="photo" src={"https://n6d28h0794.execute-api.us-east-1.amazonaws.com/Production/photos?animalName=" + encodeURIComponent(this.props.animal.Name) + "&size=Width_800"}/>
+        <img className="photo" alt={this.props.animal.Name} src={"https://n6d28h0794.execute-api.us-east-1.amazonaws.com/Production/photos?animalName=" + encodeURIComponent(this.props.animal.Name) + "&size=Width_800"}/>
         <div className ="animalNameBox">
           <span className="animalName">{this.props.animal.Name}</span>
         </div>

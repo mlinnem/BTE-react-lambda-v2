@@ -128,10 +128,8 @@ return function(dispatch, getState) {
 export const fetchMoreBallotsIfNeeded = () => {
 return (dispatch, getState) => {
   if (shouldFetchMoreBallots(getState())) {
-    console.log("YES, FETCHING MORE BALLOTS");
     return dispatch(fetchMoreBallots());
   } else {
-    console.log("NO, NOT FETCHING MORE BALLOTS");
     return Promise.resolve();
   }
 }
@@ -145,7 +143,6 @@ return function (dispatch, getState) {
 export const fetchAuthKey = (count) => {
 return function(dispatch, getState) {
   dispatch(requestAuthKey());
-  console.log("FETCHING AUTH KEY");
   return axios
     .get(
         "https://n6d28h0794.execute-api.us-east-1.amazonaws.com/Production/authkey"
@@ -173,7 +170,6 @@ return (dispatch, getState) => {
 export const fetchLatestAnimals = () => {
 return (dispatch, getState) => {
     dispatch(requestLatestAnimals);
-    console.log("FETCHING LATEST ANIMALS");
     return axios.get('https://n6d28h0794.execute-api.us-east-1.amazonaws.com/Production/animals')
     .then(function (response) {
         console.log("FETCHING ANIMALS SUCCEEDED");
@@ -273,8 +269,7 @@ switch (action.type) {
       didInvalidate: false
     });
   case 'RECEIVE_MORE_BALLOTS':
-  console.log("RECEIVING MORE BALLOTS");
-    var newState = Object.assign({}, state, {
+    var newState_receive = Object.assign({}, state, {
       isFetching: false,
       didInvalidate: false,
       ballotIDQueue: state.ballotIDQueue.concat(_extractBallotIDs(action.ballots)),
@@ -284,14 +279,14 @@ switch (action.type) {
 
     //--Mark the items in ballot queue with appropriate queueState, if they aren't already.
 
-    var newIncomingID = newState.ballotIDQueue[0];
+    var newIncomingID_receive = newState_receive.ballotIDQueue[0];
 
-    var newBallot1 = Object.assign({}, newState.ballotStore[newIncomingID], {
+    var newBallot1_receive = Object.assign({}, newState_receive.ballotStore[newIncomingID_receive], {
       QueueState : QUEUE_STATE.INCOMING,
     });
 
-    newState.ballotStore[newIncomingID] = newBallot1;
-    return newState;
+    newState_receive.ballotStore[newIncomingID_receive] = newBallot1_receive;
+    return newState_receive;
 
   default:
     return state;
@@ -300,7 +295,6 @@ switch (action.type) {
 function _storeAndPrepNewBallots(ballotStore, newBallots) {
 var newBallotStore = Object.assign({}, ballotStore, {
 }); //TODO: Better way to copy?
-console.log("STORE AND PREP NEW BALLOTS");
   for (var i = 0; i < newBallots.length; i++) {
     var newBallot = newBallots[i];
     newBallot.QueueState = QUEUE_STATE.HIDDEN; //TODO: Should this be elsewhere
@@ -310,12 +304,7 @@ console.log("STORE AND PREP NEW BALLOTS");
     return newBallotStore;
 }
 function _extractBallotIDs(newBallots) {
-console.log("EXTRACTING BALLOT IDS FROM BALLOTS");
-console.log("newBallots:");
-console.log(newBallots);
 var newBallotIDs = newBallots.map((newBallot) => {return newBallot.ID});
-console.log("newBallotIDs:");
-console.log(newBallotIDs);
 return newBallotIDs;
 }
 
@@ -442,9 +431,6 @@ const shouldFetchLatestAnimals = (state) => {
 }
 const shouldFetchMoreBallots= (state) => {
     if (checkNested(state, "ballots", "ballotStore")) {
-      console.log("? FETCH MORE BALLOTS?");
-      console.log("WE HAVE " + state.ballots.ballotIDQueue.length);
-      console.log(state.ballots.isFetching);
       return (state.ballots.ballotIDQueue.length <= 5 && state.ballots.isFetching === false)
     } else {
       return true;
