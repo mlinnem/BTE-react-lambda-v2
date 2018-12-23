@@ -89,7 +89,7 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  z-index: 1;
+  z-index: 0; /* keeps it below the ballotBox */
   grid-column: 1; /*all ballots appear in same column and row */
   grid-row: 1;
 }
@@ -239,6 +239,7 @@ body {
 
 .resultsPanel {
   height:200px;
+  z-index: 50;
 }
 
 
