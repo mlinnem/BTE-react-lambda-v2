@@ -71,7 +71,6 @@ export const clearBallotBoxJumpingAfterDelay = (delayInMilliseconds) => {
 
 export const submitBallotAndAdvance = (winnerSide) => {
 return (dispatch, getState) => {
-  console.log("SUBMIT BALLOT AND ADVANCE");
   dispatch(attemptBallotSubmission());
   //TODO: Needs tons more validation server side.
   var state = getState();
@@ -100,7 +99,6 @@ return (dispatch, getState) => {
 }
 export const advanceBallotAndFetchMoreIfNeeded = (winnerSide) => {
 return (dispatch, getState) => {
-    console.log("ADVANCING BALLOT");
     dispatch(advanceBallot(winnerSide));
     dispatch(fetchMoreBallotsIfNeeded(getState()));
 };
@@ -230,8 +228,6 @@ outgoingBallotID: null,
 }, action) {
 switch (action.type) {
   case 'ADVANCE_BALLOT':
-    console.log("state at top is:");
-    console.log(state);
     var currentOutgoingBallotID = state.outgoingBallotID;
     var newIncomingID = state.ballotIDQueue[1];
     var newOutgoingID = state.ballotIDQueue[0];
@@ -255,13 +251,9 @@ switch (action.type) {
     newState.ballotStore[newOutgoingID] = newBallot2;
 
     if (currentOutgoingBallotID != null) {
-      console.log("DELETING BALLOT WITH THE ID " + currentOutgoingBallotID);
       delete newState.ballotStore[currentOutgoingBallotID];
     }
     newState.outgoingBallotID = newOutgoingID;
-    console.log("state at bottom is:");
-    console.log(newState);
-    console.log(newState === state);
     return newState;
   case 'REQUEST_MORE_BALLOTS':
     return Object.assign({}, state, {
@@ -351,13 +343,10 @@ switch (action.type) {
     });
     //TODO: Fail state
   case 'ADVANCE_BALLOT':
-      console.log("ADVANCING THE BALLOT IN UI LAND!!!");
       action.asyncDispatch(clearBallotBoxJumpingAfterDelay(1000));
       var newState =  Object.assign({}, state, {
         ballotBoxShouldBeJumping: true,
       });
-      console.log("new state is....");
-      console.log(newState);
       return newState;
   case 'CLEAR_BALLOT_BOX_JUMPING':
   return Object.assign({}, state, {
