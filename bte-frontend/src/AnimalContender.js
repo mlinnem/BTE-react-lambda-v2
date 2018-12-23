@@ -18,6 +18,11 @@ const animalContender_mapDispatchToProps = (dispatch, ownProps) => {
 
 class AnimalContender_View extends React.Component {
 render () {
+  var votedFor = "";
+  if (this.props.votedFor) {
+    votedFor = "votedFor";
+  }
+
   return (
 <span className={"outerCardWrapper " + this.props.side}>
   <span className={"cardWrapper " + this.props.side}>
@@ -29,7 +34,7 @@ render () {
           <span className="animalName">{this.props.animal.Name}</span>
         </div>
       </div>
-      <div className="cardHover"/>
+      <div className={"cardHover " + votedFor}/>
       </div>
     </div>
   </span>

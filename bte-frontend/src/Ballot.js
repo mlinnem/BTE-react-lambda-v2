@@ -16,10 +16,19 @@ render () {
     return null;
   }
   console.log(this.props.ballot.QueueState);
+
+  var leftVotedFor = "";
+  var rightVotedFor = "";
+  if (this.props.ballot.WinnerSide === "LEFT") {
+    leftVotedFor = true;
+  } else if (this.props.ballot.WinnerSide === "RIGHT") {
+    rightVotedFor = true;
+  }
+  
   return (
   <div className={"ballot " + this.props.ballot.QueueState + "ballot"}>
-    <AnimalContender id={this.props.ballot.Animal1ID} animationState={this.props.ballot.QueueState + "left"} side={SIDE.LEFT}/>
-    <AnimalContender id={this.props.ballot.Animal2ID} animationState={this.props.ballot.QueueState + "right"} side={SIDE.RIGHT}/>
+    <AnimalContender id={this.props.ballot.Animal1ID} animationState={this.props.ballot.QueueState + "left"} side={SIDE.LEFT} votedFor={leftVotedFor}/>
+    <AnimalContender id={this.props.ballot.Animal2ID} animationState={this.props.ballot.QueueState + "right"} side={SIDE.RIGHT} votedFor={rightVotedFor}/>
     <div className={"ballotBackground " + this.props.ballot.QueueState }></div>
   </div>
   );

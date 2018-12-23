@@ -7,8 +7,9 @@ const axios = require('axios');
 
 //--Action creators (simple)--
 
-export const advanceBallot = () => ({
+export const advanceBallot = (winnerSide) => ({
 type: "ADVANCE_BALLOT",
+winnerSide: winnerSide,
 });
 export const attemptBallotSubmission = () => ({
 type: "ATTEMPT_BALLOT_SUBMISSION"
@@ -66,7 +67,7 @@ return (dispatch, getState) => {
   var state = getState();
   var currentBallotID = state.ballots.ballotIDQueue[0];
   var authKey = state.authkey.key; //TODO: Need some logic if there is no key. Shouldn't happen but could maybe.
-  dispatch(advanceBallotAndFetchMoreIfNeeded());
+  dispatch(advanceBallotAndFetchMoreIfNeeded(winnerSide));
   console.log("SUBMITTING BALLOT...");
   var data = JSON.stringify({"WinnerSide" : winnerSide, "BallotID" : currentBallotID, "AuthKey": authKey});
   console.log("data:");
@@ -87,10 +88,10 @@ return (dispatch, getState) => {
   });
 }
 }
-export const advanceBallotAndFetchMoreIfNeeded = () => {
+export const advanceBallotAndFetchMoreIfNeeded = (winnerSide) => {
 return (dispatch, getState) => {
     console.log("ADVANCING BALLOT");
-    dispatch(advanceBallot());
+    dispatch(advanceBallot(winnerSide));
     dispatch(fetchMoreBallotsIfNeeded(getState()));
 };
 };
@@ -239,7 +240,10 @@ switch (action.type) {
     });
     var newBallot2 = Object.assign({}, newState.ballotStore[newOutgoingID], {
       QueueState : QUEUE_STATE.OUTGOING,
+      WinnerSide: action.winnerSide,
     });
+
+
 
     newState.ballotStore[newIncomingID] = newBallot1;
     newState.ballotStore[newOutgoingID] = newBallot2;
