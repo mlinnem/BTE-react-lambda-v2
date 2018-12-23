@@ -106,10 +106,10 @@ body {
   background-image: url("./Burst_Transparent.png");
   top: 0px;
   left: 0px;
-  transform: scale(0);
 }
 
 .ballotBackground.incoming {
+  transform: scale(0);
   animation-name: grow;
   animation-duration: .15s;
   animation-fill-mode: forwards;
@@ -122,6 +122,7 @@ body {
 }
 
 .ballot.outgoingballot {
+  transform: scale(1);
   animation-name: moveDown;
   animation-duration: .55s;
   animation-fill-mode: forwards;
