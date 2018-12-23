@@ -15,8 +15,7 @@ $ballot-box-height: 200px;
 
 .contents {
   width: 100%;
-  height: calc(100% - $ballo-box-height);
-  /*leave a remainder that will be revealed from top of ballot box */
+  height: calc(100% - $ballo-box-height);/*leave a remainder that will be revealed from top of ballot box */
   position: relative;
   top: 0;
   left: 0;
@@ -106,10 +105,8 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  z-index: 0;
-  /* keeps it below the ballotBox */
-  grid-column: 1;
-  /*all ballots appear in same column and row */
+  z-index: 0; /* keeps it below the ballotBox */
+  grid-column: 1; /*all ballots appear in same column and row */
   grid-row: 1;
 }
 
@@ -161,8 +158,7 @@ body {
 .ballot.outgoingballot {
   animation-name: moveDown;
   animation-duration: 0.55s;
-  animation-delay: 0s;
-  /* TODO: File bug, background moves early when delay is more than 0 */
+  animation-delay: 0s; /* TODO: File bug, background moves early when delay is more than 0 */
   animation-fill-mode: forwards;
 }
 @keyframes moveDown {
