@@ -56,8 +56,18 @@ export const showRankings = () => ({
 export const hideRankings = () => ({
   type: "HIDE_RANKINGS",
 })
+export const clearBallotBoxJumping = () => ({
+  type: "CLEAR_BALLOT_BOX_JUMPING",
+});
 
 //--Action creators (do real work)--
+
+export const clearBallotBoxJumpingAfterDelay = (delayInMilliseconds) => {
+  return async (dispatch, getState) => {
+  await sleep(delayInMilliseconds);
+  return dispatch(clearBallotBoxJumping());
+}
+}
 
 export const submitBallotAndAdvance = (winnerSide) => {
 return (dispatch, getState) => {
@@ -337,6 +347,7 @@ switch (action.type) {
 
 export function ui (state = {
 focusArea : FOCUSAREA.INITIAL,
+ballotBoxShouldBeJumping: false,
 }, action) {
 switch (action.type) {
   case 'SHOW_RANKINGS':
@@ -350,8 +361,21 @@ switch (action.type) {
       focusArea: FOCUSAREA.BALLOTVIEWER
     });
     //TODO: Fail state
-  default:
-    return state;
+  case 'ADVANCE_BALLOT':
+      console.log("ADVANCING THE BALLOT IN UI LAND!!!");
+      action.asyncDispatch(clearBallotBoxJumpingAfterDelay(1000));
+      var newState =  Object.assign({}, state, {
+        ballotBoxShouldBeJumping: true,
+      });
+      console.log("new state is....");
+      console.log(newState);
+      return newState;
+  case 'CLEAR_BALLOT_BOX_JUMPING':
+  return Object.assign({}, state, {
+      ballotBoxShouldBeJumping: false,
+    });
+    default:
+      return state;
 }
 }
 
@@ -488,4 +512,10 @@ const QUEUE_STATE = {
 HIDDEN : "hidden",
 INCOMING: "incoming",
 OUTGOING: "outgoing"
+}
+
+//--Utilities--
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
