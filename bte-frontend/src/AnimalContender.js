@@ -29,7 +29,7 @@ render () {
     <div className={this.props.animationState + " animal"} pose={this.props.animationState} onClick={this.props.onBallotClick}>
       <div className="cardAndHover">
       <div className="theCard">
-        <img className="photo" src={"https://n6d28h0794.execute-api.us-east-1.amazonaws.com/Production/photos?animalName=" + encodeURIComponent(this.props.animal.Name) + "&size=Width_1200"}/>
+        <img className="photo" src={"https://n6d28h0794.execute-api.us-east-1.amazonaws.com/Production/photos?animalName=" + encodeURIComponent(this.props.animal.Name) + "&size=Width_800"}/>
         <div className ="animalNameBox">
           <span className="animalName">{this.props.animal.Name}</span>
         </div>
