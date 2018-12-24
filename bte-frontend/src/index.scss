@@ -330,20 +330,20 @@ body {
 
 @keyframes showRankings {
   from {
-    top: 0;
+    transform: translateY(0);
   }
 
   to {
-    top: calc(-100vh);
+    transform: translateY(calc(-100vh + #{$height-header}));
   }
 }
 @keyframes showBallots {
   from {
-    top: calc(-100vh);
+    transform: translateY(calc(-100vh + #{$height-header}));
   }
 
   to {
-    top: 0;
+    transform: translateY(0);
   }
 }
 
