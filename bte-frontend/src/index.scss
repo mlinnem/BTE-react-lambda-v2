@@ -3,7 +3,7 @@
 @import "_colors.scss";
 
 $height-results-panel: 64px;
-$height-header: 64px;
+$height-header: 80px;
 $height-rankings-header: 80px;
 
 #root {
@@ -30,7 +30,7 @@ body {
   height: $height-header;
   display: flex;
   align-items: center;
-  text-shadow: 0 0.5vw #000000;
+  text-shadow: 0 0.5vmin #000000;
   letter-spacing: 1px;
   background-color: $color-highlight-main;
 }
@@ -436,8 +436,12 @@ body {
     height: 55vh;
   }
 
-  .cardWrapper {
-    justify-content: center;
+  .cardWrapper.LEFT {
+    justify-content: flex-start;
+  }
+
+  .cardWrapper.RIGHT {
+    justify-content: flex-end;
   }
 }
 /* Clear */
