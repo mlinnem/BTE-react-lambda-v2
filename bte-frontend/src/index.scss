@@ -4,6 +4,7 @@
 
 $height-results-panel: 64px;
 $height-header: 64px;
+$height-rankings-header: 80px;
 
 #root {
   width: 100vw;
@@ -324,8 +325,16 @@ body {
 }
 
 .rankingsPanel {
-  overflow: auto;
   height: calc(100vh - #{$height-header});
+}
+
+.rankingsHeader {
+  height: $height-rankings-header;
+}
+
+.rankingsContent {
+  overflow: auto;
+  height: calc(100vh - #{$height-header} - #{$height-rankings-header});
 }
 
 @keyframes showRankings {

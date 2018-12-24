@@ -28,9 +28,12 @@ render() {
     <div className={"rankingsPanel"}>
       <div className="rankingsHeader">
         <span className="rankingsHeaderTitle">Rankings</span>
+
         <button onClick={this.props.onReturnToVotingClick}>Return To Voting</button>
       </div>
+      <div className="rankingsContent">
       {animalListings}
+      </div>
     </div>
   )
   }
