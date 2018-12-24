@@ -2,7 +2,8 @@
 @import "_breakpoints.scss";
 @import "_colors.scss";
 
-$ballot-box-height: 200px;
+$height-ballot-box: 200px;
+$height-header: 64px;
 
 #root {
   width: 100vw;
@@ -16,7 +17,7 @@ $ballot-box-height: 200px;
 
 .contents {
   width: 100%;
-  height: calc(100% - #{$ballot-box-height});/*leave a remainder that will be revealed from top of ballot box */
+  height: calc(100% - #{$height-ballot-box});/*leave a remainder that will be revealed from top of ballot box */
   position: relative;
   top: 0;
   left: 0;
@@ -33,7 +34,7 @@ body {
   top: 0;
   left: 0;
   z-index: 5000;
-  height: 64px;
+  height: $height-header;
   display: flex;
   align-items: center;
   text-shadow: 0 0.5vw #000000;
@@ -285,11 +286,12 @@ body {
 }
 /* ballotBox */
 .animalListing img {
+
   height: 75px;
 }
 
 .ballotBox {
-  height: 100vh;
+  height: calc(100vh + $height-ballot-box);
   background-color: $color-background-dark;
   position: relative;
   top: 0;
@@ -347,6 +349,12 @@ body {
   height: 200px;
   z-index: 50;
 }
+
+.rankingsPanel {
+  overflow: auto;
+  height: calc(100vh - #{$height-header});
+}
+
 @keyframes showRankings {
   from {
     top: 0;
