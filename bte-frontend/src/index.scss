@@ -2,7 +2,7 @@
 @import "_breakpoints.scss";
 @import "_colors.scss";
 
-$height-ballot-box: 200px;
+$height-results-panel: 64px;
 $height-header: 64px;
 
 #root {
@@ -13,14 +13,6 @@ $height-header: 64px;
 
 .app {
   height: 100vh;
-}
-
-.contents {
-  width: 100%;
-  height: calc(100% - #{$height-ballot-box});/*leave a remainder that will be revealed from top of ballot box */
-  position: relative;
-  top: 0;
-  left: 0;
 }
 
 body {
@@ -88,24 +80,22 @@ body {
 }
 
 .ballotViewer {
-  height: 90%;
-  width: 90%;
-  padding: 5%;
-  flex-grow: 1;
+  height: calc(90vh - #{$height-header} - #{$height-results-panel});
+  width: 90vw;
+  padding-left: 5vw;
+  padding-right: 5vw;
   order: 2;
   display: grid;
   background-color: $color-background;
-}
-
-.ballot.incomingballot {
-  display: flex;
+  position: relative;
+  top: 0px;
+  left: 0px;
 }
 
 .ballot {
   height: 100%;
   width: 100%;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   z-index: 0; /* keeps it below the ballotBox */
   grid-column: 1; /*all ballots appear in same column and row */
@@ -169,7 +159,7 @@ body {
   }
 
   to {
-    transform: translateY(100vh);
+    transform: translateY(calc(100vh));
   }
 }
 
@@ -291,7 +281,7 @@ body {
 }
 
 .ballotBox {
-  height: calc(100vh + $height-ballot-box);
+  height: calc(100vh + $height-results-panel);
   background-color: $color-background-dark;
   position: relative;
   top: 0;
@@ -346,7 +336,7 @@ body {
 }
 
 .resultsPanel {
-  height: 200px;
+  height: $height-results-panel;
   z-index: 50;
 }
 
@@ -388,7 +378,6 @@ body {
 /* aspect-ratio-specific */
 @media (max-aspect-ratio: 5/14) {
   .ballot {
-    justify-content: space-between;
     flex-direction: column;
   }
 
@@ -407,12 +396,10 @@ body {
 }
 @media (min-aspect-ratio: 5/14) and (max-aspect-ratio: 12/14) {
   .ballot {
-    justify-content: space-between;
     flex-direction: column;
   }
 
   .animal {
-    justify-content: center;
     flex-direction: column;
     width: 30vh;
     height: 30vh;
@@ -438,9 +425,7 @@ body {
 }
 @media (min-aspect-ratio: 12/14) and (max-aspect-ratio: 7/5) {
   .ballot.incomingballot {
-    display: flex;
     flex-direction: row;
-    justify-content: space-between;
   }
 
   .cardWrapper.LEFT {
@@ -463,11 +448,11 @@ body {
   }
 
   .cardWrapper.LEFT {
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .cardWrapper.RIGHT {
-    justify-content: flex-end;
+    justify-content: center;
   }
 }
 /* Clear */
