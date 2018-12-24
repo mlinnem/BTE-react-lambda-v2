@@ -93,8 +93,6 @@ body {
 }
 
 .ballot {
-  height: 100%;
-  width: 100%;
   display: flex;
   justify-content: space-between;
   z-index: 0; /* keeps it below the ballotBox */
@@ -197,12 +195,6 @@ body {
 
 .animal {
   background-color: $color-background-light;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28pt;
-  font-family: Sans-Serif;
-  flex-direction: column;
 }
 
 .hiddenballot {
