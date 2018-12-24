@@ -8,7 +8,8 @@ const ReactRedux = require('react-redux');
 
 const rankingsPanel_mapStateToProps = (state, ownProps) => {return {
 animalStore : state.animals.animalStore,
-rankOrder: state.animals.rankOrder
+rankOrder: state.animals.rankOrder,
+shouldBeJumping: state.ui.ballotBoxShouldBeJumping,
 }};
 const rankingsPanel_mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -19,6 +20,11 @@ const rankingsPanel_mapDispatchToProps = (dispatch, ownProps) => {
   };
 class RankingsPanel_View extends React.Component {
 render() {
+  var jump = "";
+  if (this.props.shouldBeJumping) {
+    jump = "jump";
+  }
+
     var animalListings = [];
     for (var i = 0; i < this.props.rankOrder.length; i++) {
       var animalListing = <AnimalListing key={i} id={this.props.rankOrder[i]} rank={i + 1}/>
@@ -29,7 +35,7 @@ render() {
       <div className="rankingsHeader">
         <span className="rankingsHeaderTitle">Rankings</span>
 
-        <button className="viewBallots" onClick={this.props.onReturnToVotingClick}>Return To Voting</button>
+        <button className={"viewBallots " + jump} onClick={this.props.onReturnToVotingClick}>Return To Voting</button>
       </div>
       <div className="rankingsContent">
       {animalListings}

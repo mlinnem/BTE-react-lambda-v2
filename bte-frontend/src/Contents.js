@@ -9,13 +9,12 @@ const contents_mapStateToProps = (state, ownProps) => {return {
 }};
 
 
-
 class Contents_View extends React.Component {
   render() {
     return (
     <div className={"contents animatedcontents " + this.props.focusArea }>
     <BallotViewer/>
-    <BallotBox/>
+    <BallotBox focusArea={this.props.focusArea}/>
     </div>
     );
   }

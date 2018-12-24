@@ -1,15 +1,12 @@
 /* top-level */
 @import "_breakpoints.scss";
 @import "_colors.scss";
-
 $height-results-panel: 64px;
 $height-header: 80px;
 $height-rankings-header: 80px;
 $height-button: 20px;
-$height-spacer: 60px;
-
+$height-spacer: 0px;
 $width-button: 135px;
-
 
 #root {
   width: 100vw;
@@ -33,41 +30,40 @@ button {
   font-size: 12px;
   width: $width-button;
   outline: none;
-
   font-weight: bold;
 }
 
 button.viewRankings {
-    background-color: $color-background-darker;
-    color: $color-text-lighter;
-    position: relative;
-    top: -35px;
-    height: 60px;
-    padding-top: 10px;
-    padding-bottom: 100px;
-    border-radius: 5px;
-    left: calc(50vw - (#{$width-button} / 2));
-
+  background-color: $color-background-darker;
+  color: $color-text-lighter;
+  position: relative;
+  top: -35px;
+  height: 60px;
+  padding-top: 10px;
+  padding-bottom: 100px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  left: calc(50vw - (#{$width-button} / 2));
 }
 
 button.viewBallots {
   background-color: $color-background-dark;
   color: black;
   position: relative;
-  top: -90px;
-  padding-top: 30px;
+  top: -16px;
+  padding-top: 10px;
   padding-bottom: 10px;
-  border-radius: 5px;
-  left: calc(50vw + (#{$width-button} + 20px) - (#{$width-button} / 2));
-
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  left: calc(50vw + (#{$width-button} + 70px) - (#{$width-button} / 2));
 }
 
-.spacer {
-  background-color: $color-background-darker;
+button.viewBallots.jump {
+  background-color: $color-background-darker; /* While jumping is occurring, hide button */
+  color: $color-background-darker;
 }
 
 /* header */
-
 .header {
   position: relative;
   top: 0;
@@ -76,10 +72,10 @@ button.viewBallots {
   height: $height-header;
   display: flex;
   align-items: center;
-  text-shadow: 0 0.8vmin rgba(0,0,0,0.2);;
+  text-shadow: 0 0.8vmin rgba(0,0,0,0.2);
   letter-spacing: 1px;
   background-color: $color-highlight-main;
-  box-shadow: 0px 7px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 7px 4px rgba(0,0,0,0.2);
 }
 
 .header-text {
@@ -88,7 +84,6 @@ button.viewBallots {
   margin-left: 5vw;
   font-family: 'Alfa Slab One', cursive;
 }
-
 /* ballotViewer */
 .theCard {
   grid-row: 1;
@@ -132,15 +127,17 @@ button.viewBallots {
   display: grid;
   background-color: $color-background;
   position: relative;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
 }
 
 .ballot {
   display: flex;
   justify-content: space-between;
-  z-index: 0; /* keeps it below the ballotBox */
-  grid-column: 1; /*all ballots appear in same column and row */
+  z-index: 0;
+  /* keeps it below the ballotBox */
+  grid-column: 1;
+  /*all ballots appear in same column and row */
   grid-row: 1;
 }
 
@@ -192,9 +189,10 @@ button.viewBallots {
 .ballot.outgoingballot {
   animation-name: moveDown;
   animation-duration: 0.55s;
-  animation-delay: 0s; /* TODO: File bug, background moves early when delay is more than 0 */
+  animation-delay: 0s;
+  /* TODO: File bug, background moves early when delay is more than 0 */
   animation-fill-mode: forwards;
-  animation-timing-function:  ease-out;
+  animation-timing-function: ease-out;
 }
 @keyframes moveDown {
   from {
@@ -308,7 +306,6 @@ button.viewBallots {
 }
 /* ballotBox */
 .animalListing img {
-
   height: 75px;
 }
 
@@ -376,9 +373,6 @@ button.viewBallots {
   z-index: 50;
 }
 
-
-
-
 .rankingsPanel {
   height: calc(100vh - #{$height-header});
 }
@@ -402,12 +396,12 @@ button.viewBallots {
   }
 
   to {
-    transform: translateY(calc(-100vh + #{$height-header}));
+    transform: translateY(calc(-100vh + #{$height-header} - #{$height-spacer}));
   }
 }
 @keyframes showBallots {
   from {
-    transform: translateY(calc(-100vh + #{$height-header}));
+    transform: translateY(calc(-100vh + #{$height-header} - #{$height-spacer}));
   }
 
   to {
@@ -415,13 +409,13 @@ button.viewBallots {
   }
 }
 
-.show_rankings {
+.contents.show_rankings {
   animation-name: showRankings;
   animation-duration: 0.55s;
   animation-fill-mode: forwards;
 }
 
-.show_ballots {
+.contents.show_ballots {
   animation-name: showBallots;
   animation-duration: 0.55s;
   animation-fill-mode: forwards;
@@ -440,7 +434,6 @@ button.viewBallots {
   .cardWrapper {
     justify-content: center;
   }
-
 }
 @media (min-aspect-ratio: 5/14) and (max-aspect-ratio: 12/14) {
   .ballot {

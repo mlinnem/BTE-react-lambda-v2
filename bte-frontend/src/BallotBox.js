@@ -32,8 +32,8 @@ class BallotBox_View extends React.Component {
       return (
         <div className={"animatedballotbox ballotBox " + jump} >
           <ResultsPanel/>
-          <div className="spacer">
-              <button className="viewRankings" onClick={this.props.onViewRankingsClick}>View Rankings</button>
+          <div className={"spacer"}>
+              <button className={"viewRankings"} onClick={this.props.onViewRankingsClick}>View Rankings</button>
             </div>
           <RankingsPanel/>
         </div>
