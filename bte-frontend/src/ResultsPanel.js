@@ -7,22 +7,15 @@ const resultsPanel_mapStateToProps = (state, ownProps) => {return {
 animalStore : state.animals.animalStore,
 rankOrder: state.animals.rankOrder,
 }};
-const resultsPanel_mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    onViewRankingsClick: () => {
-        dispatch(ar.showRankings());
-      }
-    }
-  };
+
 class ResultsPanel_View extends React.Component {
 render() {
-    return <div className={"resultsPanel"}><button onClick={this.props.onViewRankingsClick}>View Rankings</button></div>;
+    return <div className={"resultsPanel"}></div>;
   }
 }
 
 const ResultsPanel = ReactRedux.connect(
 resultsPanel_mapStateToProps,
-resultsPanel_mapDispatchToProps
 )(ResultsPanel_View);
 
 

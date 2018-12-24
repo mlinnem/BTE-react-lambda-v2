@@ -1,13 +1,14 @@
 import React from 'react';
 import BallotViewer from "./BallotViewer"
 import BallotBox from "./BallotBox"
-
+import * as ar from "./actionsAndReducers";
 const ReactRedux = require('react-redux');
 
 const contents_mapStateToProps = (state, ownProps) => {return {
-
   focusArea : state.ui.focusArea
 }};
+
+
 
 class Contents_View extends React.Component {
   render() {
@@ -17,8 +18,9 @@ class Contents_View extends React.Component {
     <BallotBox/>
     </div>
     );
-    }
+  }
 }
+
 const Contents = ReactRedux.connect(
 contents_mapStateToProps,
 )(Contents_View);

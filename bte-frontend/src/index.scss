@@ -5,6 +5,11 @@
 $height-results-panel: 64px;
 $height-header: 80px;
 $height-rankings-header: 80px;
+$height-button: 20px;
+$height-spacer: 60px;
+
+$width-button: 135px;
+
 
 #root {
   width: 100vw;
@@ -20,6 +25,47 @@ body {
   background: $color-background;
 }
 
+button {
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 12px;
+  width: $width-button;
+  outline: none;
+
+  font-weight: bold;
+}
+
+button.viewRankings {
+    background-color: $color-background-darker;
+    color: $color-text-lighter;
+    position: relative;
+    top: -35px;
+    height: 60px;
+    padding-top: 10px;
+    padding-bottom: 100px;
+    border-radius: 5px;
+    left: calc(50vw - (#{$width-button} / 2));
+
+}
+
+button.viewBallots {
+  background-color: $color-background-dark;
+  color: black;
+  position: relative;
+  top: -90px;
+  padding-top: 30px;
+  padding-bottom: 10px;
+  border-radius: 5px;
+  left: calc(50vw + (#{$width-button} + 20px) - (#{$width-button} / 2));
+
+}
+
+.spacer {
+  background-color: $color-background-darker;
+}
+
 /* header */
 
 .header {
@@ -30,9 +76,10 @@ body {
   height: $height-header;
   display: flex;
   align-items: center;
-  text-shadow: 0 0.5vmin #000000;
+  text-shadow: 0 0.8vmin rgba(0,0,0,0.2);;
   letter-spacing: 1px;
   background-color: $color-highlight-main;
+  box-shadow: 0px 7px 4px rgba(0,0,0,0.2);
 }
 
 .header-text {
@@ -147,6 +194,7 @@ body {
   animation-duration: 0.55s;
   animation-delay: 0s; /* TODO: File bug, background moves early when delay is more than 0 */
   animation-fill-mode: forwards;
+  animation-timing-function:  ease-out;
 }
 @keyframes moveDown {
   from {
@@ -265,18 +313,22 @@ body {
 }
 
 .ballotBox {
-  height: calc(100vh + $height-results-panel);
-  background-color: $color-background-dark;
+  height: calc(100vh + #{$height-results-panel});
+  background-color: $color-background-darker;
   position: relative;
   top: 0;
   left: 0;
+}
+
+.resultsPanel {
+  background-color: $color-background-dark;
 }
 
 .ballotBox.jump {
   animation-name: jump;
   animation-duration: 0.65s;
   animation-timing-function: linear;
-  animation-delay: 0.25s;
+  animation-delay: 0.225s;
 }
 @keyframes jump {
   20%,
@@ -316,13 +368,16 @@ body {
 }
 
 .animalListing:nth-child(odd) {
-  background-color: $color-background-row-zebra;
+  background-color: $color-background-darker;
 }
 
 .resultsPanel {
   height: $height-results-panel;
   z-index: 50;
 }
+
+
+
 
 .rankingsPanel {
   height: calc(100vh - #{$height-header});
@@ -335,6 +390,10 @@ body {
 .rankingsContent {
   overflow: auto;
   height: calc(100vh - #{$height-header} - #{$height-rankings-header});
+}
+
+.spacer {
+  height: $height-spacer;
 }
 
 @keyframes showRankings {
