@@ -160,22 +160,24 @@ button.viewBallots.jump {
   background-image: url("./Burst_Transparent.png");
   top: 0;
   left: 0;
+  padding: 1000px; /* This is a trick to let the background overflow beyond its div. */
+  margin: -1000px;
 }
 
 .ballotBackground.incoming {
   transform: scale(0);
   animation-name: grow;
-  animation-duration: 0.15s;
+  animation-duration: 0.25s;
   animation-fill-mode: forwards;
-  animation-delay: 1.1s;
+  animation-delay: 3.05s;
 }
 
 .theQuestionBlock.incoming {
   transform: scale(0);
   animation-name: grow;
-  animation-duration: 0.15s;
+  animation-duration: 0.25s;
   animation-fill-mode: forwards;
-  animation-delay: 1.1s;
+  animation-delay: 1.25s;
 }
 
 .ballot {
@@ -219,14 +221,12 @@ button.viewBallots.jump {
 .ballot.outgoingBallot{
   animation-name: moveDown;
   animation-duration: 0.55s;
-  animation-delay: 0s;
   /* TODO: File bug, background moves early when delay is more than 0 */
   animation-fill-mode: forwards;
-  animation-timing-function: ease-out;
+  animation-timing-function: linear;
 }
 @keyframes moveDown {
   from {
-    transform: translateY(0);
   }
 
   to {
@@ -236,16 +236,21 @@ button.viewBallots.jump {
 
 .incomingleft {
   order: 1;
+  transform: translateX(-100vw);
   animation-name: comeInFromLeft;
-  animation-duration: 1.25s;
+  animation-duration: 1.1s;
   animation-fill-mode: forwards;
+  animation-delay: 1.6s;
+
 }
 
 .incomingright {
   order: 2;
+  transform: translateX(100vw);
   animation-name: comeInFromRight;
-  animation-duration: 1.25s;
+  animation-duration: 1.1s;
   animation-fill-mode: forwards;
+  animation-delay: 3.2s;
 }
 @keyframes comeInFromLeft {
   from {
@@ -404,7 +409,7 @@ button.viewBallots.jump {
   animation-name: jump;
   animation-duration: 0.65s;
   animation-timing-function: linear;
-  animation-delay: 0.225s;
+  animation-delay: 0.35s;
 }
 @keyframes jump {
   20%,
