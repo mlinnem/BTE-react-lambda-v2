@@ -49,8 +49,8 @@ button.viewRankings {
 button.viewBallots {
   background-color: $color-background-dark;
   color: black;
-  position: relative;
-  top: -16px;
+  position: absolute;
+  top: 64px;
   padding-top: 10px;
   padding-bottom: 10px;
   border-bottom-left-radius: 5px;
@@ -305,8 +305,51 @@ button.viewBallots.jump {
   flex-direction: row;
 }
 /* ballotBox */
+
+.rankingsHeader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.rankingsHeaderTitle {
+  font-family: 'Cabin';
+  font-size: 32px;
+  color: $color-text-light;
+  text-shadow: 0 2px 2px rgba(0,0,0,0.4);
+}
+
+.descriptionBlock {
+  height: 100%;
+  margin-left: 10px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.imageBlock {
+  height: 100%;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.rank {
+  font-size: 32px;
+  margin-right: 12px;
+}
+
+
+
 .animalListing img {
   height: 75px;
+}
+
+.animalListing {
+  font-family: 'Cabin';
+  font-size: 16pt;
+  color: $color-text-light;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.6);
+  display: flex;
 }
 
 .ballotBox {
@@ -364,9 +407,9 @@ button.viewBallots.jump {
   height: 100px;
 }
 
-.animalListing:nth-child(odd) {
-  background-color: $color-background-darker;
-}
+// .animalListing:nth-child(odd) {
+//   background-color: $color-background-darker;
+// }
 
 .resultsPanel {
   height: $height-results-panel;
@@ -374,7 +417,10 @@ button.viewBallots.jump {
 }
 
 .rankingsPanel {
+  overflow: auto;
   height: calc(100vh - #{$height-header});
+  padding-left: 5vw;
+  padding-right: 5vw;
 }
 
 .rankingsHeader {
@@ -382,7 +428,6 @@ button.viewBallots.jump {
 }
 
 .rankingsContent {
-  overflow: auto;
   height: calc(100vh - #{$height-header} - #{$height-rankings-header});
 }
 
