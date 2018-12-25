@@ -15,7 +15,13 @@ render() {
       var ballot = this.props.ballotStore[ballotID];
       return <Ballot key={ballot.ID} id={ballot.ID} animal1ID={ballot.Animal1ID} animal2ID={ballot.Animal2ID} queueState={ballot.QueueState}/>
     });
-    return <div className="ballotViewer">{ballots}</div>;
+
+    return (
+      <div className="ballotViewer">
+        {ballots}
+        
+      </div>
+    );
   }
 }
 }

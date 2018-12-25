@@ -23,11 +23,16 @@ render () {
   }
 
   return (
-  <div className={"ballot " + this.props.ballot.QueueState + "ballot"}>
-    <AnimalContender id={this.props.ballot.Animal1ID} animationState={this.props.ballot.QueueState + "left"} side={SIDE.LEFT} votedFor={leftVotedFor}/>
-    <AnimalContender id={this.props.ballot.Animal2ID} animationState={this.props.ballot.QueueState + "right"} side={SIDE.RIGHT} votedFor={rightVotedFor}/>
-    <div className={"ballotBackground " + this.props.ballot.QueueState }></div>
-  </div>
+    <div className={"ballot " +  this.props.ballot.QueueState + "Ballot" }>
+      <div className={"animalBlock " + this.props.ballot.QueueState + "AnimalBlock"}>
+        <AnimalContender id={this.props.ballot.Animal1ID} animationState={this.props.ballot.QueueState + "left"} side={SIDE.LEFT} votedFor={leftVotedFor}/>
+        <AnimalContender id={this.props.ballot.Animal2ID} animationState={this.props.ballot.QueueState + "right"} side={SIDE.RIGHT} votedFor={rightVotedFor}/>
+        <div className={"ballotBackground " + this.props.ballot.QueueState }></div>
+      </div>
+      <div className={"theQuestionBlock " + this.props.ballot.QueueState}>
+        <span className="theQuestion">Who Would Win?</span>
+      </div>
+    </div>
   );
 }
 }
