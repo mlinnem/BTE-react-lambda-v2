@@ -11,13 +11,6 @@ animalStore : state.animals.animalStore,
 rankOrder: state.animals.rankOrder,
 shouldBeJumping: state.ui.ballotBoxShouldBeJumping,
 }};
-const rankingsPanel_mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    onReturnToVotingClick: () => {
-        dispatch(ar.hideRankings());
-      }
-    }
-  };
 class RankingsPanel_View extends React.Component {
 render() {
   var jump = "";
@@ -35,7 +28,7 @@ render() {
       <div className="rankingsHeader">
         <span className="rankingsHeaderTitle">Rankings</span>
 
-        <button className={"viewBallots " + jump} onClick={this.props.onReturnToVotingClick}>Return To Voting</button>
+
       </div>
       <div className="rankingsContent">
       {animalListings}
@@ -47,7 +40,6 @@ render() {
 
 const RankingsPanel = ReactRedux.connect(
 rankingsPanel_mapStateToProps,
-rankingsPanel_mapDispatchToProps
 )(RankingsPanel_View);
 
 

@@ -12,14 +12,16 @@ const ballotBox_mapStateToProps = (state) => { return {
   shouldBeJumping: state.ui.ballotBoxShouldBeJumping,
 }};
 
-
-const ballotBox_mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    onViewRankingsClick: () => {
-        dispatch(ar.showRankings());
+  const ballotBox_mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+      onReturnToVotingClick: () => {
+          dispatch(ar.hideRankings());
+        },
+        onViewRankingsClick: () => {
+            dispatch(ar.showRankings());
+          }
       }
-    }
-  };
+    };
 
 
 
@@ -35,6 +37,7 @@ class BallotBox_View extends React.Component {
           <div className={"spacer"}>
               <button className={"viewRankings"} onClick={this.props.onViewRankingsClick}>View Rankings</button>
             </div>
+          <button className={"viewBallots " + jump} onClick={this.props.onReturnToVotingClick}>Return To Voting</button>
           <RankingsPanel/>
         </div>
       );
