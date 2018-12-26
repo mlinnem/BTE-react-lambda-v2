@@ -1,5 +1,6 @@
 import React from 'react';
 import AnimalContender from "./AnimalContender"
+import RulesButton from "./RulesButton"
 const ReactRedux = require('react-redux');
 
 const ballot_mapStateToProps= (state, ownProps) => { return {
@@ -30,7 +31,7 @@ render () {
         <div className={"ballotBackground " + this.props.ballot.QueueState }></div>
       </div>
       <div className={"theQuestionBlock " + this.props.ballot.QueueState}>
-        <span className="theQuestion">Who Would Win?</span>
+        <span className="theQuestion">Who Would Win?</span><RulesButton/>
       </div>
     </div>
   );

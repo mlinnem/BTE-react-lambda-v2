@@ -60,6 +60,14 @@ export const clearBallotBoxJumping = () => ({
   type: "CLEAR_BALLOT_BOX_JUMPING",
 });
 
+export const showRules = () => ({
+  type: "SHOW_RULES",
+});
+
+export const hideRules = () => ({
+  type: "HIDE_RULES",
+});
+
 //--Action creators (do real work)--
 
 export const clearBallotBoxJumpingAfterDelay = (delayInMilliseconds) => {
@@ -329,6 +337,7 @@ switch (action.type) {
 export function ui (state = {
 focusArea : FOCUSAREA.INITIAL,
 ballotBoxShouldBeJumping: false,
+rulesVisibilityState: "hidden",
 }, action) {
 switch (action.type) {
   case 'SHOW_RANKINGS':
@@ -352,7 +361,19 @@ switch (action.type) {
   return Object.assign({}, state, {
       ballotBoxShouldBeJumping: false,
     });
-    default:
+  case 'SHOW_RULES':
+    console.log("IN SHOW RULES REDUCER");
+    var newState = Object.assign({}, state, {
+      rulesVisibilityState: "visible",
+    });
+    console.log("newState:");
+    console.log(newState);
+    return newState;
+  case 'HIDE_RULES':
+    return Object.assign({}, state, {
+      rulesVisibilityState: "hidden",
+    });
+  default:
       return state;
 }
 }
