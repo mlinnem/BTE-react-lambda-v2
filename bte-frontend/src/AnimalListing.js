@@ -10,7 +10,7 @@ render () {
   return (
     <div className="animalListing">
       <div className="imageBlock">
-        <img alt={this.props.animal.Name} src={"https://n6d28h0794.execute-api.us-east-1.amazonaws.com/Production/photos?animalName=" + encodeURIComponent(this.props.animal.Name) + "&size=Width_300"}/>
+        <img alt={this.props.animal.Name} src={"https://n6d28h0794.execute-api.us-east-1.amazonaws.com/Production/photos?animalName=" + encodeURIComponent(this.props.animal.Name) + "&size=Width_100"}/>
       </div>
       <div className="descriptionBlock">
         <span className="description">
