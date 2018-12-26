@@ -5,7 +5,7 @@ const ReactRedux = require('react-redux');
 class CloseButton_View extends React.Component {
 render () {
   return (
-    <svg className="closeButton" width="48px" height="48px" viewBox="0 0 48 48" version="1.1" onClick={this.props.onClick}>
+    <svg className="closeButton" width="48px" height="48px" viewBox="0 0 48 48" version="1.1" onClick={this.props.onClick}  >
         <title>closeIcon</title>
         <g id="closeIcon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
             <g id="Group-15">

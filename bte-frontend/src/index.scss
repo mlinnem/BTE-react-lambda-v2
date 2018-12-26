@@ -25,7 +25,7 @@ button {
   text-align: center;
   text-decoration: none;
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   width: $width-button;
   outline: none;
   cursor:pointer;
@@ -34,9 +34,6 @@ button {
   letter-spacing: 2px;
 }
 
-button:hover {
-
-}
 
 button.viewRankings {
   background-color: $color-background-darker;
@@ -49,6 +46,12 @@ button.viewRankings {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   left: calc(50vw - (#{$width-button} / 2));
+
+}
+
+button.viewRankings:hover {
+  height: 38px;
+  top: -38px;
 }
 
 button.viewBallots {
@@ -62,6 +65,11 @@ button.viewBallots {
   border-bottom-right-radius: 5px;
   left: calc(95vw - (#{$width-button} * 1.5));
   z-index: 5;
+}
+
+button.viewBallots:hover {
+  padding-top: 15px;
+  top: 66px;
 }
 
 button.viewBallots.jump {
@@ -314,7 +322,7 @@ color: $color-text-dark;
 .rulesButton {
   height: 4vmax;
   margin-left: 5px;
-  margin-top: -3px; /* Unfudge */
+  margin-top: -4px; /* Unfudge */
   fill: $color-small-button;
 }
 

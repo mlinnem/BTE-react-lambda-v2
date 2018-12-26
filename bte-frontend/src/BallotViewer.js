@@ -19,7 +19,6 @@ render() {
     return (
       <div className="ballotViewer">
         {ballots}
-        
       </div>
     );
   }
