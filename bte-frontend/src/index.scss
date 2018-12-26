@@ -2,11 +2,11 @@
 @import "_breakpoints.scss";
 @import "_colors.scss";
 $height-results-panel: 64px;
-$height-header: 80px;
+$height-header: 90px;
 $height-rankings-header: 80px;
 $height-button: 20px;
 $height-spacer: 0px;
-$width-button: 135px;
+$width-button: 170px;
 
 #root {
   width: 100vw;
@@ -28,17 +28,18 @@ button {
   font-size: 12px;
   width: $width-button;
   outline: none;
-  font-weight: bold;
   cursor:pointer;
+  font-family: "Komika Axis";
+  letter-spacing: 2px;
 }
 
 button:hover {
-  text-shadow: 0px 2px 5px rgba(100,80,80,.3); /* TODO: Needs improvement visually */
+
 }
 
 button.viewRankings {
   background-color: $color-background-darker;
-  color: $color-text-light;
+  color: $color-text-medium-light;
   position: relative;
   top: -35px;
   height: 35px;
@@ -51,7 +52,7 @@ button.viewRankings {
 
 button.viewBallots {
   background-color: $color-background-dark;
-  color: black;
+  color: $color-text-dark;
   position: absolute;
   top: 64px;
   padding-top: 10px;
@@ -87,15 +88,17 @@ button.viewBallots.jump {
   width: 100%;
   height: 100%;
   background-color: rgba(0,0,0,.66);
+  cursor: pointer;
 }
 
 .rulesModalFrame {
+  cursor: auto;
   margin: 0;
   /* TODO: Make responsive */
 background-color: $color-background-light;
 color: $color-text-dark;
   position: absolute;
-  width: 566px;
+  width: 550px;
   top: 50%;
   left: 50%;
   margin-right: -50%;
@@ -109,7 +112,7 @@ color: $color-text-dark;
 
 .rulesModalTitle {
   font-family: 'Special Elite';
-  font-size: 44pt;
+  font-size: 48px;
 }
 
 .rulesModalBody {
@@ -120,6 +123,23 @@ color: $color-text-dark;
 }
 .rulesModalBody ol li {
     padding: 10px;
+}
+
+.closeButton {
+  position: absolute;
+  top:30px;
+  right: 35px;
+  width: 32px;
+  height: 32px;
+}
+
+.closeButton:hover g g circle{
+  fill: $color-highlight-main;
+  cursor: pointer;
+}
+
+.closeButton g g path {
+  stroke: $color-text-lighter;
 }
 
 .rulesModalBody ol {
@@ -135,7 +155,7 @@ color: $color-text-dark;
   height: $height-header;
   display: flex;
   align-items: center;
-  text-shadow: 0 0.8vmin rgba(0,0,0,0.2);
+
   letter-spacing: 1px;
   background-color: $color-highlight-main;
   box-shadow: 0 7px 4px rgba(0,0,0,0.2);
@@ -143,9 +163,11 @@ color: $color-text-dark;
 
 .header-text {
   color: $color-text-medium;
-  font-size: 6vw;
+  font-size: 5vmax;
   margin-left: 5vw;
-  font-family: 'Alfa Slab One', cursive;
+  margin-top: -15px;
+    text-shadow: 0 0.8vmin rgba(0,0,0,0.2);
+  font-family: 'Komika Axis', cursive;
 }
 /* ballotViewer */
 .theCard {
@@ -168,12 +190,32 @@ color: $color-text-dark;
   flex-direction: row;
   justify-content: center;
   order:3;
+  margin-left: 10px;
   flex-grow: 1;
 }
 
 .theQuestion {
-  font-family: 'Cabin';
+  font-family: 'BackIssuesBB';
   font-size: 4vmax;
+  color: $color-text-dark;
+}
+
+@font-face {
+    font-family: 'Back Issues BB';
+    src: url('BackIssuesBB.woff2') format('woff2'),
+        url('BackIssuesBB.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+@font-face {
+    font-family: 'Komika Axis';
+    src: url('KomikaAxis.woff2') format('woff2'),
+        url('KomikaAxis.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 .loadingIndicator {
@@ -271,6 +313,7 @@ color: $color-text-dark;
 .rulesButton {
   height: 4vmax;
   margin-left: 5px;
+  margin-top: -3px; /* Unfudge */
   fill: $color-small-button;
 }
 
@@ -370,9 +413,10 @@ color: $color-text-dark;
   justify-content: center;
 }
 
+
 .animalName {
-  font-family: 'Cabin';
-  font-size: 3vmax;
+  font-family: 'Special Elite';
+  font-size: 2.75vmax;
 }
 
 .hidden {
@@ -435,7 +479,7 @@ color: $color-text-dark;
 }
 
 .rankingsHeaderTitle {
-  font-family: 'Cabin';
+  font-family: 'Special Elite';
   font-size: 32px;
   color: $color-text-light;
   text-shadow: 0 2px 2px rgba(0,0,0,0.4);
@@ -469,7 +513,7 @@ color: $color-text-dark;
 }
 
 .animalListing {
-  font-family: 'Cabin';
+  font-family: 'Special Elite';
   font-size: 16pt;
   color: $color-text-light;
   text-shadow: 0 1px 1px rgba(0,0,0,0.6);

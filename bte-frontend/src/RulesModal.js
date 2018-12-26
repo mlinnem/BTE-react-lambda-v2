@@ -1,9 +1,9 @@
 import React from 'react';
-import {hideRules} from "./actionsAndReducers"
+import {hideRules} from "./actionsAndReducers";
+import CloseButton from "./CloseButton";
 const ReactRedux = require('react-redux');
 
 const rulesModal_mapStateToProps = (state, ownProps) => {return {
-  foo: console.log("DOING MAPSTATETOPROPS FOR RULESMODAL"),
   visibilityState: state.ui.rulesVisibilityState,
 }};
 
@@ -21,10 +21,11 @@ class RulesModal_View extends React.Component {
 render () {
   return (
     <div className={"rulesModalContainer " + this.props.visibilityState}>
-    <div className="modalBackground">
+    <div className="modalBackground" onClick={this.props.onCloseModalClick}>
       <div className="rulesModalFrame">
       <div className="rulesModalHeader">
         <span className="rulesModalTitle">Rules</span>
+        <CloseButton onClick={this.props.onCloseModalClick}/>
       </div>
       <div className="rulesModalBody">
       <ol>
