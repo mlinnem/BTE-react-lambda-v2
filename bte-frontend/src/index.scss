@@ -2,7 +2,7 @@
 @import "_breakpoints.scss";
 @import "_colors.scss";
 $height-results-panel: 64px;
-$height-header: 90px;
+$height-header: 80px;
 $height-rankings-header: 80px;
 $height-button: 20px;
 $height-spacer: 0px;
@@ -29,7 +29,8 @@ button {
   width: $width-button;
   outline: none;
   cursor:pointer;
-  font-family: "Komika Axis";
+  font-family: 'Roboto Slab';
+  // font-family: "Komika Axis";
   letter-spacing: 2px;
 }
 
@@ -59,7 +60,7 @@ button.viewBallots {
   padding-bottom: 10px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  left: calc(50vw + (#{$width-button} + 70px) - (#{$width-button} / 2));
+  left: calc(95vw - (#{$width-button} * 1.5));
   z-index: 5;
 }
 
@@ -163,11 +164,11 @@ color: $color-text-dark;
 
 .header-text {
   color: $color-text-medium;
-  font-size: 5vmax;
+  font-size: 6vmax;
   margin-left: 5vw;
-  margin-top: -15px;
+  // margin-top: -15px;
     text-shadow: 0 0.8vmin rgba(0,0,0,0.2);
-  font-family: 'Komika Axis', cursive;
+  font-family: 'Alfa Slab one', cursive; /* Or Komika Axis */
 }
 /* ballotViewer */
 .theCard {
