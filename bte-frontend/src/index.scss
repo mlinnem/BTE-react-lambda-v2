@@ -1,6 +1,9 @@
-/* top-level */
+/*------------------------IMPORTS------------------------*/
 @import "_breakpoints.scss";
 @import "_colors.scss";
+
+/*------------------------CONSTANTS------------------------*/
+
 $height-results-panel: 64px;
 $height-header: calc(40px + 5vmin);
 $height-rankings-header: 80px;
@@ -15,16 +18,20 @@ $width-loading-indicator: 200px;
 $padding-tab: 10px;
 $padding-modal: 35px;
 
-$fontsize-button: 13px;
 $fontsize-rulesModalTitle: 48px;
 $fontsize-rulesModalBody: 18px;
+
 $fontsize-headerText: 6vmax;
-$fontsize-headerText-skinny: calc(5vw + 5px);
 $fontsize-theQuestion: 4vmax;
-$fontsize-theQuestion-longAndShort: calc(6vh + 10px);
 $fontsize-animalName: 2.75vmax;
+
+$fontsize-headerText-skinny: calc(5vw + 5px);
+$fontsize-theQuestion-longAndShort: calc(6vh + 10px);
+
 $fontsize-rankingsHeaderTitle: 32px;
 $fontsize-rank: 32px;
+
+$fontsize-button: 13px;
 
 $animate-button-amount: 4px;
 $animate-jump-height: 40px;
@@ -41,6 +48,8 @@ $time-duration-moveContent: 0.55s;
 $time-leftCardAppear: 1.6s;
 $time-rightCardAppear: 3.2s;
 $time-startJumping: 0.35s;
+
+/* ------------------------TOP-LEVEL------------------------ */
 
 #root {
   width: 100vw;
@@ -61,8 +70,7 @@ button {
   width: $width-button;
   outline: none;
   cursor: pointer;
-  font-family: 'Roboto Slab';
-  /* or Komika Axis */
+  font-family: 'Roboto Slab', 'Komika Axis';
   letter-spacing: 2px;
 }
 
@@ -106,6 +114,31 @@ button.viewBallots.jump {
   color: $color-background-darker;
 }
 
+@keyframes showRankings {
+  from {
+  }
+
+  to {
+    transform: translateY(calc(-100vh + #{$height-header} - #{$height-spacer}));
+  }
+}
+@keyframes showBallots {
+  from {
+    transform: translateY(calc(-100vh + #{$height-header} - #{$height-spacer}));
+  }
+
+  to {}
+}
+
+@font-face {
+  font-family: 'Back Issues BB';
+  src: url("BackIssuesBB.woff2") format('woff2'), url("BackIssuesBB.woff") format('woff'); /*TODO: Do we need both of these files? */
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*------------------------MODALS------------------------*/
+
 .rulesModalContainer {
   position: fixed;
   top: 0;
@@ -124,7 +157,6 @@ button.viewBallots.jump {
   background-color: $color-background-modal;
   cursor: pointer;
 }
-
 
 .rulesModalFrame {
   cursor: auto;
@@ -168,8 +200,6 @@ button.viewBallots.jump {
   }
 }
 
-
-
 .rulesModalHeader {
   margin: $padding-modal;
 }
@@ -209,7 +239,8 @@ button.viewBallots.jump {
 .rulesModalBody ol {
   list-style: decimal inside none;
 }
-/* header */
+/* ------------------------HEADER------------------------ */
+
 .header {
   position: relative;
   top: 0;
@@ -237,7 +268,8 @@ button.viewBallots.jump {
     font-size: $fontsize-headerText-skinny;
   }
 }
-/* --BALLOTVIEWER-- */
+/* ------------------------BALLOTVIEWER------------------------ */
+
 .theCard {
   grid-row: 1;
   grid-column: 1;
@@ -274,12 +306,6 @@ button.viewBallots.jump {
   }
 }
 
-@font-face {
-  font-family: 'Back Issues BB';
-  src: url("BackIssuesBB.woff2") format('woff2'), url("BackIssuesBB.woff") format('woff'); /*TODO: Do we need both of these files? */
-  font-weight: normal;
-  font-style: normal;
-}
 // @font-face {
 //   font-family: 'Komika Axis';
 //   src: url("KomikaAxis.woff2") format('woff2'), url("KomikaAxis.woff") format('woff');
@@ -297,6 +323,26 @@ button.viewBallots.jump {
   opacity: 0.5;
   animation: growPartial 0.4s ease-out infinite;
   animation-direction: alternate;
+}
+
+
+@keyframes grow {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1.0);
+  }
+}
+@keyframes growPartial {
+  from {
+    transform: scale(.5);
+  }
+
+  to {
+    transform: scale(1.0);
+  }
 }
 
 .ballotViewer {
@@ -389,24 +435,6 @@ button.viewBallots.jump {
 .rulesButton:hover {
   fill: $color-highlight-main;
   cursor: pointer;
-}
-@keyframes grow {
-  from {
-    transform: scale(0);
-  }
-
-  to {
-    transform: scale(1.0);
-  }
-}
-@keyframes growPartial {
-  from {
-    transform: scale(.5);
-  }
-
-  to {
-    transform: scale(1.0);
-  }
 }
 
 .ballot.outgoingBallot {
@@ -524,16 +552,96 @@ button.viewBallots.jump {
   order: 2;
 }
 
+  /* Make the animal on the right face inward. All animals should face right by default */
 .cardWrapper.RIGHT .animal .cardAndHover .theCard .photo {
   transform: scaleX(-1);
-  /* Make the animal on the right face inward. All animals should face right by default */
+
 }
 
 .cardWrapper {
   display: flex;
   flex-direction: row;
 }
-/* ballotBox */
+
+
+/* ------------------------ASPECT-RATIO-SPECIFIC------------------------ */
+@media (max-aspect-ratio: 5/14) {
+  .animalBlock {
+    flex-direction: column;
+  }
+
+  .animal {
+    width: 90vw;
+    height: 90vw;
+  }
+
+  .cardWrapper {
+    justify-content: center;
+  }
+}
+@media (min-aspect-ratio: 5/14) and (max-aspect-ratio: 12/14) {
+  .animalBlock {
+    flex-direction: column;
+  }
+
+  .animal {
+    flex-direction: column;
+    width: 30vh;
+    height: 30vh;
+  }
+
+  .cardWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .card {
+    background: gold;
+    width: 43vw;
+    height: 43vw;
+    padding: 0;
+    order: 1;
+  }
+
+  .vs {
+    flex-grow: 0;
+  }
+}
+@media (min-aspect-ratio: 12/14) and (max-aspect-ratio: 7/5) {
+  .animalBlock.incomingAnimalBlock {
+    flex-direction: row;
+  }
+
+  .cardWrapper.LEFT {
+    justify-content: flex-start;
+  }
+
+  .cardWrapper.RIGHT {
+    justify-content: flex-end;
+  }
+
+  .animal {
+    width: 35vw;
+    height: 35vw;
+  }
+}
+@media (min-aspect-ratio: 7/5) {
+  .animal {
+    width: 55vh;
+    height: 55vh;
+  }
+
+  .cardWrapper.LEFT {
+    justify-content: flex-start;
+  }
+
+  .cardWrapper.RIGHT {
+    justify-content: flex-end;
+  }
+}
+
+/* ------------------------BALLOT BOX------------------------ */
 .rankingsHeader {
   display: flex;
   flex-direction: column;
@@ -651,8 +759,6 @@ button.viewBallots.jump {
   padding-right: $width-padding;
 }
 
-
-
 .rankingsHeader {
   height: $height-rankings-header;
   position: relative;
@@ -667,22 +773,7 @@ button.viewBallots.jump {
 .spacer {
   height: $height-spacer;
 }
-@keyframes showRankings {
-  from {
 
-  }
-
-  to {
-    transform: translateY(calc(-100vh + #{$height-header} - #{$height-spacer}));
-  }
-}
-@keyframes showBallots {
-  from {
-    transform: translateY(calc(-100vh + #{$height-header} - #{$height-spacer}));
-  }
-
-  to {}
-}
 
 .contents.show_rankings {
   animation-name: showRankings;
@@ -695,83 +786,7 @@ button.viewBallots.jump {
   animation-duration: $time-duration-moveContent;
   animation-fill-mode: forwards;
 }
-/* aspect-ratio-specific */
-@media (max-aspect-ratio: 5/14) {
-  .animalBlock {
-    flex-direction: column;
-  }
-
-  .animal {
-    width: 90vw;
-    height: 90vw;
-  }
-
-  .cardWrapper {
-    justify-content: center;
-  }
-}
-@media (min-aspect-ratio: 5/14) and (max-aspect-ratio: 12/14) {
-  .animalBlock {
-    flex-direction: column;
-  }
-
-  .animal {
-    flex-direction: column;
-    width: 30vh;
-    height: 30vh;
-  }
-
-  .cardWrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-
-  .card {
-    background: gold;
-    width: 43vw;
-    height: 43vw;
-    padding: 0;
-    order: 1;
-  }
-
-  .vs {
-    flex-grow: 0;
-  }
-}
-@media (min-aspect-ratio: 12/14) and (max-aspect-ratio: 7/5) {
-  .animalBlock.incomingAnimalBlock {
-    flex-direction: row;
-  }
-
-  .cardWrapper.LEFT {
-    justify-content: flex-start;
-  }
-
-  .cardWrapper.RIGHT {
-    justify-content: flex-end;
-  }
-
-  .animal {
-    width: 35vw;
-    height: 35vw;
-  }
-}
-@media (min-aspect-ratio: 7/5) {
-  .animal {
-    width: 55vh;
-    height: 55vh;
-  }
-
-  .cardWrapper.LEFT {
-    justify-content: flex-start;
-  }
-
-  .cardWrapper.RIGHT {
-    justify-content: flex-end;
-  }
-}
-/* Clear */
+/*------------------------CSS-CLEAR------------------------*/
 abbr,
 address,
 article,
