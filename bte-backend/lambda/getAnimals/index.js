@@ -10,14 +10,19 @@ exports.handler =  (event) => {
     .then((animalsResponse) => {
       console.log("ARRRRRR");
       console.log(animalsResponse);
-      var sortedAnimals = rankAnimals(animalsResponse.Item.Animals);
-    const response = {
+      var animals = animalsResponse.Item.Animals;
+      var sortedAnimals = getAnimalIDsInRankOrder(animals);
+      const response = {
         statusCode: 200,
-        headers: {"Access-Control-Allow-Origin" : "*",
-        "Access-Control-Allow-Methods" : "*",
-        "Access-Control-Allow-Headers" : "*"},
-        body: JSON.stringify(sortedAnimals)
-    };
+        headers: {
+          "Access-Control-Allow-Origin" : "*",
+          "Access-Control-Allow-Methods" : "*",
+          "Access-Control-Allow-Headers" : "*"},
+        body: JSON.stringify({
+          "AnimalStore" : animals,
+          "AnimalIDsInRankOrder" : animalIDsInRankOrder
+        })
+      };
     console.log("response:");
     console.log(response);
     return response;
@@ -36,7 +41,7 @@ function getAnimals() {
  return io.get(get_params).promise();
 }
 
-function rankAnimals(animalsMap) {
+function getAnimalIDsInRankOrder(animalsMap) {
   console.log("RANK ANIMALS");
   console.log(animalsMap);
     var animalKeys = Object.keys(animalsMap);
@@ -76,5 +81,6 @@ function rankAnimals(animalsMap) {
         }
       }
     });
-    return animals;
+    var animalIDsByRank = animals.map((animal) => {return animal.ID});
+    return animalIDsByRank;
 }

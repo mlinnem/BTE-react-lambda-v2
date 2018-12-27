@@ -43,9 +43,10 @@ type: "FAIL_RECEIVE_AUTH_KEY",
 export const requestLatestAnimals= () => ({
 type: "REQUEST_LATEST_ANIMALS",
 })
-export const receiveLatestAnimals = (animals) => ({
+export const receiveLatestAnimals = (animalStore, animalIDInRankOrder) => ({
 type: "RECEIVE_LATEST_ANIMALS",
-animals: animals
+animalStore: animalStore,
+animalIDsInRankOrder: animalIDInRankOrder
 })
 export const failReceiveLatestAnimals = () => ({
 type: "FAIL_RECEIVE_LATEST_ANIMALS",
@@ -84,6 +85,9 @@ return (dispatch, getState) => {
   var state = getState();
   var currentBallotID = state.ballots.ballotIDQueue[0];
   var authKey = state.authkey.key; //TODO: Need some logic if there is no key. Shouldn't happen but could maybe.
+  console.log("The supposed ballot being submitted against...");
+  var currentBallot = state.ballots.ballotStore[currentBallotID];
+  console.log(currentBallot);
   dispatch(advanceBallotAndFetchMoreIfNeeded(winnerSide));
   console.log("SUBMITTING BALLOT...");
   var data = JSON.stringify({"WinnerSide" : winnerSide, "BallotID" : currentBallotID, "AuthKey": authKey});
@@ -181,8 +185,10 @@ return (dispatch, getState) => {
         console.log("FETCHING ANIMALS SUCCEEDED");
         console.log("response:");
         console.log(response);
-        var allAnimals = JSON.parse(response.data.body);
-        dispatch(receiveLatestAnimals(allAnimals));
+        var body = JSON.parse(response.data.body);
+        var animalStore = body.AnimalStore;
+        var animalIDsInRankOrder = body.AnimalIDsInRankOrder;
+        dispatch(receiveLatestAnimals(animalStore, animalIDsInRankOrder));
       }, function (error){
         console.error(error);
         //dispatch(updateToLatestAnimalsFailure());
@@ -218,8 +224,8 @@ switch (action.type) {
     var result =  Object.assign({}, state, {
       isFetching: false,
       didInvalidate: false,
-      animalStore: action.animals,
-      rankOrder: rankAnimals(action.animals),
+      animalStore: action.AnimalStore,
+      rankOrder: action.AnimalIDsInRankOrder, /* TODO: Can probably do this server side? */
       lastUpdated: action.receivedAt});
     return result;
   default:
