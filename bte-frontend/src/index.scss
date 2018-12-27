@@ -6,7 +6,7 @@
 
 
 $height-header: calc(40px + 5vmin);
-$height-rankings-header: 100px;
+$height-rankings-header: 120px;
 $height-button: 35px;
 $height-spacer: 0px;
 $height-animalListing-image: 75px;
@@ -55,7 +55,7 @@ $time-leftCardAppear: 2.4s;
 $time-vs-appear: 3.9s;
 $time-rightCardAppear: 4.2s;
 $time-theQuestionAppears: 1.8s;
-$time-startJumping: 0.35s;
+$time-startJumping: 0.4s;
 $time-submitBallot: .3s;
 
 /* ------------------------TOP-LEVEL------------------------ */
@@ -568,7 +568,7 @@ button.viewBallots.jump {
 .cardWrapper.votedFor {
   //transform: perspective(200px) translateZ(-30px);
   animation-name: pullUp;
-  animation-duration: .6s;
+  animation-duration: .1s;
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
 }
@@ -788,11 +788,6 @@ button.viewBallots.jump {
 }
 
 @keyframes pullUp {
-
-  25% {
-    transform: perspective(200px) translateZ(-30px);
-  }
-
   100% {
     transform: perspective(200px) translateZ(-30px);
   }
