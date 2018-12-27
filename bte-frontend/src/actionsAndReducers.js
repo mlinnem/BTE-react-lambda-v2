@@ -93,7 +93,6 @@ return (dispatch, getState) => {
   var data = JSON.stringify({"WinnerSide" : winnerSide, "BallotID" : currentBallotID, "AuthKey": authKey});
   console.log("data:");
   console.log(data);
-
   return axios({
       method: 'put',
       url: "https://n6d28h0794.execute-api.us-east-1.amazonaws.com/Production/ballots/",
