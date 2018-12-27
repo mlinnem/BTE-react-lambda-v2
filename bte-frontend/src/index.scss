@@ -49,9 +49,12 @@ $time-duration-moveContentFocus: .55s;
 $time-duration-theQuestionAppear: .2s;
 $time-duration-backgroundAppear: .2s;
 $time-duration-punch: .2s;
+$time-duration-vs-grows: .2s;
 
-$time-leftCardAppear: 1.6s;
-$time-rightCardAppear: 3.2s;
+$time-leftCardAppear: 2.4s;
+$time-vs-appear: 3.9s;
+$time-rightCardAppear: 4.2s;
+$time-theQuestionAppears: 1.8s;
 $time-startJumping: 0.35s;
 $time-submitBallot: .3s;
 
@@ -386,9 +389,9 @@ button.viewBallots.jump {
 .ballotBackground.incoming {
   transform: scale(0);
   animation-name: grow;
-  animation-duration: $time-duration-cardAppear;
+  animation-duration: $time-duration-vs-grows;
   animation-fill-mode: forwards;
-  animation-delay: 3.05s;
+  animation-delay: $time-vs-appear;
 }
 
 .theQuestionBlock.incoming {
@@ -396,7 +399,7 @@ button.viewBallots.jump {
   animation-name: grow;
   animation-duration: $time-duration-theQuestionAppear;
   animation-fill-mode: forwards;
-  animation-delay: 1.25s;
+  animation-delay: $time-theQuestionAppears;
 }
 
 .ballot {
@@ -563,7 +566,7 @@ button.viewBallots.jump {
 }
 
 .cardWrapper.votedFor {
-  //transform: perspective(200px) translateZ(-40px);
+  //transform: perspective(200px) translateZ(-30px);
   animation-name: pullUp;
   animation-duration: .6s;
   animation-timing-function: ease-out;
@@ -778,7 +781,7 @@ button.viewBallots.jump {
 
 
   100% {
-    transform: perspective(200px) translateZ(-50px);
+    transform: perspective(200px) translateZ(-45px);
   }
 
 
@@ -791,7 +794,7 @@ button.viewBallots.jump {
   }
 
   100% {
-    transform: perspective(200px) translateZ(-25px);
+    transform: perspective(200px) translateZ(-30px);
   }
 
 
