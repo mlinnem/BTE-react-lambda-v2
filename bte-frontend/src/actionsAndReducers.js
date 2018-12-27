@@ -224,8 +224,8 @@ switch (action.type) {
     var result =  Object.assign({}, state, {
       isFetching: false,
       didInvalidate: false,
-      animalStore: action.AnimalStore,
-      rankOrder: action.AnimalIDsInRankOrder, /* TODO: Can probably do this server side? */
+      animalStore: action.animalStore,
+      rankOrder: action.animalIDsInRankOrder, /* TODO: Can probably do this server side? */
       lastUpdated: action.receivedAt});
     return result;
   default:

@@ -15,6 +15,10 @@ Do font fallbacks
 Backup of dynamodb tables
 
 Set up forum or something? Subreddit?
+
+Weird animation performance issue when clicking/voting.
+
+Two raccoons
 =====
 
 Verify that submittedBallots are really being recorded.
