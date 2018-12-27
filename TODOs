@@ -1,9 +1,3 @@
-Aspect ratio that we switch to vertical: 64 / 100 or LESS.
-
-Block out after 178 / 100 or MORE, or 30 / 100 or LESS
-
-All are relative to total viewport.
-
 Make AWS roles more restrictive
 
 ARIA roles
@@ -19,6 +13,8 @@ Set up forum or something? Subreddit?
 Weird animation performance issue when clicking/voting.
 
 Two raccoons
+
+Make loading indicator shrink out.
 =====
 
 Verify that submittedBallots are really being recorded.

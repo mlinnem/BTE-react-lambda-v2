@@ -3,17 +3,44 @@
 @import "_colors.scss";
 $height-results-panel: 64px;
 $height-header: calc(40px + 5vmin);
-$height-header-skinny: calc(8vmin + 20px);
 $height-rankings-header: 80px;
 $height-button: 35px;
 $height-spacer: 0px;
+$height-animalListing-image: 75px;
+
 $width-button: 170px;
+$width-padding: 5vw;
+$width-loading-indicator: 200px;
 
 $padding-tab: 10px;
+$padding-modal: 35px;
 
 $fontsize-button: 13px;
+$fontsize-rulesModalTitle: 48px;
+$fontsize-rulesModalBody: 18px;
+$fontsize-headerText: 6vmax;
+$fontsize-headerText-skinny: calc(5vw + 5px);
+$fontsize-theQuestion: 4vmax;
+$fontsize-theQuestion-longAndShort: calc(6vh + 10px);
+$fontsize-animalName: 2.75vmax;
+$fontsize-rankingsHeaderTitle: 32px;
+$fontsize-rank: 32px;
 
-$animate-button-amount: 3px;
+$animate-button-amount: 4px;
+$animate-jump-height: 40px;
+
+$box-shadow-modal: 0 6px 6px rgba(0,0,0,.2);
+
+$z-index-highest-possible: 987654321;
+$z-index-highest-except-modals: 5000;
+
+$time-duration-cardAppear: 1.1s;
+$time-duration-jumping: 0.65s;
+$time-duration-moveContent: 0.55s;
+
+$time-leftCardAppear: 1.6s;
+$time-rightCardAppear: 3.2s;
+$time-startJumping: 0.35s;
 
 #root {
   width: 100vw;
@@ -65,7 +92,7 @@ button.viewBallots {
   padding-bottom: $padding-tab;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  left: calc(95vw - (#{$width-button} * 1.5));
+  left: calc(95vw - (#{$width-button}));
   z-index: 5;
 }
 
@@ -102,19 +129,17 @@ button.viewBallots.jump {
 .rulesModalFrame {
   cursor: auto;
   margin: 0;
-  /* TODO: Make responsive */
   background-color: $color-background-light;
   color: $color-text-dark;
-  box-shadow: 0 6px 6px rgba(0,0,0,.2);
+  box-shadow: $box-shadow-modal;
 }
 
 .rulesModalContainer {
-      z-index: 987654321;
+      z-index: $z-index-highest-possible;
 }
 
 @media (min-width: 600px) and (min-height: 700px) {
   .rulesModalFrame {
-
     position: absolute;
     width: 550px;
     /* This part just centers the modal on the screen */
@@ -146,18 +171,18 @@ button.viewBallots.jump {
 
 
 .rulesModalHeader {
-  margin: 35px;
+  margin: $padding-modal;
 }
 
 .rulesModalTitle {
   font-family: 'Special Elite';
-  font-size: 48px;
+  font-size: $fontsize-rulesModalTitle;
 }
 
 .rulesModalBody {
-  margin: 35px 35px 55px;
+  margin: $padding-modal $padding-modal calc(#{$padding-modal} + 20px);
   font-family: 'Special Elite';
-  font-size: 18px;
+  font-size: $fontsize-rulesModalBody;
 }
 
 .rulesModalBody ol li {
@@ -189,7 +214,7 @@ button.viewBallots.jump {
   position: relative;
   top: 0;
   left: 0;
-  z-index: 5000;
+  z-index: $z-index-highest-except-modals;
   height: $height-header;
   display: flex;
   align-items: center;
@@ -200,20 +225,19 @@ button.viewBallots.jump {
 
 .header-text {
   color: $color-text-medium;
-  font-size: 6vmax;
-  margin-left: 5vw;
-  // margin-top: -15px;
+  font-size: $fontsize-headerText;
+  margin-left: $width-padding;
   text-shadow: 0 0.8vmin rgba(0,0,0,0.2);
-  font-family: 'Alfa Slab one', cursive;
+  font-family: 'Alfa Slab One'
   /* Or Komika Axis */
 }
 
 @media (max-width: 750px) {
   .header-text {
-    font-size: 6vw;
+    font-size: $fontsize-headerText-skinny;
   }
 }
-/* ballotViewer */
+/* --BALLOTVIEWER-- */
 .theCard {
   grid-row: 1;
   grid-column: 1;
@@ -234,51 +258,45 @@ button.viewBallots.jump {
   flex-direction: row;
   justify-content: center;
   order: 3;
-  margin-left: 10px;
+  margin-left: 10px; /* A fudge from direct center to account for rules button visual weight */
   flex-grow: 1;
 }
 
 .theQuestion {
   font-family: 'BackIssuesBB';
-  font-size: 4vmax;
+  font-size: $fontsize-theQuestion;
   color: $color-text-dark;
 }
 
 @media (min-aspect-ratio: 2/1) {
   .theQuestion {
-    font-size: calc(6vh + 10px);
+    font-size: $fontsize-theQuestion-longAndShort;
   }
 }
 
 @font-face {
   font-family: 'Back Issues BB';
-  src: url("BackIssuesBB.woff2") format('woff2'), url("BackIssuesBB.woff") format('woff');
+  src: url("BackIssuesBB.woff2") format('woff2'), url("BackIssuesBB.woff") format('woff'); /*TODO: Do we need both of these files? */
   font-weight: normal;
   font-style: normal;
 }
-@font-face {
-  font-family: 'Komika Axis';
-  src: url("KomikaAxis.woff2") format('woff2'), url("KomikaAxis.woff") format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
+// @font-face {
+//   font-family: 'Komika Axis';
+//   src: url("KomikaAxis.woff2") format('woff2'), url("KomikaAxis.woff") format('woff');
+//   font-weight: normal;
+//   font-style: normal;
+// }
 
 .loadingIndicator {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 200px;
-  height: 200px;
-  margin: -100px 0 0 -100px;
+  width: $width-loading-indicator;
+  height: $width-loading-indicator;
+  margin: calc(-#{$width-loading-indicator} / 2) 0 0 calc(-#{$width-loading-indicator} / 2});
   opacity: 0.5;
   animation: growPartial 0.4s ease-out infinite;
   animation-direction: alternate;
-}
-@keyframes spin {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
 }
 
 .ballotViewer {
@@ -410,22 +428,22 @@ button.viewBallots.jump {
   order: 1;
   transform: translateX(-100vw);
   animation-name: comeInFromLeft;
-  animation-duration: 1.1s;
+  animation-duration: $time-duration-cardAppear;
   animation-fill-mode: forwards;
-  animation-delay: 1.6s;
+  animation-delay: $time-leftCardAppear;
 }
 
 .incomingright {
   order: 2;
   transform: translateX(100vw);
   animation-name: comeInFromRight;
-  animation-duration: 1.1s;
+  animation-duration: $time-duration-cardAppear;
   animation-fill-mode: forwards;
-  animation-delay: 3.2s;
+  animation-delay: $time-rightCardAppear;
 }
 @keyframes comeInFromLeft {
   from {
-    transform: translateX(-100vw);
+    transform: translateX(-100vw) ;
   }
 
   to {
@@ -460,7 +478,7 @@ button.viewBallots.jump {
 
 .animalName {
   font-family: 'Special Elite';
-  font-size: 2.75vmax;
+  font-size: $fontsize-animalName;
 }
 
 .hidden {
@@ -524,7 +542,7 @@ button.viewBallots.jump {
 
 .rankingsHeaderTitle {
   font-family: 'Special Elite';
-  font-size: 32px;
+  font-size: $fontsize-rankingsHeaderTitle;
   color: $color-text-light;
   text-shadow: 0 2px 2px rgba(0,0,0,0.4);
 }
@@ -545,12 +563,12 @@ button.viewBallots.jump {
 }
 
 .rank {
-  font-size: 32px;
+  font-size: $fontsize-rank;
   margin-right: 12px;
 }
 
 .animalListing img {
-  height: 75px;
+  height: $height-animalListing-image;
   padding-left: 15px;
 }
 
@@ -576,9 +594,9 @@ button.viewBallots.jump {
 
 .ballotBox.jump {
   animation-name: jump;
-  animation-duration: 0.65s;
+  animation-duration: $time-duration-jumping;
   animation-timing-function: linear;
-  animation-delay: 0.35s;
+  animation-delay: $time-startJumping;
 }
 @keyframes jump {
   20%,
@@ -596,20 +614,20 @@ button.viewBallots.jump {
   43% {
     -webkit-animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
     animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
-    -webkit-transform: translate3d(0, -30px, 0);
-    transform: translate3d(0, -30px, 0);
+    -webkit-transform: translate3d(0, calc(-#{$animate-jump-height}), 0);
+    transform: translate3d(0, calc(-#{$animate-jump-height}), 0);
   }
 
   70% {
     -webkit-animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
     animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
-    -webkit-transform: translate3d(0, -15px, 0);
-    transform: translate3d(0, -15px, 0);
+    -webkit-transform: translate3d(0, calc(-#{$animate-jump-height} / 2), 0);
+    transform: translate3d(0, calc(-#{$animate-jump-height} / 2), 0);
   }
 
   90% {
-    -webkit-transform: translate3d(0,-4px,0);
-    transform: translate3d(0,-4px,0);
+    -webkit-transform: translate3d(0,calc(-#{$animate-jump-height} / 6),0);
+    transform: translate3d(0,calc(-#{$animate-jump-height} / 6),0);
   }
 }
 
@@ -623,14 +641,14 @@ button.viewBallots.jump {
 
 .resultsPanel {
   height: $height-results-panel;
-  z-index: 50;
+  /* Used to have a z-index. Removed. If something is wrong consider z-index: 50 */
 }
 
 .rankingsPanel {
   overflow: auto;
   height: calc(100vh - #{$height-header});
-  padding-left: 5vw;
-  padding-right: 5vw;
+  padding-left: $width-padding;
+  padding-right: $width-padding;
 }
 
 
@@ -668,13 +686,13 @@ button.viewBallots.jump {
 
 .contents.show_rankings {
   animation-name: showRankings;
-  animation-duration: 0.55s;
+  animation-duration: $time-duration-moveContent;
   animation-fill-mode: forwards;
 }
 
 .contents.show_ballots {
   animation-name: showBallots;
-  animation-duration: 0.55s;
+  animation-duration: $time-duration-moveContent;
   animation-fill-mode: forwards;
 }
 /* aspect-ratio-specific */
