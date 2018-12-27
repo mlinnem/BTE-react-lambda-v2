@@ -11,7 +11,7 @@ exports.handler =  (event) => {
       console.log("ARRRRRR");
       console.log(animalsResponse);
       var animals = animalsResponse.Item.Animals;
-      var sortedAnimals = getAnimalIDsInRankOrder(animals);
+      var animalIDsInRankOrder = getAnimalIDsInRankOrder(animals);
       const response = {
         statusCode: 200,
         headers: {
