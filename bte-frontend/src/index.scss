@@ -6,7 +6,7 @@
 
 
 $height-header: calc(40px + 5vmin);
-$height-rankings-header: 80px;
+$height-rankings-header: 100px;
 $height-button: 35px;
 $height-spacer: 0px;
 $height-animalListing-image: 75px;
@@ -557,7 +557,7 @@ button.viewBallots.jump {
 
 .cardWrapper:active:hover {
     animation-name: punchDown;
-    animation-duration: 2s;
+    animation-duration: 1.5s;
     animation-duration: ease-out;
     animation-fill-mode: forwards;
 }
@@ -565,7 +565,7 @@ button.viewBallots.jump {
 .cardWrapper.votedFor {
   //transform: perspective(200px) translateZ(-40px);
   animation-name: pullUp;
-  animation-duration: .04s;
+  animation-duration: .6s;
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
 }
@@ -776,11 +776,9 @@ button.viewBallots.jump {
 
 @keyframes punchDown {
 
-  0% {
-    transform: perspective(200px) translateZ(0px);
-  }
+
   100% {
-    transform: perspective(200px) translateZ(-80px);
+    transform: perspective(200px) translateZ(-50px);
   }
 
 
@@ -788,11 +786,12 @@ button.viewBallots.jump {
 
 @keyframes pullUp {
 
-  50% {
+  25% {
     transform: perspective(200px) translateZ(-30px);
   }
+
   100% {
-    transform: perspective(200px) translateZ(-20px);
+    transform: perspective(200px) translateZ(-25px);
   }
 
 
