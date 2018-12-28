@@ -10,6 +10,9 @@ const PENDINGBALLOTID_PREFIX = "ballot_";
 var io = new AWS.DynamoDB.DocumentClient({apiVersion: '2018-10-01'});
 
 exports.handler = (event) => {
+    t("Parsing event", 1);
+    t_o(event);
+
     var authKey = event["queryStringParameters"]['authkey'];
     var ipAddress = event['requestContext']['identity']['sourceIp'];
 

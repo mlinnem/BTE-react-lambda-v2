@@ -20,19 +20,19 @@ async function getAnimals() {
 }
 
 function generateResponse(animals, rankings) {
-    const response = {
-        statusCode: 200,
-        headers: {
-          "Access-Control-Allow-Origin" : "*",
-          "Access-Control-Allow-Methods" : "*",
-          "Access-Control-Allow-Headers" : "*"},
-        body: JSON.stringify({
-          "AnimalStore" : animals,
-          "AnimalIDsInRankOrder" : rankings
-        })
-      };
-      console.log(response);
-      return response;
+  const response = {
+  statusCode: 200,
+  headers: {
+    "Access-Control-Allow-Origin" : "*",
+    "Access-Control-Allow-Methods" : "*",
+    "Access-Control-Allow-Headers" : "*"},
+  body: JSON.stringify({
+    "AnimalStore" : animals,
+    "AnimalIDsInRankOrder" : rankings
+  })
+};
+console.log(response);
+return response;
 }
 
 
