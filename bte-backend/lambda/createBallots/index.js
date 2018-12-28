@@ -4,7 +4,7 @@ AWS.config.update({region: 'us-east-1'});
 const crypto = require("crypto");
 
 const MAX_PENDING_BALLOTS = 15;
-const PENDINGBALLOTID_PREFIX = "ballot_"
+const PENDINGBALLOTID_PREFIX = "ballot_";
 
 
 var io = new AWS.DynamoDB.DocumentClient({apiVersion: '2018-10-01'});
@@ -16,7 +16,7 @@ exports.handler = (event) => {
     console.log("authKey");
     console.log(authKey);
     return createBallots(authKey, ipAddress);
-}
+};
 
 //--Main--
 
@@ -54,7 +54,21 @@ async function createBallots(authKey, ipAddress) {
 
 //--LOGIC--
 
-function makeWriteNewBallotsStatement(authKey, newBallots, sessionData, ipAddress) {
+function determineNewBallotsNeeded(sessionData) {
+  var ballotsPending = 0;
+  var keys = Object.keys(sessionData);
+  for (let key of keys) {
+    var sessionRecord = sessionData[key];
+    if (sessionRecord.PendingBallotID.startsWith(PENDINGBALLOTID_PREFIX)) {
+      ballotsPending = ballotsPending + 1;
+    }
+  }
+
+  return MAX_PENDING_BALLOTS - ballotsPending;
+}
+
+
+function makeWriteNewBallotsStatement(authKey, pendingBallots, sessionData, ipAddress) {
     var putRequests = [];
     for (var pendingBallot of pendingBallots) {
       var putRequest = {
@@ -118,19 +132,6 @@ function generateNewBallots(rankings, sessionData) {
      return newBallots;
 }
 
-function determineNewBallotsNeeded(sessionData) {
-  var ballotsPending = 0;
-  var keys = Object.keys(sessionData);
-  for (let key of keys) {
-    var sessionRecord = sessionData[key];
-    if (sessionRecord.PendingBallotID.startsWith(PENDINGBALLOTID_PREFIX)) {
-      ballotsPending = ballotsPending + 1;
-    }
-  }
-
-  return MAX_PENDING_BALLOTS - ballotsPending;
-}
-
 function makeResponse(ballots) {
     console.log("Outgoing response...");
       const response = {
@@ -156,7 +157,7 @@ function backend_getAnimalRankings() {
   TableName: "SummaryStatistics"
  };
  t("request:", 2);
- t()
+ t_o(get_params);
  return io.get(get_params).promise().then((result) => {
    t("result:", 2);
    console.log(result);
@@ -166,52 +167,28 @@ function backend_getAnimalRankings() {
  });
 }
 
-
-
-//--Backend functions--
-
-
-
-
-
-
-function backend_getAuthKey(authKey) {
-    console.log("GETTING AUTH KEY");
-     var query_params = {
+function backend_getSessionData(authKey) {
+  var query_params = {
     TableName : 'PendingBallots',
-    KeyConditionExpression : "SessionID = :authKey AND begins_with(PendingBallotID, :session)",
+    KeyConditionExpression : "SessionID = :authKey",
     ExpressionAttributeValues : {
         ":authKey" : authKey,
-        ":session" : "session"
     }
   };
 
+    t("request:", 2);
+    t_o(query_params);
 
-    console.log("get params:");
-    console.log(query_params);
-    return io.query(query_params).promise()
-    .then((result) => {
-      console.log("get Auth Key result:");
-      console.log(result);
-      return result.Item.
-    });
-}
-
-function backend_getAnimalRankings() {
-  var get_params = {
-  "Key": {
-   "Statistic": "Rankings",
-  },
-  TableName: "SummaryStatistics"
- };
-
- return io.get(get_params).promise().then((result) => {
-    t("get rankings result:", 2);
+  return io.query(query_params).promise()
+  .then((result) => {
+    t("response:", 2);
     t_o(result);
-   return result.Item.Value;
- }).catch((error) => {
-   return error;
- });
+    return result.Items;
+  })
+  .catch((error) => {
+    t(error);
+    return error;
+  });
 }
 
 //--Utility functions--
@@ -224,13 +201,6 @@ function coinFlip() {
   return Math.random() > .5;
 }
 
-function calculateBallotsToProvide(pendingBallots) {
-  var num = 15 - pendingBallots.length;
-  console.log("CURRENTLY WAITING ON " + pendingBallots.length + " BALLOTS");
-  console.log("GENERATING AND SENDING " + num + " NEW ONES");
-  return num;
-}
-
 function getUniqueID() {
   return crypto.randomBytes(16).toString('base64');
 }
@@ -241,9 +211,9 @@ function getCurrentTime_InEpochSecondsFormat() {
 
 function t(message, indention = 0) {
   var spacing = "";
-  for (int i = 0; i < indention; i++) {
+  for (let i = 0; i < indention; i++) {
     spacing = spacing + "    ";
-  };
+  }
   console.log(spacing + message);
 }
 
