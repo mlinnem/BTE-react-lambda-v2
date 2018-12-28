@@ -80,7 +80,7 @@ button {
   width: $width-button;
   outline: none;
   cursor: pointer;
-  font-family: 'Roboto Slab', 'Komika Axis';
+  font-family: 'Roboto Slab', 'Komika Axis', "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   letter-spacing: 2px;
 }
 
@@ -215,13 +215,13 @@ button.viewBallots.jump {
 }
 
 .rulesModalTitle {
-  font-family: 'Special Elite';
+  font-family: 'Special Elite', "Courier New", Courier, monospace;
   font-size: $fontsize-rulesModalTitle;
 }
 
 .rulesModalBody {
   margin: $padding-modal $padding-modal calc(#{$padding-modal} + 20px);
-  font-family: 'Special Elite';
+  font-family: 'Special Elite', "Courier New", Courier, monospace;
   font-size: $fontsize-rulesModalBody;
 }
 
@@ -269,7 +269,7 @@ button.viewBallots.jump {
   font-size: $fontsize-headerText;
   margin-left: $width-padding;
   text-shadow: 0 0.8vmin rgba(0,0,0,0.2);
-  font-family: 'Alfa Slab One'
+  font-family: 'Alfa Slab One', 'Komika Axis', "Arial Black", sans-serif;
   /* Or Komika Axis */
 }
 
@@ -306,7 +306,7 @@ button.viewBallots.jump {
 }
 
 .theQuestion {
-  font-family: 'BackIssuesBB';
+  font-family:  "BackIssuesBB", "Arial Black", Gadget, sans-serif;
   font-size: $fontsize-theQuestion;
   color: $color-text-dark;
 }
@@ -527,7 +527,7 @@ button.viewBallots.jump {
 }
 
 .animalName {
-  font-family: 'Special Elite';
+  font-family: 'Special Elite', 'Helvetica', 'Arial', sans-serif;
   font-size: $fontsize-animalName;
 }
 
@@ -725,7 +725,7 @@ button.viewBallots.jump {
 }
 
 .rankingsHeaderTitle {
-  font-family: 'Special Elite';
+  font-family: 'Special Elite', 'Helvetica', 'Arial', sans-serif;
   font-size: $fontsize-rankingsHeaderTitle;
   color: $color-text-light;
   text-shadow: 0 2px 2px rgba(0,0,0,0.4);
@@ -757,7 +757,7 @@ button.viewBallots.jump {
 }
 
 .animalListing {
-  font-family: 'Special Elite';
+  font-family: 'Special Elite', 'Helvetica', 'Arial', sans-serif;;
   font-size: 16pt;
   color: $color-text-light;
   text-shadow: 0 1px 1px rgba(0,0,0,0.6);
