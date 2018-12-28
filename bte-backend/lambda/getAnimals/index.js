@@ -26,10 +26,10 @@ function generateResponse(animals, rankings) {
     "Access-Control-Allow-Origin" : "*",
     "Access-Control-Allow-Methods" : "*",
     "Access-Control-Allow-Headers" : "*"},
-  body: JSON.stringify({
-    "AnimalStore" : animals,
-    "AnimalIDsInRankOrder" : rankings
-  })
+  body: {
+    "AnimalStore" : JSON.stringify(animals),
+    "AnimalIDsInRankOrder" : JSON.stringify(rankings)
+  }
 };
 console.log(response);
 return response;

@@ -22,6 +22,10 @@ render () {
     votedFor = "votedFor";
   }
 
+  if (!this.props.animal) {
+    return "Failure to load animal with ID: " + this.props.id; //TODO: Have a general error display mechanism
+  }
+
   return (
 <span className={"outerCardWrapper " + this.props.side}>
   <span className={"cardWrapper " + this.props.side + " " + votedFor}>

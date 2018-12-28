@@ -28,7 +28,7 @@ type: 'RECEIVE_MORE_BALLOTS',
 ballots: ballots
 });
 export const failReceiveMoreBallots = () => ({
-type: 'FAIL_RECEIVE_MORE_g',
+type: 'FAIL_RECEIVE_MORE_BALLOTS',
 });
 export const requestAuthKey= () => ({
 type: "REQUEST_AUTH_KEY",
@@ -184,9 +184,9 @@ return (dispatch, getState) => {
         console.log("FETCHING ANIMALS SUCCEEDED");
         console.log("response:");
         console.log(response);
-        var body = JSON.parse(response.data.body);
-        var animalStore = body.AnimalStore;
-        var animalIDsInRankOrder = body.AnimalIDsInRankOrder;
+        var body = response.data.body;
+        var animalStore = JSON.parse(body.AnimalStore);
+        var animalIDsInRankOrder = JSON.parse(body.AnimalIDsInRankOrder);
         dispatch(receiveLatestAnimals(animalStore, animalIDsInRankOrder));
       }, function (error){
         console.error(error);

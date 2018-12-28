@@ -125,7 +125,7 @@ function generateNewBallots(rankings, sessionData) {
                   animal_1_num = animal_2_num;
                   animal_2_num = temp;
                 }
-                 var ballot = {"Animal1ID " : rankings[animal_1_num], "Animal2ID" : rankings[animal_2_num]};
+                 var ballot = {"Animal1ID" : rankings[animal_1_num], "Animal2ID" : rankings[animal_2_num]};
                   const uniqueID = getUniqueID();
                   ballot.ID = PENDINGBALLOTID_PREFIX + uniqueID;
                   newBallots.push(ballot);
