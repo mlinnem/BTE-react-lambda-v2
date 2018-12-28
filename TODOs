@@ -4,7 +4,6 @@ ARIA roles
 
 Credits for images
 
-Do font fallbacks
 
 Backup of dynamodb tables
 
@@ -16,25 +15,37 @@ Two raccoons
 
 Make loading indicator shrink out.
 
-
 Matchups aren't legit. Need to fix!!!
+
+Load initial state rather than weird null states for UI stuff.
 =====
 
 Verify that submittedBallots are really being recorded.
 
 Need to work on createBallots, specifically writing the new ballots back to the session, and also striking them from the session in the 'submitBallots' function.
 
-Write code to trim old sessions
+
 
 Something off with suffix of ballot IDs
 
 
-Split up Animals so sort key is animal. Also look into idempotent counters.
+Split up Animals so sort key is animal.
 
 Name authkey to sessionID
 
 Put magic numbers into environment variables
 
+===========
+
+DONE
+
+Do font fallbacks
+
+ Also look into idempotent counters.
+
+ X Write code to trim old sessions
+
+===========
 
 
 
@@ -126,6 +137,17 @@ Prairie Dog XX
 
 ====
 
+Matchups:
+  <0,1>: LOWER ID ALWAYS FIRST
+
+Look-ups:
+  For a given pair:
+    % Wins for each.
+    Look up by pair of IDs:
+  For an animal:
+    Arch-nemesis: , highest loss % relative to, (greater than 20%.) - Of all pairings
+    Closest match: Wins% - Loss% = minimum - Of all pairings
+====
 
 
 Rules:
