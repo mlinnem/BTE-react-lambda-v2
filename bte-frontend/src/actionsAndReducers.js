@@ -383,7 +383,7 @@ switch (action.type) {
 }
 }
 
-const FOCUSAREA = {
+export const FOCUSAREA = {
   INITIAL : "show_initial",
   BALLOTVIEWER: "show_ballots",
   RANKINGS: "show_rankings"

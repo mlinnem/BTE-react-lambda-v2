@@ -2,20 +2,23 @@
 import React from 'react';
 import './index.scss';
 import * as ar from "./actionsAndReducers";
-import AnimalListing from "./AnimalListing"
+import AnimalListing from "./AnimalListing";
+import ReactDOM from 'react-dom';
 const ReactRedux = require('react-redux');
-
 
 const rankingsPanel_mapStateToProps = (state, ownProps) => {return {
 animalStore : state.animals.animalStore,
 rankOrder: state.animals.rankOrder,
-shouldBeJumping: state.ui.ballotBoxShouldBeJumping,
+focusArea : state.ui.focusArea
+
 }};
 class RankingsPanel_View extends React.Component {
 render() {
-  var jump = "";
-  if (this.props.shouldBeJumping) {
-    jump = "jump";
+
+
+  if (this.props.focusArea === ar.FOCUSAREA.RANKINGS) {
+    const node = ReactDOM.findDOMNode(this);
+    node.scrollTop = 0;
   }
 
     var animalListings = [];
