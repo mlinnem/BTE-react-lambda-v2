@@ -38,6 +38,7 @@ $animate-button-amount: 4px;
 $animate-jump-height: 40px;
 
 $box-shadow-modal: 0 6px 6px rgba(0,0,0,.2);
+$box-shadow-header: 0 7px 4px rgba(0,0,0,0.2);
 
 $z-index-highest-possible: 987654321;
 $z-index-highest-except-modals: 5000;
@@ -260,7 +261,7 @@ button.viewBallots.jump {
   align-items: center;
   letter-spacing: 1px;
   background-color: $color-highlight-main;
-  box-shadow: 0 7px 4px rgba(0,0,0,0.2);
+  box-shadow: $box-shadow-header;
 }
 
 .header-text {
@@ -287,6 +288,7 @@ button.viewBallots.jump {
   justify-content: center;
   flex-direction: column;
 }
+
 
 .cardHover {
   grid-row: 1;
@@ -547,16 +549,26 @@ button.viewBallots.jump {
   background-position: top 5% left 5%;
   background-repeat: no-repeat;
   opacity: 0;
+
+}
+
+.cardAndHover {
+    box-shadow: 0 6px 6px rgba(0,0,0,.2); /* 0px 0px 160px rgba(0,0,0,.2); */
 }
 
 
 .cardHover:hover {
   opacity: 0.5;
+
+
 }
 
-// .cardHover:active:hover {
-//   opacity: 1.0;
-// }
+.cardHover:active:hover {
+  animation-name: getReady;
+  animation-duration: 3s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
 
 .cardWrapper:active:hover {
     animation-name: punchDown;
@@ -568,10 +580,18 @@ button.viewBallots.jump {
 .cardWrapper.votedFor {
   //transform: perspective(200px) translateZ(-30px);
   animation-name: pullUp;
-  animation-duration: .1s;
+  animation-duration: .05s;
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
+
 }
+
+.cardWrapper.votedFor .cardAndHover {
+      box-shadow: 0px 0px 12px rgba(0,0,0,.3);
+}
+
+
+
 
 .cardHover.votedFor {
     opacity: 1.0;
@@ -777,15 +797,15 @@ button.viewBallots.jump {
 //   }
 // }
 
-@keyframes punchDown {
-
-
-  100% {
-    transform: perspective(200px) translateZ(-45px);
-  }
-
-
-}
+  // @keyframes punchDown {
+  //
+  //
+  //   // 100% {
+  //   //   transform: perspective(200px) translateZ(-10px);
+  //   // }
+  //
+  //
+  // }
 
 @keyframes pullUp {
   100% {
@@ -794,6 +814,13 @@ button.viewBallots.jump {
 
 
 }
+
+@keyframes getReady {
+  100% {
+    transform: perspective(200px) translateZ(40px);
+  }
+}
+
 
 
 @keyframes jump {
@@ -957,7 +984,7 @@ video {
 
 body {
   line-height: 1;
-  background-color: $color-background !important;
+  background-color: $color-highlight-main !important;
 }
 
 article,
