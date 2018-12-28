@@ -3,7 +3,9 @@ AWS.config.update({region: 'us-east-1'});
 
 const crypto = require("crypto");
 
-var ddb = new AWS.DynamoDB({apiVersion: '2018-10-01'});
+const MAX_PENDING_BALLOTS = 15;
+const PENDINGBALLOTID_PREFIX = "ballot_"
+
 
 var io = new AWS.DynamoDB.DocumentClient({apiVersion: '2018-10-01'});
 
@@ -18,65 +20,118 @@ exports.handler = (event) => {
 
 //--Main--
 
-function createBallots(authKey, ipAddress) {
-    return confirmAuthKeyIsReal(authKey, ipAddress)
-    .then(getAnimalsAndPendingBallots)
-    .then(generateNewBallotsAndWriteToPendingBallots)
-    .then(returnBallots)
-    .catch(logError);
-};
+async function createBallots(authKey, ipAddress) {
 
-async function confirmAuthKeyIsReal(authKey, ipAddress) {
-    var result = await backend_getAuthKey(authKey); //TODO: This could be more efficiently combined with the general read operation. If 0 pendingBallots are returned it's fishy.
-    console.log("result of getAuthKey:");
-    console.log(result);
-    if (result.Items.length == 1) {
-        return [authKey, ipAddress];
-    } else {
-        throw "Auth key is a sham! Abort!"; //TODO: This is a signal that tomfoolery is occurring, or code is wrong.
+  t("Prepare to get all the session data for this authKey.", 1);
+  var getSessionDataPromise = backend_getSessionData(authKey);
+
+  t("Prepare to get animal rankings.", 1);
+  var getAnimalRankingsPromise = backend_getAnimalRankings();
+
+  t("Get session data and animal rankings.", 1);
+  var sessionData, animalRankings;
+  [sessionData, animalRankings] = await Promise.all([getSessionDataPromise, getAnimalRankingsPromise]);
+
+  t("Short circuit if authkey is not legit.", 1);
+  if (sessionData.length == 0) {
+    throw "Naughty naughty";
+    //TODO: This should probably be logged as a security issue.
+  }
+
+  t("Generate new ballots.", 1);
+  var newBallots = generateNewBallots(animalRankings, sessionData);
+
+  t("Prepare to write new pending ballots to backend.", 1);
+  var writeNewBallotsPromise = makeWriteNewBallotsStatement(authKey, newBallots, ipAddress);
+
+  t("Write pending ballots to backend, and confirm it worked", 1);
+  var writeResult;
+  [writeResult] = await Promise.all([writeNewBallotsPromise]);
+
+  t("Return pending ballots.", 1);
+  return makeResponse(newBallots);
+}
+
+//--LOGIC--
+
+function makeWriteNewBallotsStatement(authKey, newBallots, sessionData, ipAddress) {
+    var putRequests = [];
+    for (var pendingBallot of pendingBallots) {
+      var putRequest = {
+        PutRequest: {
+          Item: {
+            SessionID: authKey,
+            PendingBallotID: pendingBallot.ID,
+            Animal1ID: pendingBallot.Animal1ID,
+            Animal2ID: pendingBallot.Animal2ID,
+            CreatedAt: getCurrentTime_InEpochSecondsFormat(),
+            IPAddress: ipAddress
+          }
+        }
+      };
+      putRequests.push(putRequest);
     }
 
-}
+    var batchWrite_params = {
+      RequestItems: {
+          'PendingBallots': putRequests
+      }
+    };
 
-function getAnimalsAndPendingBallots(authKey_and_ipAddress) {
-    return Promise.all([getAnimals(), getPendingBallots(authKey_and_ipAddress[0])])
+      t("request:", 2);
+      t_o(batchWrite_params);
+    return io.batchWrite(batchWrite_params).promise()
     .then((result) => {
-        var authKey_and_animals_and_pendingBallots = [authKey_and_ipAddress[0], result[0], result[1], authKey_and_ipAddress[1]];
-        return authKey_and_animals_and_pendingBallots;
+      console.log("result:");
+      console.log(result);
+      return result; //TODO: Determine if it fails or not and return?
     });
+  }
+
+function generateNewBallots(rankings, sessionData) {
+      var newBallotsNeeded = determineNewBallotsNeeded(sessionData);
+
+      var newBallots = [];
+          for (var i=0; i < newBallotsNeeded; i++) {
+              t("I is " + i, 2);
+              var animal_1_num = 0;
+              var animal_2_num = 0;
+              animal_1_num = getRandomInt(0, rankings.length - 1);
+              if (animal_1_num > 0) {
+                  animal_2_num = animal_1_num - 1;
+              } else {
+                  animal_2_num = animal_1_num + 1;
+              }
+              if (coinFlip()) {
+                  //SWAP
+                  var temp = animal_1_num;
+                  animal_1_num = animal_2_num;
+                  animal_2_num = temp;
+                }
+                 var ballot = {"Animal1ID " : rankings[animal_1_num], "Animal2ID" : rankings[animal_2_num]};
+                  const uniqueID = getUniqueID();
+                  ballot.ID = PENDINGBALLOTID_PREFIX + uniqueID;
+                  newBallots.push(ballot);
+                  t("New ballots is now", 2);
+                  t(newBallots, 2);
+                 }
+     return newBallots;
 }
 
-function getPendingBallots(authKey) {
-    return backend_getPendingBallots(authKey)
-    .then((pendingBallots) => {
-        console.log("pendingBallots:");
-        console.log(pendingBallots.Items);
-        return pendingBallots.Items;
-    });
+function determineNewBallotsNeeded(sessionData) {
+  var ballotsPending = 0;
+  var keys = Object.keys(sessionData);
+  for (let key of keys) {
+    var sessionRecord = sessionData[key];
+    if (sessionRecord.PendingBallotID.startsWith(PENDINGBALLOTID_PREFIX)) {
+      ballotsPending = ballotsPending + 1;
+    }
+  }
+
+  return MAX_PENDING_BALLOTS - ballotsPending;
 }
 
-async function generateNewBallotsAndWriteToPendingBallots(authKey_and_animals_and_pendingBallots_and_ipAddress) {
-      console.log("generateNewBallotsAndWriteToPendingBallots");
-      console.log(authKey_and_animals_and_pendingBallots_and_ipAddress);
-
-      var authKey = authKey_and_animals_and_pendingBallots_and_ipAddress[0];
-      var animals = authKey_and_animals_and_pendingBallots_and_ipAddress[1];
-      var pendingBallots = authKey_and_animals_and_pendingBallots_and_ipAddress[2];
-      var ipAddress = authKey_and_animals_and_pendingBallots_and_ipAddress[3];
-
-      var animalCount = animals; //TODO: It was really animalCount all along. Refactor
-
-      var newBallotsNeeded = calculateBallotsToProvide(pendingBallots);
-
-      var newBallots = generateNewBallots(newBallotsNeeded, animalCount);
-      await writeNewBallotsToPendingBallots(authKey, newBallots, ipAddress)
-      .catch(logError);
-
-      return newBallots;
-}
-
-
-function returnBallots(ballots) {
+function makeResponse(ballots) {
     console.log("Outgoing response...");
       const response = {
           "statusCode": 200,
@@ -90,124 +145,35 @@ function returnBallots(ballots) {
       return response;
 }
 
-//--Backend functions--
 
+//--BACKEND--
 
-function batchWritePendingBallots(authKey, pendingBallots, ipAddress) {
-  console.log("BATCH WRITNG PENDING BALLOTS");
-  var putRequests = [];
-  for (var pendingBallot of pendingBallots) {
-    var putRequest = {
-      PutRequest: {
-        Item: {
-          SessionID: authKey,
-          PendingBallotID: pendingBallot.ID,
-          Animal1ID: pendingBallot.Animal1ID,
-          Animal2ID: pendingBallot.Animal2ID,
-          CreatedAt: getCurrentTime_InEpochSecondsFormat(),
-          IPAddress: ipAddress
-        }
-      }
-    };
-    putRequests.push(putRequest);
-  }
-
-  var batchWrite_params = {
-    RequestItems: {
-        'PendingBallots': putRequests
-    }
-  };
-
-    console.log("batchWrite_params:");
-    console.log(batchWrite_params);
-  return io.batchWrite(batchWrite_params).promise();
-}
-
-// function writeSession(session) {
-//       var put_params = {
-//         Item: session.Item,
-//         TableName: 'AuthKey_To_Ballots'
-//       };
-//
-//       console.log("Attempting to write session..., params are");
-//       console.log(put_params);
-//       var request = io.put(put_params);
-//
-//       var promise = request.promise();
-//       return promise;
-// }
-
-function getAnimals() {
+function backend_getAnimalRankings() {
   var get_params = {
   "Key": {
-   "Statistic": "AnimalCount",
+   "Statistic": "Rankings",
   },
   TableName: "SummaryStatistics"
  };
-
- console.log("Get Animals params");
- console.log(get_params);
- var request = io.get(get_params);
- var promise = request.promise().then((result) => {
-   console.log("animals result:");
+ t("request:", 2);
+ t()
+ return io.get(get_params).promise().then((result) => {
+   t("result:", 2);
    console.log(result);
    return result.Item.Value;
  }).catch((error) => {
-   console.log(error);
    return error;
  });
- return promise;
 }
 
-//TODO: Shared with other functions. Should maybe be abstracted out.
-// function getSession(authkey) {
-//     console.log("Authkey in session");
-//     console.log(authkey);
-//     var get_params = {
-//   Key: {
-//    "AuthKey": authkey,
-//   },
-//   TableName: "AuthKey_To_Ballots"
-//  };
-//
-//  console.log("Get Session params");
-//  console.log(get_params);
-//  var request = io.get(get_params);
-//  var promise = request.promise();
-//  return promise;
-// }
 
-const PENDINGBALLOTID_PREFIX = "ballot_"
 
-function backend_getPendingBallots(authKey) {
-    console.log("GETTING PENDING BALLOTS");
-  var query_params = {
-    TableName : 'PendingBallots',
-    KeyConditionExpression : "SessionID = :authKey AND begins_with(PendingBallotID, :pendingBallotID_prefix)",
-    ExpressionAttributeValues : {
-        ":authKey" : authKey,
-        ":pendingBallotID_prefix" : PENDINGBALLOTID_PREFIX
-    }
-  };
+//--Backend functions--
 
-//   var params = {
-//   RequestItems: {
-//     'PendingBallots': {
-//       Keys: [
-//         {'KEY_NAME': {N: 'KEY_VALUE_1'}},
-//         {'KEY_NAME': {N: 'KEY_VALUE_2'}},
-//         {'KEY_NAME': {N: 'KEY_VALUE_3'}}
-//       ],
-//       ProjectionExpression: 'KEY_NAME, ATTRIBUTE'
-//     }
-//   }
-// };
 
-    console.log("query params:");
-    console.log(query_params);
 
-  return io.query(query_params).promise();
-}
+
+
 
 function backend_getAuthKey(authKey) {
     console.log("GETTING AUTH KEY");
@@ -223,48 +189,39 @@ function backend_getAuthKey(authKey) {
 
     console.log("get params:");
     console.log(query_params);
-    return io.query(query_params).promise();
+    return io.query(query_params).promise()
+    .then((result) => {
+      console.log("get Auth Key result:");
+      console.log(result);
+      return result.Item.
+    });
+}
+
+function backend_getAnimalRankings() {
+  var get_params = {
+  "Key": {
+   "Statistic": "Rankings",
+  },
+  TableName: "SummaryStatistics"
+ };
+
+ return io.get(get_params).promise().then((result) => {
+    t("get rankings result:", 2);
+    t_o(result);
+   return result.Item.Value;
+ }).catch((error) => {
+   return error;
+ });
 }
 
 //--Utility functions--
 
-function writeNewBallotsToPendingBallots(authKey, newBallots, ipAddress) {
-  //TODO: This can maybe occur asynchronously with respect to just returning the ballots to the user.
-  //BUT they have to be written before the user tries to submit the ballot, otherwise backend will think it's bogus.
-     return batchWritePendingBallots(authKey, newBallots, ipAddress);
-}
-
-function generateNewBallots(newBallotsNeeded, animalCount) {
-    var newBallots = [];
-        for (var i=0; i < newBallotsNeeded; i++) {
-            console.log("I is " + i);
-            var animal_1_num = 0;
-            var animal_2_num = 0;
-            //TODO: This will become a problem if the valid ID list is ever sparse (i.e. we remove an ID).
-            animal_1_num = getRandomInt(0, animalCount - 1);
-            if (animal_1_num > 0) {
-                animal_2_num = animal_1_num - 1;
-            } else {
-                animal_2_num = animal_1_num + 1;
-            }
-            if (getRandomInt(0, 1) == 0) {
-                //SWAP
-                var temp = animal_1_num;
-                animal_1_num = animal_2_num;
-                animal_2_num = temp;
-              }
-               var ballot = {"Animal1ID" : animal_1_num, "Animal2ID" : animal_2_num};
-                const uniqueID = getUniqueID();
-               ballot.ID = PENDINGBALLOTID_PREFIX + uniqueID;
-                newBallots.push(ballot);
-                console.log("New ballots is now");
-                console.log(newBallots);
-               }
-                   return newBallots;
-        }
-
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function coinFlip() {
+  return Math.random() > .5;
 }
 
 function calculateBallotsToProvide(pendingBallots) {
@@ -274,29 +231,23 @@ function calculateBallotsToProvide(pendingBallots) {
   return num;
 }
 
-function getAnimalCount(animals) {
-  console.log("Animals in animal count");
-  console.log(animals);
-  var animalMap = animals.Item.Animals;
-  var count = Object.keys(animalMap).length;
-  return count;
-}
-
-
-function logError(error) {
-    console.error(error);
-}
-
 function getUniqueID() {
   return crypto.randomBytes(16).toString('base64');
 }
 
-function printOutput(object) {
-    console.log("print Output: " + typeof object);
-    console.log(object);
-    return object;
-}
-
 function getCurrentTime_InEpochSecondsFormat() {
     return Math.floor((new Date().getTime() / 1000));
+}
+
+function t(message, indention = 0) {
+  var spacing = "";
+  for (int i = 0; i < indention; i++) {
+    spacing = spacing + "    ";
+  };
+  console.log(spacing + message);
+}
+
+function t_o(message) {
+  //TODO: How to add indentation?
+  console.log(message);
 }
