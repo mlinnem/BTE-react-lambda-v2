@@ -7,5 +7,6 @@ cd lambda
 ../buildLambda.sh submitBallot
 ../buildLambda.sh updateIPData
 ../buildLambda.sh cleanUpStaleSessions
+../buildLambda.sh calculateStats
 cd ..
 ./buildS3.sh
