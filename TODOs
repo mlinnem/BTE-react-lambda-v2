@@ -4,6 +4,9 @@ ARIA roles
 
 Credits for images
 
+Check that there's no off by one issue when making ballot pairings.
+
+Get rid of obnoxious redux warning
 
 Backup of dynamodb tables
 
@@ -12,6 +15,8 @@ Set up forum or something? Subreddit?
 Weird animation performance issue when clicking/voting.
 
 Two raccoons
+
+Take a whack at Lighthouse complaints
 
 Make loading indicator shrink out.
 

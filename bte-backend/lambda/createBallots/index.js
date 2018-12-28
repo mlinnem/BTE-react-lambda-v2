@@ -64,7 +64,7 @@ async function generateNewBallotsAndWriteToPendingBallots(authKey_and_animals_an
       var pendingBallots = authKey_and_animals_and_pendingBallots_and_ipAddress[2];
       var ipAddress = authKey_and_animals_and_pendingBallots_and_ipAddress[3];
 
-      var animalCount = getAnimalCount(animals);
+      var animalCount = animals; //TODO: It was really animalCount all along. Refactor
 
       var newBallotsNeeded = calculateBallotsToProvide(pendingBallots);
 
@@ -140,15 +140,22 @@ function batchWritePendingBallots(authKey, pendingBallots, ipAddress) {
 function getAnimals() {
   var get_params = {
   "Key": {
-   "ID": "0",
+   "Statistic": "AnimalCount",
   },
-  TableName: "AllAnimals"
+  TableName: "SummaryStatistics"
  };
 
  console.log("Get Animals params");
  console.log(get_params);
  var request = io.get(get_params);
- var promise = request.promise();
+ var promise = request.promise().then((result) => {
+   console.log("animals result:");
+   console.log(result);
+   return result.Item.Value;
+ }).catch((error) => {
+   console.log(error);
+   return error;
+ });
  return promise;
 }
 
