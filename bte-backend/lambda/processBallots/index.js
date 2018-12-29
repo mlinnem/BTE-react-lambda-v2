@@ -7,7 +7,7 @@ apiVersion: '2018-10-01'
 exports.handler = async (event, context, callback) => {
   var ballots = event.Records;
   await processBallots(ballots);
-}
+};
 
 async function processBallots(ballots) {
   //TODO: Change to pull all messages off queue every 10 seconds or minute.
@@ -18,8 +18,8 @@ async function processBallots(ballots) {
   console.log("For each ballot...");
   for (let ballot of ballots) {
 
-    var winner = parseInt(ballot.messageAttributes.Winner.stringValue);
-    var loser = parseInt(ballot.messageAttributes.Loser.stringValue);
+    var winner = parseInt(ballot.messageAttributes.Winner.stringValue, 10);
+    var loser = parseInt(ballot.messageAttributes.Loser.stringValue, 10);
 
     console.log("    Record new wins for winning animal");
     animalUpdates = recordWin(animalUpdates, winner);
@@ -31,6 +31,7 @@ async function processBallots(ballots) {
   }
 
   var animalUpdateStatements = [];
+  var matchupUpdateStatements = [];
 
   console.log("For each changed animal...");
   for (let animalID of Object.keys(animalUpdates)) {
@@ -43,7 +44,7 @@ async function processBallots(ballots) {
 
   console.log("For each changed matchup...");
   for (let matchupID of Object.keys(matchupUpdates)) {
-    var matchupUpdate = matchup[matchupID];
+    var matchupUpdate = matchupUpdates[matchupID];
 
     console.log("    Plan to increment wins for winning animal");
     var matchupUpdateStatement = makeMatchupUpdateStatement(matchupUpdate, matchupID);
@@ -51,7 +52,10 @@ async function processBallots(ballots) {
   }
 
   console.log("For animals & matchups, write planned changes.");
-  await backend_writeAllUpdates(animalUpdateStatements, matchupUpdateStatement);
+  var writeResults = await backend_writeAllUpdates(animalUpdateStatements, matchupUpdateStatement);
+
+  t("response:", 2);
+  t_o(writeResults);
 }
 
 
@@ -60,7 +64,9 @@ function recordWin(animalUpdates, winner) {
   if (animalUpdate) {
     animalUpdate.Wins = animalUpdate.Wins + 1;
   } else {
+    animalUpdate = {};
     animalUpdate.Wins = 1;
+    animalUpdate.Losses = 0;
   }
 
   animalUpdates[winner] = animalUpdate;
@@ -72,10 +78,12 @@ function recordLoss(animalUpdates, loser) {
   if (animalUpdate) {
     animalUpdate.Losses = animalUpdate.Losses + 1;
   } else {
+    animalUpdate = {};
     animalUpdate.Losses = 1;
+    animalUpdate.Wins = 0;
   }
 
-  animalUpdates[winner] = animalUpdate;
+  animalUpdates[loser] = animalUpdate;
   return animalUpdates;
 }
 
@@ -88,11 +96,11 @@ function constructMatchupID (winner, loser) {
 }
 
 function recordMatchWin(matchUpdates, matchupID, winner, loser) {
-  var matchUpdate = matchUpdate[matchupID];
+  var matchUpdate = matchUpdates[matchupID];
   var winnerPlace = null;
   var loserPlace = null;
 
-  if (matchupID.startsWith(winner.toString()) {
+  if (matchupID.startsWith(winner.toString())) {
     winnerPlace = "Animal1Wins";
     loserPlace = "Animal2Wins";
   } else {
@@ -101,41 +109,50 @@ function recordMatchWin(matchUpdates, matchupID, winner, loser) {
   }
 
   if (matchUpdate) {
-    animalUpdate[animalPlace] = animalUpdate[animalPlace] + 1;
+    matchUpdate[winnerPlace] = matchUpdate[winnerPlace] + 1;
   } else {
-    animalUpdate[winnerPlace] = 1;
-    animalUpdate[loserPlace] = 0;
+    matchUpdate = {};
+    matchUpdate[winnerPlace] = 1;
+    matchUpdate[loserPlace] = 0;
   }
 
-  matchUpdates[matchupID] = animalUpdate;
+  matchUpdates[matchupID] = matchUpdate;
   return matchUpdates;
 }
 
 function makeAnimalUpdateStatement(animalUpdate, animalID) {
-  var updateParam = {
-  "TableName": "Animals",
-  "Key": {
-    "ID": animalID,
-  },
-  "UpdateExpression": 'ADD Wins :w_inc, Losses :l_inc',
-  "ExpressionAttributeValues": {
-    ":w_inc": animalUpdate.Wins,
-    ":l_inc": animalUpdate.Losses,
+  var updateParams = {
+    "TableName": "Animals",
+    "Key": {
+      "ID": parseInt(animalID,10),
+    },
+      "UpdateExpression": 'ADD Wins :w_inc, Losses :l_inc',
+      "ExpressionAttributeValues": {
+      ":w_inc": animalUpdate.Wins,
+      ":l_inc": animalUpdate.Losses,
+    }
   };
+
+  t("request:", 2);
+  t_o(updateParams);
 
   return updateParams;
 }
 function makeMatchupUpdateStatement(matchupUpdate, matchupID) {
-  var updateParam = {
+  var updateParams = {
   "TableName": "Matchups",
   "Key": {
-    "ID": matchupID,
+    "IDPair": matchupID,
   },
   "UpdateExpression": 'ADD Animal1Wins :one_inc, Animal2Wins :two_inc',
   "ExpressionAttributeValues": {
     ":one_inc": matchupUpdate.Animal1Wins,
     ":two_inc": matchupUpdate.Animal2Wins,
+    }
   };
+
+  t("request:", 2);
+  t_o(updateParams);
 
   return updateParams;
 }
@@ -146,4 +163,19 @@ function backend_writeAllUpdates(animalUpdateStatements, matchupUpdateStatements
   var statements = animalUpdateStatements.concat(matchupUpdateStatements);
   var promises = statements.map((statement) => {return io.update(statement).promise()});
   return Promise.all(promises);
+}
+
+//--UTILITY--
+
+function t(message, indention = 0) {
+  var spacing = "";
+  for (let i = 0; i < indention; i++) {
+    spacing = spacing + "    ";
+  }
+  console.log(spacing + message);
+}
+
+function t_o(message) {
+  //TODO: How to add indentation?
+  console.log(message);
 }
