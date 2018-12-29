@@ -47,16 +47,17 @@ async function createBallots(authKey, ipAddress) {
   var newBallots = generateNewBallots(animalRankings, sessionData);
 
   t("Get matchup data for each ballot", 1);
-  var matchupData = backend_getMatchupData(newBallots);
+  var matchupData = await backend_getMatchupData(newBallots);
 
+  t("Merge matchup data into ballots", 1);
   var newAnnotatedBallots = mergeMatchupDataIntoBallots(newBallots, matchupData);
 
   t("Prepare to write new pending ballots to backend.", 1);
   var writeNewBallotsPromise = makeWriteNewBallotsStatement(authKey, newAnnotatedBallots, ipAddress);
 
   t("Write pending ballots to backend, and confirm it worked", 1);
-  var writeResult;
-  [writeResult] = await Promise.all([writeNewBallotsPromise]);
+
+  var [writeResult] = await Promise.all([writeNewBallotsPromise]);
 
   t("Return pending ballots.", 1);
   return makeResponse(newBallots);
@@ -93,6 +94,9 @@ function makeWriteNewBallotsStatement(authKey, pendingBallots, sessionData, ipAd
           }
         }
       };
+
+      t("individual request:", 2);
+      t_o(putRequest);
       putRequests.push(putRequest);
     }
 
@@ -102,7 +106,7 @@ function makeWriteNewBallotsStatement(authKey, pendingBallots, sessionData, ipAd
       }
     };
 
-      t("request:", 2);
+      t("overall request:", 2);
       t_o(batchWrite_params);
     return io.batchWrite(batchWrite_params).promise()
     .then((result) => {
@@ -160,24 +164,47 @@ function mergeMatchupDataIntoBallots(ballots, matchupData) {
   //index ballots by their PairID
   var ballotsByPairID = {};
   for (ballot of ballots) {
-    ballotsByPairID[u.constructMatchupID] = ballot;
+    var pairID = u.constructMatchupID(ballot.Animal1ID, ballot.Animal2ID);
+    ballotsByPairID[pairID] = ballot;
+
+    //(give each ballot an empty set of matchup data to cover the case where none exists yet.)
+    ballotsByPairID[pairID].MatchUpData =
+      {
+        "Animal1Wins" : 0,
+        "Animal2Wins" : 0
+    };
   }
+  t("ballotsByPairID:");
+  t_o(ballotsByPairID);
 
   //for each matchup...
-  for (let matchup of matchupData) {
+ for (const [matchupKey, matchup] of Object.entries(matchupData)) {
     //annotate ballots with their associated matchup data
-    ballotsByPairID[matchup.PairID].MatchupData = matchupData;
+    console.log("matchup:");
+    console.log(matchup);
+    var correspondingBallot = ballotsByPairID[matchup.PairID];
+    if (correspondingBallot) {
+      ballotsByPairID[matchup.PairID].MatchupData = matchupData;
+    }
   }
+
+  t("ballotsByPairID (annotated):");
+  t_o(ballotsByPairID);
 
   //convert ballots back into an array
   var annotatedBallots = [];
-  var ballotKeys = Object.keys(ballotsByPairID)
-  for (let ballotKey of ballotsByPairID) {
+  var ballotKeys = Object.keys(ballotsByPairID);
+  for (let ballotKey of ballotKeys) {
     var ballot = ballotsByPairID[ballotKey];
     annotatedBallots.push(ballot);
   }
 
-  return ballotKeys;
+  t("ballots");
+  t_o(annotatedBallots);
+
+
+
+  return annotatedBallots;
 }
 
 
@@ -227,35 +254,45 @@ function backend_getSessionData(authKey) {
 
 //TODO: This could happen a little later (separate function) if return time on createBallots is an issue.
 function backend_getMatchupData(ballots) {
-  var keys = [];
+  var uniqueIDPairs = {};
   for (var ballot of ballots) {
-    var key = {
+    var idPair = u.constructMatchupID(ballot.Animal1ID, ballot.Animal2ID);
+    uniqueIDPairs[idPair] = idPair;
+  }
+
+  var uniqueIDPairsArray = Object.keys(uniqueIDPairs);
+  var keys = [];
+  for (var uniqueIDPair of uniqueIDPairsArray) {
+    var key =
       {
-        "IDPair" : u.constructMatchupID(ballot.Animal1ID, ballot.Animal2ID),
+        "IDPair" : uniqueIDPair,
       };
     keys.push(key);
   }
 
   var batchGet_params = {
     RequestItems: {
-        'PendingBallots': putRequests
-    },
+        'Matchups': {
     "Keys" : keys
+        }
+    }
   };
 
     u.t("request:", 2);
     u.t_o(batchGet_params);
+    u.t("request keys:");
+    u.t_o(batchGet_params.RequestItems.Matchups.Keys);
   return io.batchGet(batchGet_params).promise()
   .then((result) => {
     u.t("result:", 2);
     u.t_o(result);
     return result.Responses;
   })
-  .catch((error)) => {
+  .catch((error) => {
     u.t_o(error);
 
     return error;
-  };
+  });
 }
 
 //--Utility functions--
