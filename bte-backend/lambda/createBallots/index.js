@@ -140,8 +140,6 @@ function generateNewBallots(rankings, sessionData) {
                   const uniqueID = getUniqueID();
                   ballot.ID = PENDINGBALLOTID_PREFIX + uniqueID;
                   newBallots.push(ballot);
-                  t("New ballots is now", 2);
-                  t(newBallots, 2);
                  }
      return newBallots;
 }
@@ -169,7 +167,7 @@ function mergeMatchupDataIntoBallots(ballots, matchupData) {
     ballotsByPairID[pairID] = ballot;
 
     //(give each ballot an empty set of matchup data to cover the case where none exists yet.)
-    ballotsByPairID[pairID].MatchUpData =
+    ballotsByPairID[pairID].MatchupData =
       {
         "Animal1Wins" : 0,
         "Animal2Wins" : 0
@@ -178,14 +176,18 @@ function mergeMatchupDataIntoBallots(ballots, matchupData) {
   t("ballotsByPairID:");
   t_o(ballotsByPairID);
 
-  //for each matchup...
+  t("for each matchup...", 2);
  for (const [matchupKey, matchup] of Object.entries(matchupData)) {
     //annotate ballots with their associated matchup data
-    console.log("matchup:");
-    console.log(matchup);
-    var correspondingBallot = ballotsByPairID[matchup.PairID];
+    t("matchup:", 3);
+    t_o(matchup);
+
+    var correspondingBallot = ballotsByPairID[matchup.IDPair];
     if (correspondingBallot) {
-      ballotsByPairID[matchup.PairID].MatchupData = matchup;
+      ballotsByPairID[matchup.IDPair].MatchupData = {
+        "Animal1Wins" : matchup.Animal1Wins,
+        "Animal2Wins" : matchup.Animal2Wins
+      };
     }
   }
 
@@ -287,7 +289,7 @@ function backend_getMatchupData(ballots) {
   .then((result) => {
     u.t("result:", 2);
     u.t_o(result);
-    return result.Responses;
+    return result.Responses.Matchups;
   })
   .catch((error) => {
     u.t_o(error);
