@@ -1,3 +1,5 @@
+const Constants = require( "./c_constants");
+
 var AWS = require('aws-sdk');
 AWS.config.update({region: 'us-east-1'});
 
@@ -8,6 +10,7 @@ var io = new AWS.DynamoDB.DocumentClient({apiVersion: '2018-10-01'});
 };
 
 async function getAnimals() {
+  console.log("CONSTANT: " + Constants.SESSION_IDENTIFIER);
     var getAnimalsPromise = backend_getAnimals();
     var getRankingsPromise = backend_getRankings();
 

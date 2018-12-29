@@ -1,3 +1,5 @@
+const Constants = require( "./c_constants");
+
 var AWS = require('aws-sdk');
 AWS.config.update({region: 'us-east-1'});
 
@@ -55,33 +57,6 @@ async function cleanUpStaleSessions() {
 
 
 }
-/*
-   data = {
-    ConsumedCapacity: {
-    },
-    Count: 2,
-    Items: [
-       {
-      "AlbumTitle": {
-        S: "Somewhat Famous"
-       },
-      "SongTitle": {
-        S: "Call Me Today"
-       }
-     },
-       {
-      "AlbumTitle": {
-        S: "Blue Sky Blues"
-       },
-      "SongTitle": {
-        S: "Scared of My Shadow"
-       }
-     }
-    ],
-    ScannedCount: 3
-   }
-   */
-
 
 function backend_getStaleSessionsAndBallots(killDataThisFarInThePast) {
     var scanParams = {
@@ -103,32 +78,6 @@ function backend_getStaleSessionsAndBallots(killDataThisFarInThePast) {
     return result.Items;
  });
 }
-/*
-   data = {
-    ConsumedCapacity: {
-    },
-    Count: 2,
-    Items: [
-       {
-      "AlbumTitle": {
-        S: "Somewhat Famous"
-       },
-      "SongTitle": {
-        S: "Call Me Today"
-       }
-     },
-       {
-      "AlbumTitle": {
-        S: "Blue Sky Blues"
-       },
-      "SongTitle": {
-        S: "Scared of My Shadow"
-       }
-     }
-    ],
-    ScannedCount: 3
-   }
-   */
 
 function backend_updateAbandonedBallotCount(ipAddress, staleBallotCount) {
      var updateParams = {
@@ -160,5 +109,5 @@ function getCurrentTime_InEpochSecondsFormat() {
 }
 
 function isBallot(ballotOrSession) {
-    return ballotOrSession.PendingBallotID == "session";
+    return ballotOrSession.PendingBallotID == Constants.SESSION_IDENTIFIER;
 }

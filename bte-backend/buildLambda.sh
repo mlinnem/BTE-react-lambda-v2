@@ -35,7 +35,9 @@ echo "removing old zip"
 rm archive.zip;
 
 echo "creating a new zip file"
-zip archive.zip *  -r -x .git/\* \*.sh tests/\* node_modules/aws-sdk/\* \*.zip
+cp ../../../bte-frontend/src/c_constants.js .
+zip archive.zip * -r -x .git/\* \*.sh tests/\* node_modules/aws-sdk/\* \*.zip
+rm c_constants.js
 
 echo "Uploading $lambda to $region";
 
