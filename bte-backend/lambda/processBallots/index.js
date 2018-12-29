@@ -1,3 +1,5 @@
+const U = require("c_utilityFunctions");
+
 var AWS = require('aws-sdk');
 AWS.config.update({region: 'us-east-1'});
 var io = new AWS.DynamoDB.DocumentClient({
@@ -26,7 +28,7 @@ async function processBallots(ballots) {
     console.log("    Record new losses for losing animal");
     animalUpdates = recordLoss(animalUpdates, loser);
     console.log("    Record wins for winner in pairing of winner, loser (lower ID first.)");
-    var matchupID = constructMatchupID(winner, loser);
+    var matchupID = U.constructMatchupID(winner, loser);
     matchupUpdates = recordMatchWin(matchupUpdates, matchupID, winner);
   }
 
@@ -87,13 +89,7 @@ function recordLoss(animalUpdates, loser) {
   return animalUpdates;
 }
 
-function constructMatchupID (winner, loser) {
-  if (winner <= loser) {
-    return winner.toString() + "_" + loser.toString();
-  } else {
-      return loser.toString() + "_" + winner.toString();
-  }
-}
+
 
 function recordMatchWin(matchUpdates, matchupID, winner, loser) {
   var matchUpdate = matchUpdates[matchupID];

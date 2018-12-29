@@ -1,3 +1,5 @@
+const u = require("c_utilityFunctions");
+
 var AWS = require('aws-sdk');
 AWS.config.update({region: 'us-east-1'});
 
@@ -44,8 +46,13 @@ async function createBallots(authKey, ipAddress) {
   t("Generate new ballots.", 1);
   var newBallots = generateNewBallots(animalRankings, sessionData);
 
+  t("Get matchup data for each ballot", 1);
+  var matchupData = backend_getMatchupData(newBallots);
+
+  var newAnnotatedBallots = mergeMatchupDataIntoBallots(newBallots, matchupData);
+
   t("Prepare to write new pending ballots to backend.", 1);
-  var writeNewBallotsPromise = makeWriteNewBallotsStatement(authKey, newBallots, ipAddress);
+  var writeNewBallotsPromise = makeWriteNewBallotsStatement(authKey, newAnnotatedBallots, ipAddress);
 
   t("Write pending ballots to backend, and confirm it worked", 1);
   var writeResult;
@@ -149,6 +156,30 @@ function makeResponse(ballots) {
       return response;
 }
 
+function mergeMatchupDataIntoBallots(ballots, matchupData) {
+  //index ballots by their PairID
+  var ballotsByPairID = {};
+  for (ballot of ballots) {
+    ballotsByPairID[u.constructMatchupID] = ballot;
+  }
+
+  //for each matchup...
+  for (let matchup of matchupData) {
+    //annotate ballots with their associated matchup data
+    ballotsByPairID[matchup.PairID].MatchupData = matchupData;
+  }
+
+  //convert ballots back into an array
+  var annotatedBallots = [];
+  var ballotKeys = Object.keys(ballotsByPairID)
+  for (let ballotKey of ballotsByPairID) {
+    var ballot = ballotsByPairID[ballotKey];
+    annotatedBallots.push(ballot);
+  }
+
+  return ballotKeys;
+}
+
 
 //--BACKEND--
 
@@ -192,6 +223,39 @@ function backend_getSessionData(authKey) {
     t(error);
     return error;
   });
+}
+
+//TODO: This could happen a little later (separate function) if return time on createBallots is an issue.
+function backend_getMatchupData(ballots) {
+  var keys = [];
+  for (var ballot of ballots) {
+    var key = {
+      {
+        "IDPair" : u.constructMatchupID(ballot.Animal1ID, ballot.Animal2ID),
+      };
+    keys.push(key);
+  }
+
+  var batchGet_params = {
+    RequestItems: {
+        'PendingBallots': putRequests
+    },
+    "Keys" : keys
+  };
+
+    u.t("request:", 2);
+    u.t_o(batchGet_params);
+  return io.batchGet(batchGet_params).promise()
+  .then((result) => {
+    u.t("result:", 2);
+    u.t_o(result);
+    return result.Responses;
+  })
+  .catch((error)) => {
+    u.t_o(error);
+
+    return error;
+  };
 }
 
 //--Utility functions--

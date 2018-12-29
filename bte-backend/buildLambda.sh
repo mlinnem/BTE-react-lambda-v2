@@ -36,8 +36,10 @@ rm archive.zip;
 
 echo "creating a new zip file"
 cp ../../../bte-frontend/src/c_constants.js .
+cp ../../../bte-frontend/src/c_utilityFunctions.js .
 zip archive.zip * -r -x .git/\* \*.sh tests/\* node_modules/aws-sdk/\* \*.zip
 rm c_constants.js
+rm c_utilityFunctions.js
 
 echo "Uploading $lambda to $region";
 
