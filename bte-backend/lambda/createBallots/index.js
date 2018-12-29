@@ -79,7 +79,7 @@ function determineNewBallotsNeeded(sessionData) {
 }
 
 
-function makeWriteNewBallotsStatement(authKey, pendingBallots, sessionData, ipAddress) {
+function makeWriteNewBallotsStatement(authKey, pendingBallots, ipAddress) {
     var putRequests = [];
     for (var pendingBallot of pendingBallots) {
       var putRequest = {
@@ -160,8 +160,9 @@ function makeResponse(ballots) {
       return response;
 }
 
+//Note: This also has a side-effect of eliminating duplicate ballots (identical, or with different order but same animals), for better or worse.
 function mergeMatchupDataIntoBallots(ballots, matchupData) {
-  //index ballots by their PairID
+  //index ballots by their PairID, and also kill ballots that are redundant.
   var ballotsByPairID = {};
   for (ballot of ballots) {
     var pairID = u.constructMatchupID(ballot.Animal1ID, ballot.Animal2ID);
@@ -184,7 +185,7 @@ function mergeMatchupDataIntoBallots(ballots, matchupData) {
     console.log(matchup);
     var correspondingBallot = ballotsByPairID[matchup.PairID];
     if (correspondingBallot) {
-      ballotsByPairID[matchup.PairID].MatchupData = matchupData;
+      ballotsByPairID[matchup.PairID].MatchupData = matchup;
     }
   }
 
@@ -201,8 +202,6 @@ function mergeMatchupDataIntoBallots(ballots, matchupData) {
 
   t("ballots");
   t_o(annotatedBallots);
-
-
 
   return annotatedBallots;
 }
@@ -254,18 +253,20 @@ function backend_getSessionData(authKey) {
 
 //TODO: This could happen a little later (separate function) if return time on createBallots is an issue.
 function backend_getMatchupData(ballots) {
+  t("for each ballot...", 2);
   var uniqueIDPairs = {};
   for (var ballot of ballots) {
+    t("get the idPair", 3);
     var idPair = u.constructMatchupID(ballot.Animal1ID, ballot.Animal2ID);
+    t("and if we already have that pair then don't bother remembering this.", 3);
     uniqueIDPairs[idPair] = idPair;
   }
 
-  var uniqueIDPairsArray = Object.keys(uniqueIDPairs);
   var keys = [];
-  for (var uniqueIDPair of uniqueIDPairsArray) {
+  for (var [uniqueIDPairKey, uniqueIDPairValue] of Object.entries(uniqueIDPairs)) {
     var key =
       {
-        "IDPair" : uniqueIDPair,
+        "IDPair" : uniqueIDPairValue,
       };
     keys.push(key);
   }
@@ -313,7 +314,7 @@ function getCurrentTime_InEpochSecondsFormat() {
     return Math.floor((new Date().getTime() / 1000));
 }
 
-function t(message, indention = 0) {
+function t(message, indention) {
   var spacing = "";
   for (let i = 0; i < indention; i++) {
     spacing = spacing + "    ";
