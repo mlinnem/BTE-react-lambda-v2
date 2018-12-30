@@ -187,10 +187,24 @@ function mergeMatchupDataIntoBallots(ballots, matchupData) {
 
     var correspondingBallot = ballotsByPairID[matchup.IDPair];
     if (correspondingBallot) {
-      ballotsByPairID[matchup.IDPair].MatchupData = {
-        "Animal1Wins" : matchup.Animal1Wins,
-        "Animal2Wins" : matchup.Animal2Wins
-      };
+      var animal1ID = u.extractAnimal1ID_from_matchupID(matchup.IDPair);
+      var ballotAnimal1ID = correspondingBallot.Animal1ID;
+      if (animal1ID == ballotAnimal1ID) {
+        u.t("Wins were not flipped.", 3);
+        //The ID creation process didn't flip the IDs. Proceed.
+        ballotsByPairID[matchup.IDPair].MatchupData = {
+          "Animal1Wins" : matchup.Animal1Wins,
+          "Animal2Wins" : matchup.Animal2Wins
+        };
+      } else {
+        //The ID creation process flipped the IDs. Flip the wins.
+        u.t("Wins were flipped.", 3);
+        ballotsByPairID[matchup.IDPair].MatchupData = {
+          "Animal1Wins" : matchup.Animal2Wins,
+          "Animal2Wins" : matchup.Animal1Wins
+        };
+      }
+
     }
   }
 
