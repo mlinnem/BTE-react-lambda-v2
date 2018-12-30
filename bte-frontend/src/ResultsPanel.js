@@ -1,5 +1,6 @@
 import React from 'react';
 import './index.scss';
+import PercentWinsRow from "./PercentWinsRow";
 // import * as ar from "./actionsAndReducers";
 const u = require("./c_utilityFunctions");
 const ReactRedux = require('react-redux');
@@ -22,8 +23,27 @@ render() {
       u.t_o(animal2);
 
       var animal1Wins = outgoingBallot.MatchupData.Animal1Wins;
-      var animal2Wins = outgoingBallot.MatchupData.Animal1Wins; //TODO: Make sure these aren't flipped, on server
-      return <div className={"resultsPanel"}>{animal1.Name} with {animal1Wins}, {animal2.Name} with {animal2Wins}</div>;
+      var animal2Wins = outgoingBallot.MatchupData.Animal2Wins;
+
+      var total = animal1Wins + animal2Wins;
+
+      if (outgoingBallot.WinnerSide === "LEFT") {
+        return (
+          <div className={"resultsPanel"}>
+            <PercentWinsRow animalID={outgoingBallot.Animal1ID} didWin={true} winPercentage={animal1Wins / total}/>
+            <PercentWinsRow animalID={outgoingBallot.Animal2ID} didWin={false} winPercentage={animal2Wins / total}/>
+          </div>
+        )
+      } else if (outgoingBallot.WinnerSide === "RIGHT") {
+        return (
+          <div className={"resultsPanel"}>
+            <PercentWinsRow animalID={outgoingBallot.Animal2ID} didWin={true} winPercentage={animal2Wins / total}/>
+            <PercentWinsRow animalID={outgoingBallot.Animal1ID} didWin={false} winPercentage={animal1Wins / total}/>
+          </div>
+      );
+      } else {
+        return "Error";
+      }
     } else {
       return <div className={"resultsPanel"}></div>;
     }

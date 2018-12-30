@@ -456,16 +456,6 @@ button.viewBallots.jump {
     // will-change: transform;
 }
 
-// .ballot.outgoingBallot .animalBlock .outerCardWrapper .cardWrapper .animal,
-//  .ballot.outgoingBallot .theQuestionBlock,
-//  .ballot.outgoingBallot .animalBlock > img
-//    {
-//     animation-name: moveDown;
-//     animation-duration: $time-duration-moveContent;
-//     animation-fill-mode: forwards;
-//
-//     animation-timing-function: ease-out;
-// }
 @keyframes moveDown {
   from {}
 
@@ -596,10 +586,6 @@ button.viewBallots.jump {
 .cardHover.votedFor {
     opacity: 1.0;
 }
-
-// .cardHover:active:hover {
-//   transform: perspective(200px) translateZ(-10px);
-// }
 
 .animal.votedFor {
   animation-name: punch;
@@ -746,6 +732,9 @@ button.viewBallots.jump {
   justify-content: center;
 }
 
+
+
+
 .rank {
   font-size: $fontsize-rank;
   margin-right: 12px;
@@ -774,6 +763,53 @@ button.viewBallots.jump {
 
 .resultsPanel {
   background-color: $color-background-dark;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+
+.winRateRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-left: $width-padding;
+  margin-right: $width-padding;
+}
+
+.winRateRow img {
+  width: 50px;
+  height: 40px;
+  order: 1;
+  flex-grow: 0;
+}
+
+.percentBarBlock {
+  height: 15px;
+  flex-grow: 1;
+  order: 2;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  margin-left: 15px;
+}
+
+.percentBar {
+  width: 70%;
+  display: inline;
+  background-color: $color-highlight-secondary;
+
+}
+
+.percentAsNumbers {
+  order: 3;
+  flex-grow: 0;
+  margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .ballotBox.jump {

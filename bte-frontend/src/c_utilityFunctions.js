@@ -6,6 +6,20 @@ exports.constructMatchupID = function constructMatchupID (winner, loser) {
   }
 }
 
+//Should follow format "N_N";
+exports.extractAnimal1ID_from_matchupID = function extractAnimal1ID_from_matchupID (matchupID) {
+  var firstCharString = matchupID.substring(0, 1);
+  var firstCharNumber = parseInt(firstCharString, 10);
+  return firstCharNumber;
+}
+
+//Should follow format "N_N";
+exports.extractAnimal2ID_from_matchupID = function extractAnimal2ID_from_matchupID (matchupID) {
+  var lastCharString = matchupID.substring(matchupID.length - 1, matchupID.length);
+  var lastCharNumber = parseInt(lastCharString, 10);
+  return lastCharNumber;
+}
+
 
 exports.t = function t(message, indention = 0) {
   var spacing = "";
