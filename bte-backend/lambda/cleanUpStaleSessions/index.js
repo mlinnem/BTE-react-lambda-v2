@@ -1,5 +1,3 @@
-const Constants = require( "./c_constants");
-
 var AWS = require('aws-sdk');
 AWS.config.update({region: 'us-east-1'});
 
@@ -11,12 +9,12 @@ exports.handler = async (event) => {
 };
 
 
-
-const TWENTY_FOUR_HOURS_IN_SECONDS = 86400; //Neato!
+//TODO: This is an issue. Need to make checks sooner and refresh the session itself.
+const DELETE_STALE_CONTENT_AFTER_THIS_MANY_SECONDS = 10800; //3 hours
 
 async function cleanUpStaleSessions() {
     console.log("1) get every session and ballot item whose creation date is 'too old'.");
-    var staleSessionsAndBallots = await backend_getStaleSessionsAndBallots(TWENTY_FOUR_HOURS_IN_SECONDS);
+    var staleSessionsAndBallots = await backend_getStaleSessionsAndBallots(DELETE_STALE_CONTENT_AFTER_THIS_MANY_SECONDS);
     console.log("staleSessionsAndBallots:");
     console.log(staleSessionsAndBallots);
 
@@ -57,6 +55,33 @@ async function cleanUpStaleSessions() {
 
 
 }
+/*
+   data = {
+    ConsumedCapacity: {
+    },
+    Count: 2,
+    Items: [
+       {
+      "AlbumTitle": {
+        S: "Somewhat Famous"
+       },
+      "SongTitle": {
+        S: "Call Me Today"
+       }
+     },
+       {
+      "AlbumTitle": {
+        S: "Blue Sky Blues"
+       },
+      "SongTitle": {
+        S: "Scared of My Shadow"
+       }
+     }
+    ],
+    ScannedCount: 3
+   }
+   */
+
 
 function backend_getStaleSessionsAndBallots(killDataThisFarInThePast) {
     var scanParams = {
@@ -78,6 +103,32 @@ function backend_getStaleSessionsAndBallots(killDataThisFarInThePast) {
     return result.Items;
  });
 }
+/*
+   data = {
+    ConsumedCapacity: {
+    },
+    Count: 2,
+    Items: [
+       {
+      "AlbumTitle": {
+        S: "Somewhat Famous"
+       },
+      "SongTitle": {
+        S: "Call Me Today"
+       }
+     },
+       {
+      "AlbumTitle": {
+        S: "Blue Sky Blues"
+       },
+      "SongTitle": {
+        S: "Scared of My Shadow"
+       }
+     }
+    ],
+    ScannedCount: 3
+   }
+   */
 
 function backend_updateAbandonedBallotCount(ipAddress, staleBallotCount) {
      var updateParams = {
@@ -109,5 +160,5 @@ function getCurrentTime_InEpochSecondsFormat() {
 }
 
 function isBallot(ballotOrSession) {
-    return ballotOrSession.PendingBallotID == Constants.SESSION_IDENTIFIER;
+    return ballotOrSession.PendingBallotID == "session";
 }

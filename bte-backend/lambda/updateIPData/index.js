@@ -1,4 +1,6 @@
 
+const u = require("./c_utilityFunctions");
+
 const SHADOW_BANNED = "SHADOW_BANNED";
 const SHADOWBAN_SUBMISSION_THRESHOLD = 900
 const ACCEPTABLE_ABANDON_RATE = .8;
@@ -76,14 +78,15 @@ async function updateIPData(ipAddress, winnerID, loserID) {
     if (ipData.ParanoiaLevel != SHADOW_BANNED && ipData.ParanoiaLevel != WATCH_LISTED) {
         //Just implement submissionCount
         console.log("NOTHING SPECIAL. INCREMENTING SUBMISSION COUNT");
-        await backend_updateForNormalIP(ipAddress);
-        if (shouldAddToWatchList(ipData)) {
-            console.log("Should add to watch list!");
-            await backend_addToWatchList(ipAddress);
+        await backend_updateForNormalIP(ipAddress); //TODO: Can this be done in parallel with other stuff?
+        var watchlistReasonOrNull = getWatchListReasonOrNull(ipData);
+        if (watchlistReasonOrNull) {
+          console.log("Should add to watch list! :" + watchlistReasonOrNull);
+          await backend_addToWatchList(ipAddress, watchlistReasonOrNull);
         } else {
-            console.log("Should not add to watch list.");
+           t.o("No reason to add to watchlist", 2);
+         }
 
-        }
         return null;
     }
 
@@ -230,12 +233,19 @@ function backend_addToShadowbanList(ipAddress) {
 
 const WATCHLIST_THRESHOLD = 450;
 
-function shouldAddToWatchList(ipData) {
-    if (ipData.ParanoiaLevel == SHADOW_BANNED && ipData.ParanoiaLevel == WATCH_LISTED) {
-        return false;
+function getWatchListReasonOrNull(ipData) {
+    if (ipData.ParanoiaLevel == SHADOW_BANNED) {
+      u.t("Already shadowbanned", 2);
+      return null;
+    } else if (ipData.ParanoiaLevel == WATCH_LISTED) {
+      u.t("Already watchListed", 2);
+        return null;
     } else {
-        var shouldAddToWatchList = ipData.Submissions > WATCHLIST_THRESHOLD;
-        return shouldAddToWatchList;
+        var overWatchlistThreshold = ipData.Submissions > WATCHLIST_THRESHOLD;
+        if (overWatchlistThreshold) {
+          return "Lots of submitted ballots";
+        }
+        return null;
     }
 }
 
