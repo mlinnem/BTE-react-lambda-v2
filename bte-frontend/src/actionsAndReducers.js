@@ -1,6 +1,8 @@
 
 import './index.scss';
 
+const u = require("./c_utilityFunctions");
+
 const Redux = require('redux');
 
 const axios = require('axios');
@@ -101,6 +103,8 @@ return (dispatch, getState) => {
     }
   )
   .then(function (response) {
+    u.t("response:", 2);
+    u.t_o(response);
     dispatch(confirmBallotSubmission());
   }, function (error) {
     console.log(error);
@@ -368,12 +372,12 @@ switch (action.type) {
     });
   case 'SHOW_RULES':
     console.log("IN SHOW RULES REDUCER");
-    var newState = Object.assign({}, state, {
+    var newState_showRules = Object.assign({}, state, {
       rulesVisibilityState: "visible",
     });
     console.log("newState:");
-    console.log(newState);
-    return newState;
+    console.log(newState_showRules);
+    return newState_showRules ;
   case 'HIDE_RULES':
     return Object.assign({}, state, {
       rulesVisibilityState: "hidden",
@@ -404,37 +408,38 @@ for (var i = 0; i < args.length; i++) {
 }
 return true;
 }
-function rankAnimals(animalsMap) {
-  var animalKeys = Object.keys(animalsMap);
-  var animals = [];
-  for (let animalKey of animalKeys) {
-    var animal = animalsMap[animalKey];
-    animal.ID = animalKey;
-    animals.push(animal);
-  }
-  animals.sort(function (a, b) {
-    var ratio_animal_a = (a.Wins + 1) / (a.Losses + 1);
-    var ratio_animal_b = (b.Wins + 1) / (b.Losses + 1);
-    if (ratio_animal_a === ratio_animal_b) {
-      var alphabeticalOrder = [a.Name, b.Name].sort();
-      if (alphabeticalOrder[0] === a.Name) {
-        return -1;
-      } else {
-        return 1;
-      }
-    } else {
-      if (ratio_animal_b > ratio_animal_a) {
-        return 1;
-      } else if (ratio_animal_b < ratio_animal_a) {
-        return -1;
-      } else {
-        return 0;
-      }
-    }
-  });
-  var animalsIDSorted = animals.map(function(animal) {return animal.ID});
-  return animalsIDSorted;
-}
+//
+// function rankAnimals(animalsMap) {
+//   var animalKeys = Object.keys(animalsMap);
+//   var animals = [];
+//   for (let animalKey of animalKeys) {
+//     var animal = animalsMap[animalKey];
+//     animal.ID = animalKey;
+//     animals.push(animal);
+//   }
+//   animals.sort(function (a, b) {
+//     var ratio_animal_a = (a.Wins + 1) / (a.Losses + 1);
+//     var ratio_animal_b = (b.Wins + 1) / (b.Losses + 1);
+//     if (ratio_animal_a === ratio_animal_b) {
+//       var alphabeticalOrder = [a.Name, b.Name].sort();
+//       if (alphabeticalOrder[0] === a.Name) {
+//         return -1;
+//       } else {
+//         return 1;
+//       }
+//     } else {
+//       if (ratio_animal_b > ratio_animal_a) {
+//         return 1;
+//       } else if (ratio_animal_b < ratio_animal_a) {
+//         return -1;
+//       } else {
+//         return 0;
+//       }
+//     }
+//   });
+//   var animalsIDSorted = animals.map(function(animal) {return animal.ID});
+//   return animalsIDSorted;
+// }
 
 const shouldFetchLatestAnimals = (state) => {
 //TODO: Add refresh based on time

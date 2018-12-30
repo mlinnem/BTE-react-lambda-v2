@@ -1,3 +1,5 @@
+const u = require("./c_utilityFunctions");
+
 var AWS = require('aws-sdk');
 // Set the region
 AWS.config.update({
@@ -83,8 +85,13 @@ function backend_verifyDeleteAndGetPendingBallot(authKey, submittedBallotID) {
     "ReturnValues" : "ALL_OLD" //TODO: Is this the right way to do this?
   };
 
+
+  u.t("request:", 2);
+  u.t_o(delete_params);
   return io.delete(delete_params).promise()
   .then((result) => {
+    u.t("response:", 2);
+    u.t_o(result);
     return result.Attributes;
   });
 }

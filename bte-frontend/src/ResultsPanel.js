@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.scss';
-import * as ar from "./actionsAndReducers";
+// import * as ar from "./actionsAndReducers";
 const u = require("./c_utilityFunctions");
 const ReactRedux = require('react-redux');
 

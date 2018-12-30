@@ -1,7 +1,7 @@
 import React from 'react';
 import BallotViewer from "./BallotViewer"
 import BallotBox from "./BallotBox"
-import * as ar from "./actionsAndReducers";
+// import * as ar from "./actionsAndReducers";
 const ReactRedux = require('react-redux');
 
 const contents_mapStateToProps = (state, ownProps) => {return {

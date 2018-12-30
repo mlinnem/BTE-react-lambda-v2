@@ -59,8 +59,11 @@ async function createBallots(authKey, ipAddress) {
 
   var [writeResult] = await Promise.all([writeNewBallotsPromise]);
 
+  u.t("response:");
+  u.t_o(writeResult);
+
   t("Return pending ballots.", 1);
-  return makeResponse(newBallots);
+  return makeResponse(newAnnotatedBallots);
 }
 
 //--LOGIC--

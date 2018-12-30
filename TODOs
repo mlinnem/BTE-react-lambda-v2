@@ -8,11 +8,17 @@ Check that there's no off by one issue when making ballot pairings.
 
 Get rid of obnoxious redux warning
 
+Make rankings bookmarkable again
+
+Get spacing working on common function t
+
 Backup of dynamodb tables
 
 Set up forum or something? Subreddit?
 
 Weird animation performance issue when clicking/voting.
+
+Make it so server failures don't cause a CORS Error
 
 Two raccoons
 
@@ -23,6 +29,8 @@ Make loading indicator shrink out.
 Matchups aren't legit. Need to fix!!!
 
 Load initial state rather than weird null states for UI stuff.
+
+Handle error conditions from network.
 =====
 
 Verify that submittedBallots are really being recorded.
