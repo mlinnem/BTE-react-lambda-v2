@@ -52,11 +52,11 @@ $time-duration-backgroundAppear: .2s;
 $time-duration-punch: .2s;
 $time-duration-vs-grows: .2s;
 
-$time-leftCardAppear: 2.4s;
-$time-vs-appear: 3.9s;
-$time-rightCardAppear: 4.2s;
-$time-theQuestionAppears: 1.8s;
-$time-startJumping: 0.4s;
+$time-leftCardAppear: 4.1s;
+$time-vs-appear: 5.6s;
+$time-rightCardAppear: 5.8s;
+$time-theQuestionAppears: 3.5s;
+$time-startJumping: 0.55s;
 $time-submitBallot: .3s;
 
 /* ------------------------TOP-LEVEL------------------------ */
@@ -769,12 +769,13 @@ button.viewBallots.jump {
 }
 
 .resultsPanel.rewrite {
-  animation-name: slideDown;
+  animation-name: moveDown;
   animation-duration: 1s;
+  animation-delay: .3s; /* TODO: Total of these two needs to be the same as the delay in actionsAndReducers */
 }
 
 .resultsPanel.show {
-  animation-name: slideUp;
+  animation-name: printUp;
   animation-duration: 1s;
 }
 
@@ -787,15 +788,52 @@ button.viewBallots.jump {
   }
 }
 
-@keyframes slideDown {
-  from {
-    transform: translateY(0vh);
+@keyframes printUp {
+  0% {
+    transform: translateY(200px);
   }
 
-  to {
-    transform: translateY(100vh);
+  10% {
+    transform: translateY(160px);
+  }
+
+  20% {
+    transform: translateY(160px);
+  }
+
+  30% {
+    transform: translateY(120px);
+  }
+
+  40% {
+    transform: translateY(120px);
+  }
+
+  50% {
+    transform: translateY(80px);
+  }
+
+  60% {
+    transform: translateY(80px);
+  }
+
+  70% {
+    transform: translateY(40px);
+  }
+
+  80% {
+    transform: translateY(40px);
+  }
+
+  90% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
+
+
 
 
 .winRateRow {
@@ -967,6 +1005,7 @@ button.viewBallots.jump {
   height: calc(100vh - #{$height-header});
   padding-left: $width-padding;
   padding-right: $width-padding;
+  background-color: $color-highlight-main;
 }
 
 .rankingsHeader {

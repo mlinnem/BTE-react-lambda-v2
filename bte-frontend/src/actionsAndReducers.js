@@ -387,10 +387,10 @@ switch (action.type) {
     });
     //TODO: Fail state
   case 'ADVANCE_BALLOT':
-      //action.asyncDispatch(clearBallotBoxJumpingAfterDelay(1000));
-      action.asyncDispatch(changeResultsPanelToShowAfterDelay(1000));
+      action.asyncDispatch(clearBallotBoxJumpingAfterDelay(1400)); /* Keep in sync with jump animation times */
+      action.asyncDispatch(changeResultsPanelToShowAfterDelay(1300));
       var newState =  Object.assign({}, state, {
-    //  ballotBoxShouldBeJumping: true,
+      ballotBoxShouldBeJumping: true,
         resultsPanelStepInProcess: "rewrite" //TODO: Make a constant
       });
       return newState;
