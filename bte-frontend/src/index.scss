@@ -27,7 +27,7 @@ $fontsize-theQuestion: 4vmax;
 $fontsize-animalName: 2.75vmax;
 
 $fontsize-headerText-skinny: calc(5vw + 5px);
-$fontsize-theQuestion-longAndShort: calc(6vh + 10px);
+$fontsize-theQuestion-longAndShort: calc(5vh + 10px);
 
 $fontsize-rankingsHeaderTitle: 32px;
 $fontsize-rank: 32px;
@@ -311,7 +311,7 @@ button.viewBallots.jump {
   color: $color-text-dark;
 }
 
-@media (min-aspect-ratio: 2/1) {
+@media (min-aspect-ratio: 6/4) {
   .theQuestion {
     font-size: $fontsize-theQuestion-longAndShort;
   }

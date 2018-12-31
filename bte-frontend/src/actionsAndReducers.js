@@ -62,6 +62,9 @@ export const hideRankings = () => ({
 export const clearBallotBoxJumping = () => ({
   type: "CLEAR_BALLOT_BOX_JUMPING",
 });
+export const changeResultsPanelToShow = () => ({
+  type: "CHANGE_RESULTS_PANEL_TO_SHOW",
+});
 
 export const showRules = () => ({
   type: "SHOW_RULES",
@@ -77,6 +80,13 @@ export const clearBallotBoxJumpingAfterDelay = (delayInMilliseconds) => {
   return async (dispatch, getState) => {
   await sleep(delayInMilliseconds);
   return dispatch(clearBallotBoxJumping());
+}
+}
+
+export const changeResultsPanelToShowAfterDelay = (delayInMilliseconds) => {
+  return async (dispatch, getState) => {
+  await sleep(delayInMilliseconds);
+  return dispatch(changeResultsPanelToShow());
 }
 }
 
@@ -242,6 +252,8 @@ didInvalidate: false,
 ballotIDQueue: [],
 ballotStore: {},
 outgoingBallotID: null,
+oldOutgoingBallotID: null,
+ballotStoreGraveyard: {},
 }, action) {
 switch (action.type) {
   case 'ADVANCE_BALLOT':
@@ -267,10 +279,14 @@ switch (action.type) {
     newState.ballotStore[newIncomingID] = newBallot1;
     newState.ballotStore[newOutgoingID] = newBallot2;
 
-    if (currentOutgoingBallotID != null) {
-      delete newState.ballotStore[currentOutgoingBallotID];
+    if (state.oldOutgoingBallotID != null) {
+      //newState.ballotStoreGraveyard[currentOutgoingBallotID] = newState.ballotStore[currentOutgoingBallotID];
+      delete newState.ballotStore[state.oldOutgoingBallotID];
+
     }
+    newState.oldOutgoingBallotID = currentOutgoingBallotID;
     newState.outgoingBallotID = newOutgoingID;
+
     return newState;
   case 'REQUEST_MORE_BALLOTS':
     return Object.assign({}, state, {
@@ -362,10 +378,17 @@ switch (action.type) {
     //TODO: Fail state
   case 'ADVANCE_BALLOT':
       action.asyncDispatch(clearBallotBoxJumpingAfterDelay(1000));
+      action.asyncDispatch(changeResultsPanelToShowAfterDelay(1000));
       var newState =  Object.assign({}, state, {
         ballotBoxShouldBeJumping: true,
+        resultsPanelStepInProcess: "Rewrite" //TODO: Make a constant
       });
       return newState;
+  case 'CLEAR_BALLOT_BOX_JUMPING':
+    return Object.assign({}, state, {
+        resultsPanelStepInProcess: "Show",
+    });
+
   case 'CLEAR_BALLOT_BOX_JUMPING':
   return Object.assign({}, state, {
       ballotBoxShouldBeJumping: false,
