@@ -32,6 +32,7 @@ render() {
           <div className={"resultsPanel"}>
             <PercentWinsRow animalID={outgoingBallot.Animal1ID} didWin={true} winPercentage={animal1Wins / total}/>
             <PercentWinsRow animalID={outgoingBallot.Animal2ID} didWin={false} winPercentage={animal2Wins / total}/>
+
           </div>
         )
       } else if (outgoingBallot.WinnerSide === "RIGHT") {

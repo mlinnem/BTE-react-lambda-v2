@@ -30,8 +30,6 @@ render() {
     <div className={"rankingsPanel"}>
       <div className="rankingsHeader">
         <span className="rankingsHeaderTitle">Rankings</span>
-
-
       </div>
       <div className="rankingsContent">
       {animalListings}

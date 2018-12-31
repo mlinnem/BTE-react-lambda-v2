@@ -10,7 +10,7 @@ $height-rankings-header: 120px;
 $height-button: 35px;
 $height-spacer: 0px;
 $height-animalListing-image: 75px;
-$height-results-panel: calc(100px + #{$height-button});
+$height-results-panel: calc(105px + #{$height-button});
 
 $width-button: 170px;
 $width-padding: 5vw;
@@ -765,7 +765,7 @@ button.viewBallots.jump {
   background-color: $color-background-dark;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: flex-start;
 }
 
 
@@ -776,6 +776,8 @@ button.viewBallots.jump {
   align-items: center;
   margin-left: $width-padding;
   margin-right: $width-padding;
+  flex-grow: 0;
+  margin-top: 10px;
 }
 
 .winRateRow img {
@@ -786,7 +788,7 @@ button.viewBallots.jump {
 }
 
 .percentBarBlock {
-  height: 15px;
+  height: 25px;
   flex-grow: 1;
   order: 2;
   position: relative;
@@ -797,19 +799,45 @@ button.viewBallots.jump {
 }
 
 .percentBar {
-  width: 70%;
   display: inline;
   background-color: $color-highlight-secondary;
+  grid-column: 1;
+  grid-row: 1;
+  height: 25px;
+}
 
+.resultsSpacer {
+  height: $height-button / 1;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+
+.animalNameOnPercentBar {
+  grid-column: 1;
+  grid-row: 1;
+  font-family: 'Special Elite';
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
+  padding-top: 3px; /* Adjusts so font actually looks centered */
+}
+
+.percentBarAndAnimalName {
+  display: grid;
 }
 
 .percentAsNumbers {
   order: 3;
   flex-grow: 0;
-  margin-left: 20px;
+  margin-left: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+      font-family: "Special Elite";
+    margin-top: 2px; /* Adjusts so font actually looks centered */
+
 }
 
 .ballotBox.jump {
