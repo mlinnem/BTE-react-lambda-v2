@@ -16,9 +16,9 @@ stepInProcess: state.ui.resultsPanelStepInProcess,
 class ResultsPanel_View extends React.Component {
 render() {
     var ballotToShowID;
-    if (this.props.stepInProcess === "Rewrite") {
+    if (this.props.stepInProcess === "rewrite") {
       ballotToShowID = this.props.oldOutgoingBallotID;
-    } else if (this.props.stepInProcess === "Show") {
+    } else if (this.props.stepInProcess === "show") {
       ballotToShowID = this.props.outgoingBallotID;
     }
 
@@ -38,7 +38,7 @@ render() {
 
       if (ballotToShow.WinnerSide === "LEFT") {
         return (
-          <div className={"resultsPanel"}>
+          <div className={"resultsPanel " + this.props.stepInProcess}>
             <PercentWinsRow animalID={ballotToShow.Animal1ID} didWin={true} winPercentage={animal1Wins / total}/>
             <PercentWinsRow animalID={ballotToShow.Animal2ID} didWin={false} winPercentage={animal2Wins / total}/>
 

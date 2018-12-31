@@ -78,7 +78,9 @@ export const hideRules = () => ({
 
 export const clearBallotBoxJumpingAfterDelay = (delayInMilliseconds) => {
   return async (dispatch, getState) => {
+    console.log("WILL CLEAR BALLOT BOX JUMPING AFTER DELAY");
   await sleep(delayInMilliseconds);
+    console.log("REALLY GOING TO CLEAR IT NOW");
   return dispatch(clearBallotBoxJumping());
 }
 }
@@ -381,12 +383,12 @@ switch (action.type) {
       action.asyncDispatch(changeResultsPanelToShowAfterDelay(1000));
       var newState =  Object.assign({}, state, {
         ballotBoxShouldBeJumping: true,
-        resultsPanelStepInProcess: "Rewrite" //TODO: Make a constant
+        resultsPanelStepInProcess: "rewrite" //TODO: Make a constant
       });
       return newState;
-  case 'CLEAR_BALLOT_BOX_JUMPING':
+  case 'CHANGE_RESULTS_PANEL_TO_SHOW':
     return Object.assign({}, state, {
-        resultsPanelStepInProcess: "Show",
+        resultsPanelStepInProcess: "show",
     });
 
   case 'CLEAR_BALLOT_BOX_JUMPING':

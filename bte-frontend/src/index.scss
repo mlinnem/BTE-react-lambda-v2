@@ -768,6 +768,35 @@ button.viewBallots.jump {
   justify-content: flex-start;
 }
 
+.resultsPanel.rewrite {
+  animation-name: slideDown;
+  animation-duration: 1s;
+}
+
+.resultsPanel.show {
+  animation-name: slideUp;
+  animation-duration: 1s;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100vh);
+  }
+  to {
+    transform: translateY(0vh);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(0vh);
+  }
+
+  to {
+    transform: translateY(100vh);
+  }
+}
+
 
 .winRateRow {
   display: flex;
