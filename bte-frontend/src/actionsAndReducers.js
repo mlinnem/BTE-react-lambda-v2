@@ -259,7 +259,10 @@ ballotStoreGraveyard: {},
 }, action) {
 switch (action.type) {
   case 'ADVANCE_BALLOT':
+    u.t("state (will be old):",1);
+    u.t_o(state);
     var currentOutgoingBallotID = state.outgoingBallotID;
+
     var newIncomingID = state.ballotIDQueue[1];
     var newOutgoingID = state.ballotIDQueue[0];
 
@@ -289,6 +292,10 @@ switch (action.type) {
     newState.oldOutgoingBallotID = currentOutgoingBallotID;
     newState.outgoingBallotID = newOutgoingID;
 
+
+
+    u.t("newState:",1);
+    u.t_o(newState);
     return newState;
   case 'REQUEST_MORE_BALLOTS':
     return Object.assign({}, state, {
@@ -365,6 +372,7 @@ export function ui (state = {
 focusArea : FOCUSAREA.INITIAL,
 ballotBoxShouldBeJumping: false,
 rulesVisibilityState: "hidden",
+resultsPanelStepInProcess: "show",
 }, action) {
 switch (action.type) {
   case 'SHOW_RANKINGS':
@@ -379,10 +387,10 @@ switch (action.type) {
     });
     //TODO: Fail state
   case 'ADVANCE_BALLOT':
-      action.asyncDispatch(clearBallotBoxJumpingAfterDelay(1000));
+      //action.asyncDispatch(clearBallotBoxJumpingAfterDelay(1000));
       action.asyncDispatch(changeResultsPanelToShowAfterDelay(1000));
       var newState =  Object.assign({}, state, {
-        ballotBoxShouldBeJumping: true,
+    //  ballotBoxShouldBeJumping: true,
         resultsPanelStepInProcess: "rewrite" //TODO: Make a constant
       });
       return newState;

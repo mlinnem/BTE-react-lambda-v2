@@ -15,11 +15,16 @@ stepInProcess: state.ui.resultsPanelStepInProcess,
 
 class ResultsPanel_View extends React.Component {
 render() {
+
     var ballotToShowID;
     if (this.props.stepInProcess === "rewrite") {
+      u.t("Resultspanel, rewrite:");
       ballotToShowID = this.props.oldOutgoingBallotID;
     } else if (this.props.stepInProcess === "show") {
+      u.t("Resultspanel, show:");
       ballotToShowID = this.props.outgoingBallotID;
+    } else {
+      u.t("Should be either rewrite or show in resultspanel");
     }
 
     if (ballotToShowID) {
@@ -38,7 +43,7 @@ render() {
 
       if (ballotToShow.WinnerSide === "LEFT") {
         return (
-          <div className={"resultsPanel " + this.props.stepInProcess}>
+          <div className={"resultsPanel " +  this.props.stepInProcess}>
             <PercentWinsRow animalID={ballotToShow.Animal1ID} didWin={true} winPercentage={animal1Wins / total}/>
             <PercentWinsRow animalID={ballotToShow.Animal2ID} didWin={false} winPercentage={animal2Wins / total}/>
 
@@ -46,7 +51,7 @@ render() {
         )
       } else if (ballotToShow.WinnerSide === "RIGHT") {
         return (
-          <div className={"resultsPanel"}>
+          <div className={"resultsPanel " +  this.props.stepInProcess}>
             <PercentWinsRow animalID={ballotToShow.Animal2ID} didWin={true} winPercentage={animal2Wins / total}/>
             <PercentWinsRow animalID={ballotToShow.Animal1ID} didWin={false} winPercentage={animal1Wins / total}/>
           </div>
@@ -55,7 +60,7 @@ render() {
         return "Error";
       }
     } else {
-      return <div className={"resultsPanel"}></div>;
+      return <div className={"resultsPanel " + this.props.stepInProcess}></div>;
     }
 
   }
