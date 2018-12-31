@@ -388,7 +388,7 @@ switch (action.type) {
     //TODO: Fail state
   case 'ADVANCE_BALLOT':
       action.asyncDispatch(clearBallotBoxJumpingAfterDelay(1400)); /* Keep in sync with jump animation times */
-      action.asyncDispatch(changeResultsPanelToShowAfterDelay(1300));
+      action.asyncDispatch(changeResultsPanelToShowAfterDelay(1500));
       var newState =  Object.assign({}, state, {
       ballotBoxShouldBeJumping: true,
         resultsPanelStepInProcess: "rewrite" //TODO: Make a constant

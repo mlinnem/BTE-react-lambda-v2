@@ -14,6 +14,7 @@ class Contents_View extends React.Component {
     return (
     <div className={"contents animatedcontents " + this.props.focusArea }>
     <BallotViewer/>
+    <div className="resultsPanelSpaceHolder"></div>
     <BallotBox focusArea={this.props.focusArea}/>
     </div>
     );

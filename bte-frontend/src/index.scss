@@ -51,13 +51,16 @@ $time-duration-theQuestionAppear: .2s;
 $time-duration-backgroundAppear: .2s;
 $time-duration-punch: .2s;
 $time-duration-vs-grows: .2s;
+$time-duration-resultsPanelMoveDown: .55s;
+$time-duration-resultsPanelShow: 1s;
 
-$time-leftCardAppear: 4.1s;
-$time-vs-appear: 5.6s;
-$time-rightCardAppear: 5.8s;
-$time-theQuestionAppears: 3.5s;
+$time-rightCardAppear: 6.8s;
+$time-vs-appear: 6.6s;
+$time-leftCardAppear: 5.1s;
+$time-theQuestionAppears: 4.0s;
 $time-startJumping: 0.55s;
 $time-submitBallot: .3s;
+$time-resultsPanelMoveDown: .3s;
 
 /* ------------------------TOP-LEVEL------------------------ */
 
@@ -761,22 +764,32 @@ button.viewBallots.jump {
   left: 0;
 }
 
+.resultsPanelSpaceHolder {
+  height: $height-results-panel;
+  background-color: $color-background;
+}
+
 .resultsPanel {
   background-color: $color-background-dark;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  position: absolute;
+  top: calc(-1 *  #{$height-results-panel});
+  width: 100vw;
 }
 
 .resultsPanel.rewrite {
   animation-name: moveDown;
-  animation-duration: 1s;
-  animation-delay: .3s; /* TODO: Total of these two needs to be the same as the delay in actionsAndReducers */
+  animation-duration: $time-duration-resultsPanelMoveDown;
+  animation-fill-mode: forwards;
+  animation-delay: $time-resultsPanelMoveDown; /* TODO: Total of these two needs to be the same as the delay in actionsAndReducers */
 }
 
 .resultsPanel.show {
-  animation-name: printUp;
-  animation-duration: 1s;
+  animation-name: printUp2;
+  animation-fill-mode: forwards;
+  animation-duration: $time-duration-resultsPanelShow;
 }
 
 @keyframes slideUp {
@@ -785,6 +798,100 @@ button.viewBallots.jump {
   }
   to {
     transform: translateY(0vh);
+  }
+}
+
+
+@keyframes printUp2 {
+  0% {
+    transform: translateY(calc(#{$height-results-panel}));
+  }
+
+  6% {
+    transform: translateY(calc(#{$height-results-panel} * .90));
+  }
+
+  12% {
+    transform: translateY(calc(#{$height-results-panel} * .90));
+  }
+
+  18% {
+      transform: translateY(calc(#{$height-results-panel} * .80));
+  }
+
+  24% {
+      transform: translateY(calc(#{$height-results-panel} * .80));
+  }
+
+  30% {
+      transform: translateY(calc(#{$height-results-panel} * .70));
+  }
+
+  36% {
+      transform: translateY(calc(#{$height-results-panel} * .70));
+  }
+
+  42% {
+      transform: translateY(calc(#{$height-results-panel} * .60));
+  }
+
+  48% {
+      transform: translateY(calc(#{$height-results-panel} * .60));
+  }
+  54% {
+      transform: translateY(calc(#{$height-results-panel} * .50));
+  }
+
+  60% {
+      transform: translateY(calc(#{$height-results-panel} * .50));
+  }
+
+  66% {
+      transform: translateY(calc(#{$height-results-panel} * .40));
+  }
+
+  72% {
+      transform: translateY(calc(#{$height-results-panel} * .40));
+  }
+
+  78% {
+      transform: translateY(calc(#{$height-results-panel} * .30));
+  }
+
+  84% {
+      transform: translateY(calc(#{$height-results-panel} * .30));
+  }
+
+  90% {
+      transform: translateY(calc(#{$height-results-panel} * .30));
+  }
+
+  100% {
+      transform: translateY(0);
+  }
+
+  // 80% {
+  //   transform: translateY(40px);
+  // }
+  //
+  // 85% {
+  //   transform: translateY(40px);
+  // }
+
+  // 85% {
+  //   transform: translateY(80px);
+  // }
+  //
+  // 90% {
+  //   transform: translateY(40px);
+  // }
+  //
+  // 95% {
+  //   transform: translateY(40px);
+  // }
+
+  100% {
+    transform: translateY(0px);
   }
 }
 
@@ -1006,6 +1113,10 @@ button.viewBallots.jump {
   padding-left: $width-padding;
   padding-right: $width-padding;
   background-color: $color-highlight-main;
+  z-index: 1;
+  position: relative;
+  top: 0;
+  left: 0;
 }
 
 .rankingsHeader {
