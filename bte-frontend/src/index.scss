@@ -15,6 +15,7 @@ $height-results-panel: calc(105px + #{$height-button});
 $width-button: 170px;
 $width-padding: 5vw;
 $width-loading-indicator: 200px;
+$width-winner-border: 0px;
 
 $padding-tab: 10px;
 $padding-modal: 35px;
@@ -463,7 +464,7 @@ button.viewBallots.jump {
   from {}
 
   to {
-    transform: translateY(calc(100vh));
+    transform: translateY(calc(150vh));
   }
 }
 
@@ -954,11 +955,38 @@ button.viewBallots.jump {
   margin-top: 10px;
 }
 
-.winRateRow img {
+.resultsPanelPhotoContainer {
   width: 50px;
   height: 40px;
+  display: grid;
   order: 1;
   flex-grow: 0;
+}
+
+.resultsPanelPhotoContainer.agree {
+    border:  $width-winner-border solid $color-highlight-main;
+    margin-left: calc(-#{$width-winner-border});
+}
+
+.resultsPanelPhotoContainer img {
+  width: 50px;
+  height: 40px;
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.checkAnnotation {
+  grid-row: 1;
+  grid-column: 1;
+
+  background-image: url("./check.png");
+  background-size: 25% 25%;
+  background-position: top 5% left 5%;
+  background-repeat: no-repeat;
+}
+
+.checkAnnotation.disagree {
+  display: none;
 }
 
 .percentBarBlock {
@@ -970,6 +998,10 @@ button.viewBallots.jump {
   left: 0px;
   display: flex;
   margin-left: 15px;
+}
+
+.percentBarBlock.agree {
+  margin-left: calc(15px - #{$width-winner-border});; /* offsets the border */
 }
 
 .percentBar {

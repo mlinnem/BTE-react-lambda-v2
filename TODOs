@@ -10,6 +10,8 @@ Get rid of obnoxious redux warning
 
 Make rankings bookmarkable again
 
+Make initial load not animate.
+
 Get spacing working on common function t
 
 Backup of dynamodb tables

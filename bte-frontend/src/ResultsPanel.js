@@ -41,19 +41,35 @@ render() {
 
       var total = animal1Wins + animal2Wins;
 
+      if (total == 0) {
+        //TODO: This is a hack. Handle this case properly.
+        total = 2;
+        animal1Wins = 1;
+        animal2Wins = 1;
+      }
+
+      var animal1WinsAfter = animal1Wins;
+      var animal2WinsAfter = animal2Wins;
+      var totalAfter = total;
+
+      totalAfter += 1;
+
       if (ballotToShow.WinnerSide === "LEFT") {
+        animal1WinsAfter += 1;
+
         return (
           <div className={"resultsPanel " +  this.props.stepInProcess}>
-            <PercentWinsRow animalID={ballotToShow.Animal1ID} didWin={true} winPercentage={animal1Wins / total}/>
-            <PercentWinsRow animalID={ballotToShow.Animal2ID} didWin={false} winPercentage={animal2Wins / total}/>
+            <PercentWinsRow animalID={ballotToShow.Animal1ID} didWin={true} winPercentageBefore={animal1Wins / total} winPercentageAfter={animal1WinsAfter / totalAfter}/>
+            <PercentWinsRow animalID={ballotToShow.Animal2ID} didWin={false} winPercentageBefore={animal2Wins / total} winPercentageAfter={animal2WinsAfter / totalAfter}/>
 
           </div>
         )
       } else if (ballotToShow.WinnerSide === "RIGHT") {
+        animal2WinsAfter += 1;
         return (
           <div className={"resultsPanel " +  this.props.stepInProcess}>
-            <PercentWinsRow animalID={ballotToShow.Animal2ID} didWin={true} winPercentage={animal2Wins / total}/>
-            <PercentWinsRow animalID={ballotToShow.Animal1ID} didWin={false} winPercentage={animal1Wins / total}/>
+            <PercentWinsRow animalID={ballotToShow.Animal2ID} didWin={true} winPercentageBefore={animal2Wins / total} winPercentageAfter={animal1WinsAfter / totalAfter}/>
+            <PercentWinsRow animalID={ballotToShow.Animal1ID} didWin={false} winPercentageBefore={animal1Wins / total} winPercentageAfter={animal2WinsAfter / totalAfter}/>
           </div>
       );
       } else {
