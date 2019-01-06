@@ -10,13 +10,9 @@ Get rid of obnoxious redux warning
 
 Make rankings bookmarkable again
 
-Make initial load not animate.
-
 Get spacing working on common function t
 
 Backup of dynamodb tables
-
-Make it so you can't click on items until both are loaded.
 
 Favicon looks too small
 
@@ -37,6 +33,14 @@ Matchups aren't legit. Need to fix!!!
 Load initial state rather than weird null states for UI stuff.
 
 Handle error conditions from network.
+
+Stale session thing not firing?
+
+Abandoned vs non abandoned ballots not incrementing.
+
+Basic smoke tests
+
+Track if users have read the rules and suggest it if they haven't?
 =====
 
 Verify that submittedBallots are really being recorded.
